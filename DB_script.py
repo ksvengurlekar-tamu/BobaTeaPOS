@@ -86,3 +86,20 @@ drinks_map = {
     64: ["Oreo Crumbs", 0.50, "48", "Toppings", False]
 }
 
+# Write to CSV file for the Menu Items Table - still need to work on the inventoryID / salesID
+with open("menuItems.csv", 'w', newline='') as file:
+    writer = csv.writer(file)
+    
+    # Write the header row
+    writer.writerow(["ID", "name", "price", "calories", "category", "has_Caffeine"])
+    
+    for ID, row in drinks_map.items():
+        writer.writerow([
+            ID,
+            row[0],  # Name
+            row[1],  # Price
+            row[2],  # Calories
+            row[3],  # Category
+            row[4]   # HasCaffeine
+        ])
+
