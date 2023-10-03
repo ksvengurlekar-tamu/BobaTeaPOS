@@ -103,3 +103,57 @@ with open("menuItems.csv", 'w', newline='') as file:
             row[4]   # HasCaffeine
         ])
 
+
+
+# Write to CSV file for the Sales history Table - still need to work on the employeeID
+# Peak days
+PEAK_DAYS = ['01-15-2023', '08-21-2023']
+
+# Initialize order number
+order_no = 0
+
+# Starting and ending dates
+start_date = datetime.strptime('10-01-2022', '%m-%d-%Y')
+end_date = datetime.strptime('10-01-2023', '%m-%d-%Y')
+
+# Open the CSV file for writing
+with open('sales_history.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+
+    # Write the headers
+    writer.writerow(['Order_No', 'date', 'time', 'contents', 'price', 'isLarge', 'menuItem_ID'])
+
+    # Generate data for each day in the year
+    current_date = start_date
+    while current_date <= end_date:
+        date_str = current_date.strftime('%m-%d-%Y')
+        
+        # Determine the number of orders for the day
+        num_orders = random.randint(100, 300) # I CAN"T GET IT TO A MILLION AHHHHHHHHĦ
+        if date_str in PEAK_DAYS:
+            num_orders *= 2  # double the orders on peak days
+
+        # Generate data for each order
+        for i in range(num_orders):
+            numDrinks = random.randint(1, 4) # how many drinks i an order
+            for i in range(numDrinks):
+                # Randomly select a drink
+                drink_id = random.randint(0, 55)
+                drink = drinks_map[drink_id]
+
+                # Generate other order data
+                time_str = f'{random.randint(10, 20)}:{random.randint(0, 59)}'
+                if time_str < '10:30': # make sure it is between 10:30 am and 9:00 pm
+                    time_str = '10:30'
+                contents = drink[0]
+                is_large = random.choice([True, False])
+                price = drink[1] + (0.75 if is_large else 0)  # Add $0.75 for large drinks
+                menu_item_id = drink_id
+
+                # Write the data to the CSV
+                writer.writerow([order_no, date_str, time_str, contents, price, is_large, menu_item_id])
+        # Increment the order number
+            order_no += 1
+
+        # Move to the next day
+        current_date += timedelta(days=1)
