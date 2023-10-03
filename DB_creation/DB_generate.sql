@@ -32,8 +32,9 @@ CREATE TABLE Sales (
     -- issue with orderNo with the csv input: can only have 1 PK
     -- we need a way to consolidate these into a single entry
     -- if we make a table entry with a unqiue primary key we have to delete the table to change it
+    orderID serial PRIMARY KEY,
     
-    --orderNo int PRIMARY KEY,
+    orderNo int,
     
     _date date,
     _time text,
