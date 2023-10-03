@@ -94,7 +94,7 @@ employeeMap = {
     2: ["Kiran Vengurlekar", False, 15.25, "MWF 6:00 pm - 9:00 pm"],
     3: ["Camila Brigueda", True, 25.00, "TRFS 1:00 pm - 9:00 pm"],
     4: ["Rose Chakraborty", False, 15.25, "TWRS 1:00 pm - 9:00 pm"],
-    5: ["Lebron Aggie", True, 12.00, "TWRS 10:30 am - 9:00 pm"],
+    5: ["Lebron Aggie", False, 12.00, "TWRS 10:30 am - 9:00 pm"],
     6: ["Messi Brigueda", False, 12.00, "TRFS 1:00 pm - 9:00 pm"],
     7: ["Ronaldo Chakraborty", False, 12.00, "MWF 10:30 am - 6:00 pm"],
     8: ["Neymar Aggie", False, 12.00, "MWF 10:30 am - 6:00 pm"],
