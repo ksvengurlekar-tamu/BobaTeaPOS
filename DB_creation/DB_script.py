@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 # entry  ID: [Name, mediumPrice, Calories, Series, hasCaffeine]
 
-drinks_map = {
+drinksMap = {
     # Milk Foam Series
     0: ["Green Tea", 5.00, "190-270", "Milk Foam", True],
     1: ["Black Tea", 5.00, "190-270", "Milk Foam", True],
@@ -93,7 +93,7 @@ with open("menuItems.csv", 'w', newline='') as file:
     # Write the header row
     writer.writerow(["ID", "name", "price", "calories", "category", "has_Caffeine"])
     
-    for ID, row in drinks_map.items():
+    for ID, row in drinksMap.items():
         writer.writerow([
             ID,
             row[0],  # Name
@@ -104,56 +104,58 @@ with open("menuItems.csv", 'w', newline='') as file:
         ])
 
 
-
 # Write to CSV file for the Sales history Table - still need to work on the employeeID
 # Peak days
-PEAK_DAYS = ['01-15-2023', '08-21-2023']
+peakDays = ['01-15-2023', '08-21-2023']
 
 # Initialize order number
-order_no = 0
+orderNo = 0
 
 # Starting and ending dates
-start_date = datetime.strptime('10-01-2022', '%m-%d-%Y')
-end_date = datetime.strptime('10-01-2023', '%m-%d-%Y')
+startDate = datetime.strptime('10-01-2021', '%m-%d-%Y')
+endDate = datetime.strptime('10-01-2023', '%m-%d-%Y')
 
 # Open the CSV file for writing
-with open('sales_history.csv', 'w', newline='') as file:
+with open('sales_history.csv', 'w', newline = '') as file:
     writer = csv.writer(file)
 
     # Write the headers
-    writer.writerow(['Order_No', 'date', 'time', 'contents', 'price', 'isLarge', 'menuItem_ID'])
+    writer.writerow(['orderNo', 'date', 'time', 'price', 'isLarge', 'menuItemID'])
 
     # Generate data for each day in the year
-    current_date = start_date
-    while current_date <= end_date:
-        date_str = current_date.strftime('%m-%d-%Y')
+    currentDate = startDate
+    while currentDate <= endDate:
+        dateStr = currentDate.strftime('%m-%d-%Y')
         
         # Determine the number of orders for the day
-        num_orders = random.randint(100, 300) # I CAN"T GET IT TO A MILLION AHHHHHHHHĦ
-        if date_str in PEAK_DAYS:
-            num_orders *= 2  # double the orders on peak days
+        numOrders = random.randint(75, 125)
+        if dateStr in peakDays:
+            numOrders *= 2 # Double the orders on peak days
 
         # Generate data for each order
-        for i in range(num_orders):
-            numDrinks = random.randint(1, 4) # how many drinks i an order
+        for i in range(numOrders):
+            numDrinks = random.randint(1, 4) # How many drinks in an order
+            
+            # Generate other order data
+            timeStr = f'{random.randint(10, 20)}:{random.randint(0, 59)}'
+            if timeStr < '10:30': # Make sure it is between 10:30 am and 9:00 pm
+                timeStr = '10:30'
+                    
             for i in range(numDrinks):
                 # Randomly select a drink
-                drink_id = random.randint(0, 55)
-                drink = drinks_map[drink_id]
-
-                # Generate other order data
-                time_str = f'{random.randint(10, 20)}:{random.randint(0, 59)}'
-                if time_str < '10:30': # make sure it is between 10:30 am and 9:00 pm
-                    time_str = '10:30'
-                contents = drink[0]
-                is_large = random.choice([True, False])
-                price = drink[1] + (0.75 if is_large else 0)  # Add $0.75 for large drinks
-                menu_item_id = drink_id
+                drinkID = random.randint(0, 55)
+                drink = drinksMap[drinkID]
+                   
+                isLarge = random.choice([True, False])
+                price = drink[1] + (0.75 if isLarge else 0) # Add $0.75 for large drinks
+                menuItemID = drinkID
 
                 # Write the data to the CSV
-                writer.writerow([order_no, date_str, time_str, contents, price, is_large, menu_item_id])
-        # Increment the order number
-            order_no += 1
+                writer.writerow([orderNo, dateStr, timeStr, price, isLarge, menuItemID])
+
+            # Increment the order number
+            orderNo += 1
 
         # Move to the next day
-        current_date += timedelta(days=1)
+        currentDate += timedelta(days=1)
+        
