@@ -1,4 +1,4 @@
-ID,Name,Price,Calories,Category,Availability
+ID,name,price,calories,category,has_Caffeine
 0,Green Tea,5.0,190-270,Milk Foam,True
 1,Black Tea,5.0,190-270,Milk Foam,True
 2,Oolong Tea,5.0,190-270,Milk Foam,True
@@ -16,7 +16,7 @@ ID,Name,Price,Calories,Category,Availability
 14,Brown Sugar Milk Tea,5.0,290-390,Milk Tea,True
 15,Wintermelon Milk Tea,5.0,150-175,Milk Tea,True
 16,Strawberry Milk Tea,5.25,290-330,Milk Tea,True
-17,Earl Grey Milk Tea With 3J's (with Pearls, Pudding, and Herbal Jelly),5.75,315-355,Milk Tea,True
+17,"Earl Grey Milk Tea With 3J's (with Pearls, Pudding, and Herbal Jelly)",5.75,315-355,Milk Tea,True
 18,Passionfruit Yogurt,6.0,170-210,Slush,False
 19,Lychee,6.0,90-130,Slush,False
 20,Mango Milk,6.0,216-270,Slush,False
