@@ -2,7 +2,7 @@ import csv
 import random
 from datetime import datetime, timedelta
 
-# entry  ID: [Name, mediumPrice, Calories, Series, hasCaffeine]
+# Drink ID: [Name, mediumPrice, Calories, Series, hasCaffeine]
 
 drinksMap = {
     # Milk Foam Series
@@ -84,6 +84,21 @@ drinksMap = {
     62: ["Ai-yu Jelly", 0.50, "11", "Toppings", False],
     63: ["Basil Seeds", 0.50, "0.2", "Toppings", False],
     64: ["Oreo Crumbs", 0.50, "48", "Toppings", False]
+}
+
+# Employee ID: [ID, Name, isManager, payroll, schedule]
+
+employeeMap = {
+    0: ["Eyad Nazir", False, 15.25, "MWF 10:30 am - 6:00 pm"],
+    1: ["Jedidiah Samrajkumar", True, 25.00, "MWF 10:30 am - 9:00 pm"],
+    2: ["Kiran Vengurlekar", False, 15.25, "MWF 6:00 pm - 9:00 pm"],
+    3: ["Camila Brigueda", True, 25.00, "TRFS 1:00 pm - 9:00 pm"],
+    4: ["Rose Chakraborty", False, 15.25, "TWRS 1:00 pm - 9:00 pm"],
+    5: ["Lebron Aggie", True, 12.00, "TWRS 10:30 am - 9:00 pm"],
+    6: ["Messi Brigueda", False, 12.00, "TRFS 1:00 pm - 9:00 pm"],
+    7: ["Ronaldo Chakraborty", False, 12.00, "MWF 10:30 am - 6:00 pm"],
+    8: ["Neymar Aggie", False, 12.00, "MWF 10:30 am - 6:00 pm"],
+    9: ["Eyada Nazir", False, 12.00, "TRFS 1:00 pm - 9:00 pm"]
 }
 
 # Write to CSV file for the Menu Items Table - still need to work on the inventoryID / salesID
