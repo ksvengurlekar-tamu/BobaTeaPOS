@@ -1,11 +1,11 @@
 ID,Name,isManager,payroll,schedule
-0,Eyad Nazir,False,15.25,MWF 10:30 am - 6:00 pm
-1,Jedidiah Samrajkumar,True,25.0,MWF 10:30 am - 9:00 pm
-2,Kiran Vengurlekar,False,15.25,MWF 6:00 pm - 9:00 pm
+0,Eyad Nazir,False,12.25,MWF 10:30 am - 7:00 pm
+1,Jedidiah Samrajkumar,True,25.0,MWF 12:30 pm - 9:00 pm
+2,Kiran Vengurlekar,False,16.25,MWF 10:30 am - 7:00 pm
 3,Camila Brigueda,True,25.0,TRFS 1:00 pm - 9:00 pm
-4,Rose Chakraborty,False,15.25,TWRS 1:00 pm - 9:00 pm
-5,Lebron Aggie,False,12.0,TWRS 10:30 am - 9:00 pm
-6,Messi Brigueda,False,12.0,TRFS 1:00 pm - 9:00 pm
-7,Ronaldo Chakraborty,False,12.0,MWF 10:30 am - 6:00 pm
-8,Neymar Aggie,False,12.0,MWF 10:30 am - 6:00 pm
-9,Eyada Nazir,False,12.0,TRFS 1:00 pm - 9:00 pm
+4,Rose Chakraborty,False,15.25,TWRS 10:30 am - 4:30 pm
+5,Lebron Aggie,False,15.25,TWRS 10:30 am - 4:30 pm
+6,Messi Brigueda,True,25.0,MTWF 10:30 am - 7:00 pm
+7,Ronaldo Chakraborty,False,15.25,MWF 10:30 am - 6:00 pm
+8,Neymar Aggie,False,16.25,TRS 6:00 pm - 9:00 pm
+9,Eyada Nazir,True,12.0,WRFS 10:30 am - 7:00 pm

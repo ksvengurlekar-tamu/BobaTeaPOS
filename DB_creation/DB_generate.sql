@@ -1,67 +1,66 @@
-CREATE TABLE MenuItems (
-    PRIMARY KEY id int,
-    _name text,
-    price float,
-    calories text,
-    category text,
-    hasCaffine boolean,
-    --FOREIGN KEY inventoryID int
-);
+-- CREATE TABLE MenuItems (
+--     id int PRIMARY KEY,
+--     _name text,
+--     price numeric,
+--     calories text,
+--     category text,
+--     hasCaffine boolean
+-- );
 
 
-CREATE TABLE Ingredients (
-    PRIMARY KEY id int,
-    _name text,
-    amount float
-);
+-- CREATE TABLE Inventory (
+--     id int,
+--     _name text,
+--     supplier text,
+--     quantity int,
+--     recieved text,
+--     expiration text, 
+--     inStock boolean,
+--     PRIMARY KEY (id)
+-- );
 
 
-CREATE TABLE Inventory (
-    PRIMARY KEY id int,
-    _name text,
-    supplier text,
-    quantity, int,
-    recieved date,
-    expiration date, 
-    inStock, boolean,
-    --FOREIGN KEY menuItemID int
-);
+-- CREATE TABLE Employees (
+--     id int PRIMARY KEY,
+--     _name text,
+--     isManager boolean,
+--     payroll float,
+--     schedule text
+-- );
 
+-- CREATE TABLE Sales (
+--     orderID SERIAL PRIMARY KEY,
+--     orderNo int,
+--     _date Text,
+--     _time text,
+--     price float,
+--     isLarge boolean, 
+--     menuItemsID int,
+--     employeeID int,
+--     FOREIGN KEY (employeeID) REFERENCES Employees(id)
+-- );
 
-CREATE TABLE Sales (
-    -- issue with orderNo with the csv input: can only have 1 PK
-    -- we need a way to consolidate these into a single entry
-    -- if we make a table entry with a unqiue primary key we have to delete the table to change it
-    orderID serial PRIMARY KEY,
-    
-    orderNo int,
-    
-    _date date,
-    _time text,
-    price float,
-    isLarge boolean, 
-    menuItemsID int,
-    --FOREIGN KEY employeeID int
-);
-
-
-CREATE TABLE Employees (
-    PRIMARY KEY id int,
-    _name text,
-    isManager boolean,
-    payroll float,
-    schedule text
-);
-
-
--- junction table for menuItems and ingredients
-CREATE TABLE MenuItems_Ingredients (
+-- junction table for menuItems and inventory
+CREATE TABLE MenuItems_Inventory (
     menuItemsID int NOT NULL,
-    ingredientsID int NOT NULL,
-    PRIMARY KEY (menuItemID, ingredientsID),
-    --FOREIGN KEY (menuItemID) REFERENCES MenuItems(menuItemID)
-    --FOREIGN KEY (ingredientsID) REFERENCES Ingredients(ingredientsID)
+    inventoryListID text NOT NULL,  -- Assuming inventoryListID is an integer; change the type if needed
+    PRIMARY KEY (menuItemsID),
+    FOREIGN KEY (menuItemsID) REFERENCES MenuItems(id),
+    -- /FOREIGN KEY (inventoryListID) REFERENCES Inventory(id),
+    measurementsList text NOT NULL
 );
 
+\copy MenuItems FROM '/Users/Eyad/Desktop/Classes/23/Fall_23/CSCE_331/project-2-csce331_900_00g/DB_creation/menuItems.csv' DELIMITER ',' CSV HEADER;
 
--- 15 SQL Queries
+\copy Inventory FROM '/Users/Eyad/Desktop/Classes/23/Fall_23/CSCE_331/project-2-csce331_900_00g/DB_creation/inventory.csv' DELIMITER ',' CSV HEADER;
+
+\copy Sales FROM '/Users/Eyad/Desktop/Classes/23/Fall_23/CSCE_331/project-2-csce331_900_00g/DB_creation/sales_history.csv' DELIMITER ',' CSV HEADER;
+
+\copy Employees FROM '/Users/Eyad/Desktop/Classes/23/Fall_23/CSCE_331/project-2-csce331_900_00g/DB_creation/employeeMap.csv' DELIMITER ',' CSV HEADER;
+
+\copy MenuItems_Inventory FROM '/Users/Eyad/Desktop/Classes/23/Fall_23/CSCE_331/project-2-csce331_900_00g/DB_creation/menuItems_inventory.csv' DELIMITER ',' CSV HEADER;
+
+
+
+
+
