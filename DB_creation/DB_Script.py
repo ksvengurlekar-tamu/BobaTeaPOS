@@ -101,9 +101,9 @@ employeeMap = {
     9: ["Eyada Nazir", True, 25.00, "WRFS 10:30 am - 7:00 pm"]
 }
 
-# Ingredients ID: [Name, Quantity (liquids in fl. oz. and others in amount), receivedDate, expirationDate, inStock, supplier]
+# Inventory ID: [Name, Quantity (liquids in fl. oz. and others in amount), receivedDate, expirationDate, inStock, supplier]
 
-ingredientsMap = {
+inventoryMap = {
     # Miscellaneous
     0: ["Ice", 100, "10-01-2023", "10-09-2023", True, "Ice To Meet You Inc."],
     1: ["Milk", 500, "10-01-2023", "10-09-2023", True, "Milk Company"],
@@ -169,6 +169,7 @@ ingredientsMap = {
 }
 
 random.seed(34)
+
 # Write to CSV file for the Menu Items Table
 with open("menuItems.csv", 'w', newline='') as file:
     writer = csv.writer(file)
@@ -186,14 +187,14 @@ with open("menuItems.csv", 'w', newline='') as file:
             row[4]   # HasCaffeine
         ])
         
-#  Write to CSV file for the ingredients Table
-with open("ingredients.csv", 'w', newline = '') as file:
+#  Write to CSV file for the inventory Table
+with open("inventory.csv", 'w', newline = '') as file:
     writer = csv.writer(file)
     
     # Write the header row
     writer.writerow(["ID", "Name", "Quantity", "receivedDate", "expirationDate", "inStock", "supplier"])
     
-    for ID, row in ingredientsMap.items():
+    for ID, row in inventoryMap.items():
         writer.writerow([
             ID,
             row[0],  # Name
@@ -204,13 +205,15 @@ with open("ingredients.csv", 'w', newline = '') as file:
             row[5],  # supplier
         ])
 
-
+count = 0
+employeeID = random.randint(0, 9)
 # Write to CSV file for the Sales history Table
 # Peak days
 peakDays = ['01-15-2023', '08-21-2023']
 
 # Initialize order number
 orderNo = 0
+orderID = 0
 
 # Starting and ending dates
 startDate = datetime.strptime('10-01-2021', '%m-%d-%Y')
@@ -221,14 +224,12 @@ with open('sales_history.csv', 'w', newline = '') as file:
     writer = csv.writer(file)
 
     # Write the headers
-    writer.writerow(['orderNo', 'date', 'time', 'employeeID', 'price', 'isLarge', 'menuItemID'])
+    writer.writerow(['orderID','orderNo', 'date', 'time', 'employeeID', 'price', 'isLarge', 'menuItemID'])
 
     # Generate data for each day in the year
     currentDate = startDate
     while currentDate <= endDate:
         dateStr = currentDate.strftime('%m-%d-%Y')
-    
-        employeeID = random.randint(0, 9)
         
         # Determine the number of orders for the day
         numOrders = random.randint(75, 125)
@@ -237,13 +238,15 @@ with open('sales_history.csv', 'w', newline = '') as file:
 
         # Generate data for each order
         for i in range(numOrders):
-            numDrinks = random.randint(1, 4) # How many drinks in an order
-            
+            if count > 4:
+                employeeID = random.randint(0, 9)
+                count = 0
             # Generate other order data
             timeStr = f'{random.randint(10, 20)}:{random.randint(0, 59)}'
             if timeStr < '10:30': # Make sure it is between 10:30 am and 9:00 pm
                 timeStr = '10:30' 
-                    
+                
+            numDrinks = random.randint(1, 4) # How many drinks in an order
             for i in range(numDrinks):
                 # Randomly select a drink
                 drinkID = random.randint(0, 55)
@@ -254,11 +257,11 @@ with open('sales_history.csv', 'w', newline = '') as file:
                 menuItemID = drinkID
 
                 # Write the data to the CSV
-                writer.writerow([orderNo, dateStr, timeStr, employeeID, price, isLarge, menuItemID])
-
+                writer.writerow([orderID, orderNo, dateStr, timeStr, employeeID, price, isLarge, menuItemID])
+                orderID += 1
             # Increment the order number
             orderNo += 1
-
+            count += 1
         # Move to the next day
         currentDate += timedelta(days=1)
         
