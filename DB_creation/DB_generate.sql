@@ -11,11 +11,11 @@
 -- CREATE TABLE Inventory (
 --     id int,
 --     _name text,
---     supplier text,
 --     quantity int,
 --     recieved text,
 --     expiration text, 
 --     inStock boolean,
+--     supplier text,
 --     PRIMARY KEY (id)
 -- );
 
@@ -33,10 +33,10 @@
 --     orderNo int,
 --     _date Text,
 --     _time text,
+--     employeeID int,
 --     price float,
 --     isLarge boolean, 
 --     menuItemsID int,
---     employeeID int,
 --     FOREIGN KEY (employeeID) REFERENCES Employees(id)
 -- );
 

@@ -78,7 +78,7 @@ drinksMap = {
     56: ["Milk Foam", 1.25, "125-135", "Toppings", False],
     57: ["White Pearls", 0.75, "28", "Toppings", False],
     58: ["Tapioca Pearls", 0.50, "148", "Toppings", False],
-    59: ["Coconut Jelly", .50, "45", "Toppings", False],
+    59: ["Coconut Jelly", 0.50, "45", "Toppings", False],
     60: ["Pudding", 0.50, "23", "Toppings", False],
     61: ["Herbal Jelly", 0.50, "23", "Toppings", False],
     62: ["Ai-yu Jelly", 0.50, "11", "Toppings", False],
