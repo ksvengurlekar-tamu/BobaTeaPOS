@@ -2,9 +2,9 @@ import csv
 import random
 from datetime import datetime, timedelta
 
-# Drink ID: [Name, mediumPrice, Calories, Series, hasCaffeine]
+# menuItems ID: [menuItemName, menuItemPrice, menuItemCalories, menuItemCategory, hasCaffeine]
 
-drinksMap = {
+menuItemsMap = {
     # Milk Foam Series
     0: ["Green Tea", 5.00, "190-270", "Milk Foam", True],
     1: ["Black Tea", 5.00, "190-270", "Milk Foam", True],
@@ -87,161 +87,162 @@ drinksMap = {
 }
 
 
-# Employee ID: [ID, Name, isManager, payroll, schedule]
+# Employees ID: [employeeName, employeeUsername, employeeUserPassword, isManager, employeePayroll, employeeSchedule]
 
-employeeMap = {
-    0: ["Eyad Nazir", False, 12.25, "MWF 10:30 am - 7:00 pm"],
-    1: ["Jedidiah Samrajkumar", True, 25.00, "MWF 12:30 pm - 9:00 pm"],
-    2: ["Kiran Vengurlekar", False, 16.25, "MWF 10:30 am - 7:00 pm"],
-    3: ["Camila Brigueda", True, 25.00, "TRFS 1:00 pm - 9:00 pm"], 
-    4: ["Rose Chakraborty", False, 15.25, "TWRS 10:30 am - 4:30 pm"],
-    5: ["Lebron Aggie", False, 15.25, "TWRS 10:30 am - 4:30 pm"],
-    6: ["Messi Brigueda", True, 25.00, "MTWF 10:30 am - 7:00 pm"],
-    7: ["Ronaldo Chakraborty", False, 15.25, "MWF 10:30 am - 6:00 pm"],
-    8: ["Neymar Aggie", False, 16.25, "TRS 6:00 pm - 9:00 pm"],
-    9: ["Eyada Nazir", True, 12.00, "WRFS 10:30 am - 7:00 pm"]
+employeesMap = {
+    0: ["Eyad Nazir", "n123450", "eyadNazir0", False, 12.25, "MWF 10:30 am - 7:00 pm"],
+    1: ["Jedidiah Samrajkumar", "s123451", "jediSamraj1", True, 25.00, "MWF 12:30 pm - 9:00 pm"],
+    2: ["Kiran Vengurlekar", "v123452", "kiranVeng2", False, 16.25, "MWF 10:30 am - 7:00 pm"],
+    3: ["Camila Brigueda", "b123453", "camiBrig3", True, 25.00, "TRFS 1:00 pm - 9:00 pm"], 
+    4: ["Rose Chakraborty", "c123454", "roseChak4", False, 15.25, "TWRS 10:30 am - 4:30 pm"],
+    5: ["Lebron Aggie", "a123455", "lebronAggie5", False, 15.25, "TWRS 10:30 am - 4:30 pm"],
+    6: ["Messi Brigueda", "b123456", "messiBrig6", True, 25.00, "MTWF 10:30 am - 7:00 pm"],
+    7: ["Ronaldo Chakraborty", "c123457", "ronaldoChak7", False, 15.25, "MWF 10:30 am - 6:00 pm"],
+    8: ["Neymar Aggie", "a123458", "neymarAggie8", False, 16.25, "TRS 6:00 pm - 9:00 pm"],
+    9: ["Eyada Nazir", "n123459", "eyadaNazir9", True, 12.00, "WRFS 10:30 am - 7:00 pm"]
 }
 
 
-# Inventory ID: [Name, Quantity (liquids in fl. oz. and others in amount), receivedDate, expirationDate, inStock, supplier]
+# Inventory ID: [inventoryName, inventoryQuantity (liquids in fl. oz. and others in amount), inventoryReceivedDate, inventoryExpirationDate, inventoryInStock, inventorySupplier]
 
 inventoryMap = {
     # Miscellaneous
-    0: ["Ice", 100, "10-01-2023", "10-09-2023", True, "Ice To Meet You Inc."],
-    1: ["Milk", 500, "10-01-2023", "10-09-2023", True, "Milk Company"],
-    2: ["Caramel Drizzle", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    3: ["Honey", 100, "10-01-2023", "10-09-2023", True, "Honey Company"],
-    4: ["Brown Sugar", 100, "10-01-2023", "10-09-2023", True, "Sugar Company"],
-    5: ["Sugar", 100, "10-01-2023", "10-09-2023", True, "Sugar Company"],
-    6: ["Salt", 100, "10-01-2023", "10-09-2023", True, "Salt Company"],
-    7: ["Matcha Powder", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    8: ["Taro Powder", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    9: ["Yogurt", 100, "10-01-2023", "10-09-2023", True, "Yogurt Company"],
-    10: ["Arabica Coffee", 100, "10-01-2023", "10-09-2023", True, "Coffee Company"],
-    11: ["Sweetened Condensed Milk", 100, "10-01-2023", "10-09-2023", True, "Milk Company"],
-    12: ["Creamer", 100, "10-01-2023", "10-09-2023", True, "Creamer Company"],
-    13: ["Water", 1000, "10-01-2023", "10-09-2023", True, "Water Company"],
+    0: ["Ice", 100, "2023-10-01", "2023-10-09", True, "Ice To Meet You Inc."],
+    1: ["Milk", 500, "2023-10-01", "2023-10-09", True, "Milk Company"],
+    2: ["Caramel Drizzle", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    3: ["Honey", 100, "2023-10-01", "2023-10-09", True, "Honey Company"],
+    4: ["Brown Sugar", 100, "2023-10-01", "2023-10-09", True, "Sugar Company"],
+    5: ["Sugar", 100, "2023-10-01", "2023-10-09", True, "Sugar Company"],
+    6: ["Salt", 100, "2023-10-01", "2023-10-09", True, "Salt Company"],
+    7: ["Matcha Powder", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    8: ["Taro Powder", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    9: ["Yogurt", 100, "2023-10-01", "2023-10-09", True, "Yogurt Company"],
+    10: ["Arabica Coffee", 100, "2023-10-01", "2023-10-09", True, "Coffee Company"],
+    11: ["Sweetened Condensed Milk", 100, "2023-10-01", "2023-10-09", True, "Milk Company"],
+    12: ["Creamer", 100, "2023-10-01", "2023-10-09", True, "Creamer Company"],
+    13: ["Water", 1000, "2023-10-01", "2023-10-09", True, "Water Company"],
 
     # Tea
-    14: ["Black Tea", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    15: ["Green Tea", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    16: ["Oolong Tea", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    17: ["Earl Grey Tea", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    18: ["Jasmine Tea", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
+    14: ["Black Tea", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    15: ["Green Tea", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    16: ["Oolong Tea", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    17: ["Earl Grey Tea", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    18: ["Jasmine Tea", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
     
     # Syrup
-    19: ["Wintermelon Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    20: ["Strawberry Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    21: ["Caramel Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    22: ["Peach Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    23: ["Chocolate Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    24: ["Creme Brulee Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    25: ["Grapefruit Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    26: ["Lemon Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    27: ["Hibiscus Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    28: ["Lychee Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    29: ["Mango Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
-    30: ["Passionfruit Syrup", 100, "10-01-2023", "10-09-2023", True, "Syrup Company"],
+    19: ["Wintermelon Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    20: ["Strawberry Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    21: ["Caramel Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    22: ["Peach Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    23: ["Chocolate Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    24: ["Creme Brulee Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    25: ["Grapefruit Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    26: ["Lemon Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    27: ["Hibiscus Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    28: ["Lychee Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    29: ["Mango Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
+    30: ["Passionfruit Syrup", 100, "2023-10-01", "2023-10-09", True, "Syrup Company"],
 
     # Toppings
-    31: ["Oreo Crumbs", 100, "10-01-2023", "10-09-2023", True, "Nabisco"],
-    32: ["Herbal Jelly", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    33: ["Ai-Yu Jelly", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    34: ["Basil Seeds", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    35: ["Pudding", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    36: ["Milk Foam", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    37: ["Coconut Jelly", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    38: ["Tapioca Pearls", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
-    39: ["White Pearls", 100, "10-01-2023", "10-09-2023", True, "Tea Company"],
+    31: ["Oreo Crumbs", 100, "2023-10-01", "2023-10-09", True, "Nabisco"],
+    32: ["Herbal Jelly", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    33: ["Ai-Yu Jelly", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    34: ["Basil Seeds", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    35: ["Pudding", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    36: ["Milk Foam", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    37: ["Coconut Jelly", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    38: ["Tapioca Pearls", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
+    39: ["White Pearls", 100, "2023-10-01", "2023-10-09", True, "Tea Company"],
     
     # Non-food
-    40: ["Medium Cups", 500, "10-01-2023", "10-09-2023", True, "Cup Company"],
-    41: ["Large Cups", 500, "10-01-2023", "10-09-2023", True, "Cup Company"],
-    42: ["Medium Straws", 1000, "10-01-2023", "10-09-2023", True, "Straw Company"],
-    43: ["Large Straws", 1000, "10-01-2023", "10-09-2023", True, "Straw Company"],
-    44: ["Lids", 100, "10-01-2023", "10-09-2023", True, "Cup Company"],
-    45: ["Napkins", 1000, "10-01-2023", "10-09-2023", True, "Napkin Company"],
-    46: ["Gloves", 1000, "10-01-2023", "10-09-2023", True, "Glove Company"],
-    47: ["Cleaning Solution", 1000, "10-01-2023", "10-09-2023", True, "Cleaning Company"],
-    48: ["Cleaning Wipes", 1000, "10-01-2023", "10-09-2023", True, "Cleaning Company"],
-    49: ["Trash Bags", 1000, "10-01-2023", "10-09-2023", True, "Trash Company"],
-    50: ["Hand Soap", 10, "10-01-2023", "10-09-2023", True, "Soap Company"],
-    51: ["Hand Sanitizer", 1000, "10-01-2023", "10-09-2023", True, "Sanitizer Company"],
-    52: ["Paper Towels", 1000, "10-01-2023", "10-09-2023", True, "Paper Company"],
-    53: ["Dish Soap", 50, "10-01-2023", "10-09-2023", True, "Soap Company"],
+    40: ["Medium Cups", 500, "2023-10-01", "2023-10-09", True, "Cup Company"],
+    41: ["Large Cups", 500, "2023-10-01", "2023-10-09", True, "Cup Company"],
+    42: ["Medium Straws", 1000, "2023-10-01", "2023-10-09", True, "Straw Company"],
+    43: ["Large Straws", 1000, "2023-10-01", "2023-10-09", True, "Straw Company"],
+    44: ["Lids", 100, "2023-10-01", "2023-10-09", True, "Cup Company"],
+    45: ["Napkins", 1000, "2023-10-01", "2023-10-09", True, "Napkin Company"],
+    46: ["Gloves", 1000, "2023-10-01", "2023-10-09", True, "Glove Company"],
+    47: ["Cleaning Solution", 1000, "2023-10-01", "2023-10-09", True, "Cleaning Company"],
+    48: ["Cleaning Wipes", 1000, "2023-10-01", "2023-10-09", True, "Cleaning Company"],
+    49: ["Trash Bags", 1000, "2023-10-01", "2023-10-09", True, "Trash Company"],
+    50: ["Hand Soap", 10, "2023-10-01", "2023-10-09", True, "Soap Company"],
+    51: ["Hand Sanitizer", 1000, "2023-10-01", "2023-10-09", True, "Sanitizer Company"],
+    52: ["Paper Towels", 1000, "2023-10-01", "2023-10-09", True, "Paper Company"],
+    53: ["Dish Soap", 50, "2023-10-01", "2023-10-09", True, "Soap Company"],
 }
 
 
-# menuItem_ID : ["ingredients ID List", "measurements"] - measurements are in fl. oz. and assumed medium size
+# menuItems_Inventory ID: ["inventoryID", "measurement"] - measurements are in fl. oz. and assumed medium size
 
-menuItems_inventory = {
+menuItems_InventoryMap = {
     # Milk Foam Series
-    0: ["0, 5, 6, 13, 15, 36", "1, 1, 0.5, 1.5, 11, 1"], # Green Tea
-    1: ["0, 5, 6, 13, 14, 36", "1, 1, 0.5, 1.5, 11, 1"], # Black Tea
-    2: ["0, 5, 6, 13, 16, 36", "1, 1, 0.5, 1.5, 11, 1"], # Oolong Tea
-    3: ["0, 5, 6, 13, 17, 36", "1, 1, 0.5, 1.5, 11, 1"], # Earl Grey Tea
-    4: ["0, 5, 6, 13, 18, 19, 36", "1, 1, 0.5, 1.5, 1, 11, 1"], # Wintermelon
-    5: ["0, 1, 4, 6, 13, 14, 36", "1, 2, 1, 0.5, 0.5, 11, 1"], # Dirty Brown Sugar Milk Tea
-    6: ["0, 1, 4, 13, 14, 24, 36", "1, 2, 1, 0.5, 11, 1, 1"], # Creme Brulee Brown Sugar Milk Tea  
-    7: ["0, 1, 5, 13, 20, 24, 36", "1, 2, 1, 0.5, 11, 1, 1"], # Creme Brulee Strawberry Latte
+    0: [[0, 5, 6, 13, 15, 36], [1, 1, 0.5, 1.5, 11, 1]], # Green Tea
+    1: [[0, 5, 6, 13, 14, 36], [1, 1, 0.5, 1.5, 11, 1]], # Black Tea
+    2: [[0, 5, 6, 13, 16, 36], [1, 1, 0.5, 1.5, 11, 1]], # Oolong Tea
+    3: [[0, 5, 6, 13, 17, 36], [1, 1, 0.5, 1.5, 11, 1]], # Earl Grey Tea
+    4: [[0, 5, 6, 13, 18, 19, 36], [1, 1, 0.5, 1.5, 1, 11, 1]], # Wintermelon
+    5: [[0, 1, 4, 6, 13, 14, 36], [1, 2, 1, 0.5, 0.5, 11, 1]], # Dirty Brown Sugar Milk Tea
+    6: [[0, 1, 4, 13, 14, 24, 36], [1, 2, 1, 0.5, 11, 1, 1]], # Creme Brulee Brown Sugar Milk Tea  
+    7: [[0, 1, 5, 13, 20, 24, 36], [1, 2, 1, 0.5, 11, 1, 1]],  # Creme Brulee Strawberry Latte
     
     # Milk Tea Series
-    8: ["0, 1, 5, 13, 16", "1, 2, 4, 2, 7"], # Oolong Tea
-    9: ["0, 1, 5, 13, 15", "1, 2, 4, 2, 7"], # Green Milk Tea
-    10: ["0, 1, 5, 13, 14", "1, 2, 4, 2, 7"], # Black Tea
-    11: ["0, 1, 5, 13, 17","1, 2, 4, 2, 7"], # Earl Grey Tea
-    12: ["0, 1, 5, 13, 14, 38", "1, 2, 4, 1, 6, 2"], # Pearl Milk Tea
-    13: ["0, 1, 2, 5, 13, 14", "1, 2, 2, 4, 1, 6"], # Caramel Milk Tea
-    14: ["0, 1, 4, 5, 13, 14", "1, 2, 2, 4, 1, 6"], # Brown Sugar Milk Tea
-    15: ["0, 1, 5, 13, 18, 19", "1, 2, 4, 2, 5, 2"], # Wintermelon Milk Tea
-    16: ["0, 1, 5, 13, 14, 20", "1, 2, 4, 2, 5, 2"], # Strawberry Milk Tea
-    17: ["0, 1, 5, 13, 17, 32, 33, 38", "1, 2, 4, 1, 5, 1, 1, 1"], # Earl Grey Milk Tea With 3J's
-
+    8: [[0, 1, 5, 13, 16], [1, 2, 4, 2, 7]],  # Oolong Tea
+    9: [[0, 1, 5, 13, 15], [1, 2, 4, 2, 7]],  # Green Milk Tea
+    10: [[0, 1, 5, 13, 14], [1, 2, 4, 2, 7]], # Black Tea
+    11: [[0, 1, 5, 13, 17], [1, 2, 4, 2, 7]], # Earl Grey Tea
+    12: [[0, 1, 5, 13, 14, 38], [1, 2, 4, 1, 6, 2]], # Pearl Milk Tea
+    13: [[0, 1, 2, 5, 13, 14], [1, 2, 2, 4, 1, 6]], # Caramel Milk Tea
+    14: [[0, 1, 4, 5, 13, 14], [1, 2, 2, 4, 1, 6]], # Brown Sugar Milk Tea
+    15: [[0, 1, 5, 13, 18, 19], [1, 2, 4, 2, 5, 2]], # Wintermelon Milk Tea
+    16: [[0, 1, 5, 13, 14, 20], [1, 2, 4, 2, 5, 2]], # Strawberry Milk Tea
+    17: [[0, 1, 5, 13, 17, 32, 33, 38], [1, 2, 4, 1, 5, 1, 1, 1]],  # Earl Grey Milk Tea With 3J's
+    
     # Slush Series
-    18: ["0, 5, 9, 13, 30", "2, 1, 2, 11, 10"], # Passionfruit Yogurt
-    19: ["0, 5, 13, 28", "2, 1, 11, 10"], # Lychee
-    20: ["0, 1, 5, 13, 29", "2, 2, 1, 11, 10"], # Mango Milk
-    21: ["0, 1, 5, 13, 20", "2, 2, 1, 11, 10"], # Strawberry Milk
-    22: ["0, 1, 5, 8, 13", "2, 2, 5, 10, 11"], # Taro Milk
-    23: ["0, 1, 5, 7, 13", "2, 2, 1, 10, 11"], # Matcha Milk
-    24: ["0, 1, 2, 5, 13, 23", "2, 2, 1, 1, 11, 10"], # Caramel Chocolate
-    25: ["0, 5, 13, 22", "2, 1, 11, 10"], # Peach Slush
+    18: [[0, 5, 9, 13, 30], [2, 1, 2, 11, 10]], # Passionfruit Yogurt
+    19: [[0, 5, 13, 28], [2, 1, 11, 10]], # Lychee
+    20: [[0, 1, 5, 13, 29], [2, 2, 1, 11, 10]], # Mango Milk
+    21: [[0, 1, 5, 13, 20], [2, 2, 1, 11, 10]], # Strawberry Milk
+    22: [[0, 1, 5, 8, 13], [2, 2, 5, 10, 11]], # Taro Milk
+    23: [[0, 1, 5, 7, 13], [2, 2, 1, 10, 11]], # Matcha Milk
+    24: [[0, 1, 2, 5, 13, 23], [2, 2, 1, 1, 11, 10]], # Caramel Chocolate
+    25: [[0, 5, 13, 22], [2, 1, 11, 10]], # Peach Slush
+    
     
     # Seasonal Series
-    26: ["0, 5, 13, 15, 22", "1, 2, 2, 7, 4"], # Peach Green Tea
-    27: ["0, 5, 13, 15, 20", "1, 2, 2, 7, 4"], # Strawberry Green Tea
-    28: ["0, 5, 13, 15, 29", "1, 2, 2, 7, 4"], # Mango Green Tea
-    29: ["0, 5, 13, 15, 30", "1, 2, 2, 7, 4"], # Passionfruit Green Tea
-    30: ["0, 5, 13, 15, 26", "1, 2, 2, 7, 4"], # Lemon Green Tea
-    31: ["0, 5, 13, 15, 25", "1, 2, 2, 7, 4"], # Grapefruit Green Tea
-    32: ["0, 5, 13, 15, 27", "1, 2, 2, 7, 4"], # Hibiscus Green Tea
-    33: ["0, 3, 5, 13, 15", "1, 2, 2, 7, 4"], # Honey Green Tea
-    34: ["0, 5, 13, 16, 28", "1, 2, 2, 7, 4"], # Lychee Oolong
-    35: ["0, 5, 13, 14, 26, 33, 39", "1, 2, 2, 7, 4, 1, 1"], # Lemon Ai-Yu White Pearl
-    36: ["0, 5, 13, 14, 19, 26, 34", "1, 2, 2, 7, 1, 1, 4"], # Lemon Wintermelon Basil Seeds
-    37: ["0, 5, 8, 13, 14", "1, 2, 2, 7, 4"], # Taro
-    38: ["0, 1, 2, 5, 13, 23", "1, 6, 2, 1, 2, 3"], # Caramel Chocolate
-    39: ["0, 5, 9, 13, 22", "1, 1, 6, 4,"], # Peach Yogurt Drink
-    40: ["0, 5, 9, 13, 20", "1, 1, 6, 4, 4"], # Strawberry Yogurt Drink
-    41: ["0, 5, 9, 13, 29", "1, 1, 6, 4, 4"], # Mango Yogurt Drink
-    42: ["0, 5, 9, 13, 30", "1, 1, 6, 4, 4"], # Passionfruit Yogurt Drink
-    43: ["0, 5, 9, 13, 26", "1, 1, 6, 4, 4"], # Lemon Yogurt Drink
-    44: ["0, 5, 9, 13, 25", "1, 1, 6, 4, 4"], # Grapefruit Yogurt Drink
-        
+    26: [[0, 5, 13, 15, 22], [1, 2, 2, 7, 4]], # Peach Green Tea
+    27: [[0, 5, 13, 15, 20], [1, 2, 2, 7, 4]], # Strawberry Green Tea
+    28: [[0, 5, 13, 15, 29], [1, 2, 2, 7, 4]], # Mango Green Tea
+    29: [[0, 5, 13, 15, 30], [1, 2, 2, 7, 4]], # Passionfruit Green Tea
+    30: [[0, 5, 13, 15, 26], [1, 2, 2, 7, 4]], # Lemon Green Tea
+    31: [[0, 5, 13, 15, 25], [1, 2, 2, 7, 4]], # Grapefruit Green Tea
+    32: [[0, 5, 13, 15, 27], [1, 2, 2, 7, 4]], # Hibiscus Green Tea
+    33: [[0, 3, 5, 13, 15], [1, 2, 2, 7, 4]], # Honey Green Tea
+    34: [[0, 5, 13, 16, 28], [1, 2, 2, 7, 4]], # Lychee Oolong
+    35: [[0, 5, 13, 14, 26, 33, 39], [1, 2, 2, 7, 4, 1, 1]], # Lemon Ai-Yu White Pearl
+    36: [[0, 5, 13, 14, 19, 26, 34], [1, 2, 2, 7, 1, 1, 4]], # Lemon Wintermelon Basil Seeds
+    37: [[0, 5, 8, 13, 14], [1, 2, 2, 7, 4]], # Taro
+    38: [[0, 1, 2, 5, 13, 23], [1, 6, 2, 1, 2, 3]], # Caramel Chocolate
+    39: [[0, 5, 9, 13, 22], [1, 1, 6, 4, 4]], # Peach Yogurt Drink
+    40: [[0, 5, 9, 13, 20], [1, 1, 6, 4, 4]], # Strawberry Yogurt Drink
+    41: [[0, 5, 9, 13, 29], [1, 1, 6, 4, 4]], # Mango Yogurt Drink
+    42: [[0, 5, 9, 13, 30], [1, 1, 6, 4, 4]], # Passionfruit Yogurt Drink
+    43: [[0, 5, 9, 13, 26], [1, 1, 6, 4, 4]], # Lemon Yogurt Drink
+    44: [[0, 5, 9, 13, 25], [1, 1, 6, 4, 4]], # Grapefruit Yogurt Drink
+
     # Tea Latte Series
-    45: ["0, 1, 5, 6, 13, 15", "1, 6, 1, 0.5, 0.5, 7"], # Green Tea Latte
-    46: ["0, 1, 5, 6, 13, 14", "1, 6, 1, 0.5, 0.5, 7"], # Black Tea Latte
-    47: ["0, 1, 5, 6, 13, 16", "1, 6, 1, 0.5, 0.5, 7"], # Oolong Tea Latte
-    48: ["0, 1, 5, 6, 13, 17", "1, 6, 1, 0.5, 0.5, 7"], # Earl Grey Latte
-    49: ["0, 1, 5, 6, 7, 13", "1, 5, 1, 0.5, 5, 3"], # Matcha Tea Latte
-    50: ["0, 1, 5, 6, 11, 13, 14", "1, 5, 1, 0.5, 2, 0.5, 6"], # Thai Tea Latte
-    51: ["0, 1, 5, 7, 13, 20", "1, 5, 1, 4, 3, 2"], # Strawberry Matcha Latte
+    45: [[0, 1, 5, 6, 13, 15], [1, 6, 1, 0.5, 0.5, 7]], # Green Tea Latte
+    46: [[0, 1, 5, 6, 13, 14], [1, 6, 1, 0.5, 0.5, 7]], # Black Tea Latte
+    47: [[0, 1, 5, 6, 13, 16], [1, 6, 1, 0.5, 0.5, 7]], # Oolong Tea Latte
+    48: [[0, 1, 5, 6, 13, 17], [1, 6, 1, 0.5, 0.5, 7]], # Earl Grey Latte
+    49: [[0, 1, 5, 6, 7, 13], [1, 5, 1, 0.5, 5, 3]], # Matcha Tea Latte
+    50: [[0, 1, 5, 6, 11, 13, 14], [1, 5, 1, 0.5, 2, 0.5, 6]], # Thai Tea Latte
+    51: [[0, 1, 5, 7, 13, 20], [1, 5, 1, 4, 3, 2]],  # Strawberry Matcha Latte
     
     # Coffee Series
-    52: ["0, 1, 5, 10, 12", "1, 6, 1, 6, 2"], # Milk Coffee
-    53: ["0, 1, 5, 10, 13, 17", "1, 4, 1, 6, 1, 3"], # Coffee Milk Tea 
-    54: ["0, 5, 6, 10, 13, 36", "1, 1, 0.5, 11, 1, 1"], # Milk Foam Black Coffee
-    55: ["0, 1, 5, 10, 11", "1, 6, 1, 6, 2"] # Dolce Milk Coffee
+    52: [[0, 1, 5, 10, 12], [1, 6, 1, 6, 2]], # Milk Coffee
+    53: [[0, 1, 5, 10, 13, 17], [1, 4, 1, 6, 1, 3]], # Coffee Milk Tea 
+    54: [[0, 5, 6, 10, 13, 36], [1, 1, 0.5, 11, 1, 1]], # Milk Foam Black Coffee
+    55: [[0, 1, 5, 10, 11], [1, 6, 1, 6, 2]] # Dolce Milk Coffee
 }
 
 
@@ -253,9 +254,9 @@ with open("menuItems.csv", 'w', newline = '') as file:
     writer = csv.writer(file)
     
     # Write the header row
-    writer.writerow(["ID", "name", "price", "calories", "category", "has_Caffeine"])
+    writer.writerow(["menuItemID", "menuItemName", "menuItemPrice", "menuItemCalories", "menuItemCategory", "hasCaffeine"])
     
-    for ID, row in drinksMap.items():
+    for ID, row in menuItemsMap.items():
         writer.writerow([
             ID,
             row[0],  # Name
@@ -267,19 +268,21 @@ with open("menuItems.csv", 'w', newline = '') as file:
         
 
 # Write to CSV file for the Employees Table
-with open("employeeMap.csv", 'w', newline = '') as file:
+with open("employees.csv", 'w', newline = '') as file:
     writer = csv.writer(file)
     
     # Write the header row
-    writer.writerow(["ID", "Name", "isManager", "payroll", "schedule"])
+    writer.writerow(["employeeID", "employeeName", "employeeUsername", "employeeUserPassword", "isManager", "employeePayroll", "employeeSchedule"])
     
-    for ID, row in employeeMap.items():
+    for ID, row in employeesMap.items():
         writer.writerow([
             ID,
             row[0],  # Name
-            row[1],  # isManager
-            row[2],  # Payroll
-            row[3]   # Schedule
+            row[1],  # Username
+            row[2],  # Password
+            row[3],  # isManager
+            row[4],  # Payroll
+            row[5]   # Schedule
         ])
 
 
@@ -288,7 +291,7 @@ with open("inventory.csv", 'w', newline = '') as file:
     writer = csv.writer(file)
     
     # Write the header row
-    writer.writerow(["ID", "Name", "Quantity", "receivedDate", "expirationDate", "inStock", "supplier"])
+    writer.writerow(["inventoryID", "inventoryName", "inventoryQuantity", "inventoryReceivedDate", "inventoryExpirationDate", "inventoryInStock", "inventorySupplier"])
     
     for ID, row in inventoryMap.items():
         writer.writerow([
@@ -298,28 +301,35 @@ with open("inventory.csv", 'w', newline = '') as file:
             row[2],  # receivedDate
             row[3],  # expirationDate
             row[4],  # inStock
-            row[5]   # supplier
+            row[5]   # Supplier
         ])
 
 
 # Write to CSV file for the menuItems_inventory Table
-with open("menuItems_inventory.csv", 'w', newline = '') as file:
+with open("menuItems_Inventory.csv", 'w', newline = '') as file:
     writer = csv.writer(file)
     
     # Write the header row
-    writer.writerow(["menuItem_ID", "ingredientsList_ID", "measurementsList"])
+    writer.writerow(["menuItemID", "inventoryID", "measurement"])
     
-    for ID, row in menuItems_inventory.items():
-        writer.writerow([
-            ID,      # menuItem_ID
-            row[0],  # ingredientsList_ID
-            row[1]   # measurementsList
-        ])        
+    for ID, row in menuItems_InventoryMap.items():
+        inventoryArr = row[0]
+        measurementsArr = row[1]
+        if inventoryArr.__len__() != measurementsArr.__len__():
+            print("Error: inventoryArr and measurementsArr are not the same size")
+            print(ID)
+            break
+        for i in range(len(measurementsArr)):
+            writer.writerow([
+                ID,      # menuItem_ID
+                inventoryArr[i],  # inventoryID
+                measurementsArr[i]   # measurement
+            ])        
 
 
 # Write to CSV file for the Sales history Table
 # Peak days
-peakDays = ['01-15-2023', '08-21-2023']
+peakDays = ['2023-01-15', '2023-08-21']
 
 count = 0
 employeeID = random.randint(0, 9)
@@ -329,24 +339,24 @@ orderNo = 0
 orderID = 0
 
 # Starting and ending dates
-startDate = datetime.strptime('10-01-2021', '%m-%d-%Y')
-endDate = datetime.strptime('10-01-2023', '%m-%d-%Y')
+startDate = datetime.strptime('2021-10-01', '%Y-%m-%d')
+endDate = datetime.strptime('2023-10-01', '%Y-%m-%d')
 
 # Open the CSV file for writing
-with open('sales_history.csv', 'w', newline = '') as file:
+with open('salesHistory.csv', 'w', newline = '') as file:
     writer = csv.writer(file)
 
     # Write the headers
-    writer.writerow(['orderID','orderNo', 'date', 'time', 'employeeID', 'price', 'isLarge', 'menuItemID'])
+    writer.writerow(['orderID', 'orderNo', 'saleDate', 'saleTime', 'employeeID', 'salePrice', 'isLarge', 'menuItemID'])
 
     # Generate data for each day in the year
     currentDate = startDate
     while currentDate <= endDate:
-        dateStr = currentDate.strftime('%m-%d-%Y')
+        saleDateStr = currentDate.strftime('%Y-%m-%d')
         
         # Determine the number of orders for the day
         numOrders = random.randint(75, 125)
-        if dateStr in peakDays:
+        if saleDateStr in peakDays:
             numOrders *= 2 # Double the orders on peak days
 
         # Generate data for each order
@@ -355,29 +365,28 @@ with open('sales_history.csv', 'w', newline = '') as file:
                 employeeID = random.randint(0, 9)
                 count = 0
             # Generate other order data
-            timeStr = f'{random.randint(10, 20)}:{random.randint(0, 59)}'
-            if timeStr < '10:30': # Make sure it is between 10:30 am and 9:00 pm
-                timeStr = '10:30' 
+            saleTimeStr = f'{random.randint(10, 20)}:{random.randint(0, 59)}:{random.randint(0, 59)}'
+            if saleTimeStr < '10:30:00': # Make sure it is between 10:30 am and 9:00 pm
+                saleTimeStr = '10:30:00' 
                 
             numDrinks = random.randint(1, 4) # How many drinks in an order
             for i in range(numDrinks):
                 # Randomly select a drink
                 drinkID = random.randint(0, 55)
-                drink = drinksMap[drinkID]
+                drink = menuItemsMap[drinkID]
                    
                 isLarge = random.choice([True, False])
-                price = drink[1] + (0.75 if isLarge else 0) # Add $0.75 for large drinks
+                salePrice = drink[1] + (0.75 if isLarge else 0) # Add $0.75 for large drinks
                 menuItemID = drinkID
 
                 # Write the data to the CSV
-                writer.writerow([orderID, orderNo, dateStr, timeStr, employeeID, price, isLarge, menuItemID])
+                writer.writerow([orderID, orderNo, saleDateStr, saleTimeStr, employeeID, salePrice, isLarge, menuItemID])
                 orderID += 1
+
             # Increment the order number
             orderNo += 1
             count += 1
+
         # Move to the next day
         currentDate += timedelta(days=1)
-        
-
-
         

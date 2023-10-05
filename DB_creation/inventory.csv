@@ -1,55 +1,55 @@
-ID,Name,Quantity,receivedDate,expirationDate,inStock,supplier
-0,Ice,100,10-01-2023,10-09-2023,True,Ice To Meet You Inc.
-1,Milk,500,10-01-2023,10-09-2023,True,Milk Company
-2,Caramel Drizzle,100,10-01-2023,10-09-2023,True,Syrup Company
-3,Honey,100,10-01-2023,10-09-2023,True,Honey Company
-4,Brown Sugar,100,10-01-2023,10-09-2023,True,Sugar Company
-5,Sugar,100,10-01-2023,10-09-2023,True,Sugar Company
-6,Salt,100,10-01-2023,10-09-2023,True,Salt Company
-7,Matcha Powder,100,10-01-2023,10-09-2023,True,Tea Company
-8,Taro Powder,100,10-01-2023,10-09-2023,True,Tea Company
-9,Yogurt,100,10-01-2023,10-09-2023,True,Yogurt Company
-10,Arabica Coffee,100,10-01-2023,10-09-2023,True,Coffee Company
-11,Sweetened Condensed Milk,100,10-01-2023,10-09-2023,True,Milk Company
-12,Creamer,100,10-01-2023,10-09-2023,True,Creamer Company
-13,Water,1000,10-01-2023,10-09-2023,True,Water Company
-14,Black Tea,100,10-01-2023,10-09-2023,True,Tea Company
-15,Green Tea,100,10-01-2023,10-09-2023,True,Tea Company
-16,Oolong Tea,100,10-01-2023,10-09-2023,True,Tea Company
-17,Earl Grey Tea,100,10-01-2023,10-09-2023,True,Tea Company
-18,Jasmine Tea,100,10-01-2023,10-09-2023,True,Tea Company
-19,Wintermelon Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-20,Strawberry Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-21,Caramel Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-22,Peach Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-23,Chocolate Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-24,Creme Brulee Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-25,Grapefruit Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-26,Lemon Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-27,Hibiscus Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-28,Lychee Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-29,Mango Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-30,Passionfruit Syrup,100,10-01-2023,10-09-2023,True,Syrup Company
-31,Oreo Crumbs,100,10-01-2023,10-09-2023,True,Nabisco
-32,Herbal Jelly,100,10-01-2023,10-09-2023,True,Tea Company
-33,Ai-Yu Jelly,100,10-01-2023,10-09-2023,True,Tea Company
-34,Basil Seeds,100,10-01-2023,10-09-2023,True,Tea Company
-35,Pudding,100,10-01-2023,10-09-2023,True,Tea Company
-36,Milk Foam,100,10-01-2023,10-09-2023,True,Tea Company
-37,Coconut Jelly,100,10-01-2023,10-09-2023,True,Tea Company
-38,Tapioca Pearls,100,10-01-2023,10-09-2023,True,Tea Company
-39,White Pearls,100,10-01-2023,10-09-2023,True,Tea Company
-40,Medium Cups,500,10-01-2023,10-09-2023,True,Cup Company
-41,Large Cups,500,10-01-2023,10-09-2023,True,Cup Company
-42,Medium Straws,1000,10-01-2023,10-09-2023,True,Straw Company
-43,Large Straws,1000,10-01-2023,10-09-2023,True,Straw Company
-44,Lids,100,10-01-2023,10-09-2023,True,Cup Company
-45,Napkins,1000,10-01-2023,10-09-2023,True,Napkin Company
-46,Gloves,1000,10-01-2023,10-09-2023,True,Glove Company
-47,Cleaning Solution,1000,10-01-2023,10-09-2023,True,Cleaning Company
-48,Cleaning Wipes,1000,10-01-2023,10-09-2023,True,Cleaning Company
-49,Trash Bags,1000,10-01-2023,10-09-2023,True,Trash Company
-50,Hand Soap,10,10-01-2023,10-09-2023,True,Soap Company
-51,Hand Sanitizer,1000,10-01-2023,10-09-2023,True,Sanitizer Company
-52,Paper Towels,1000,10-01-2023,10-09-2023,True,Paper Company
-53,Dish Soap,50,10-01-2023,10-09-2023,True,Soap Company
+inventoryID,inventoryName,inventoryQuantity,inventoryReceivedDate,inventoryExpirationDate,inventoryInStock,inventorySupplier
+0,Ice,100,2023-10-01,2023-10-09,True,Ice To Meet You Inc.
+1,Milk,500,2023-10-01,2023-10-09,True,Milk Company
+2,Caramel Drizzle,100,2023-10-01,2023-10-09,True,Syrup Company
+3,Honey,100,2023-10-01,2023-10-09,True,Honey Company
+4,Brown Sugar,100,2023-10-01,2023-10-09,True,Sugar Company
+5,Sugar,100,2023-10-01,2023-10-09,True,Sugar Company
+6,Salt,100,2023-10-01,2023-10-09,True,Salt Company
+7,Matcha Powder,100,2023-10-01,2023-10-09,True,Tea Company
+8,Taro Powder,100,2023-10-01,2023-10-09,True,Tea Company
+9,Yogurt,100,2023-10-01,2023-10-09,True,Yogurt Company
+10,Arabica Coffee,100,2023-10-01,2023-10-09,True,Coffee Company
+11,Sweetened Condensed Milk,100,2023-10-01,2023-10-09,True,Milk Company
+12,Creamer,100,2023-10-01,2023-10-09,True,Creamer Company
+13,Water,1000,2023-10-01,2023-10-09,True,Water Company
+14,Black Tea,100,2023-10-01,2023-10-09,True,Tea Company
+15,Green Tea,100,2023-10-01,2023-10-09,True,Tea Company
+16,Oolong Tea,100,2023-10-01,2023-10-09,True,Tea Company
+17,Earl Grey Tea,100,2023-10-01,2023-10-09,True,Tea Company
+18,Jasmine Tea,100,2023-10-01,2023-10-09,True,Tea Company
+19,Wintermelon Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+20,Strawberry Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+21,Caramel Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+22,Peach Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+23,Chocolate Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+24,Creme Brulee Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+25,Grapefruit Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+26,Lemon Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+27,Hibiscus Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+28,Lychee Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+29,Mango Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+30,Passionfruit Syrup,100,2023-10-01,2023-10-09,True,Syrup Company
+31,Oreo Crumbs,100,2023-10-01,2023-10-09,True,Nabisco
+32,Herbal Jelly,100,2023-10-01,2023-10-09,True,Tea Company
+33,Ai-Yu Jelly,100,2023-10-01,2023-10-09,True,Tea Company
+34,Basil Seeds,100,2023-10-01,2023-10-09,True,Tea Company
+35,Pudding,100,2023-10-01,2023-10-09,True,Tea Company
+36,Milk Foam,100,2023-10-01,2023-10-09,True,Tea Company
+37,Coconut Jelly,100,2023-10-01,2023-10-09,True,Tea Company
+38,Tapioca Pearls,100,2023-10-01,2023-10-09,True,Tea Company
+39,White Pearls,100,2023-10-01,2023-10-09,True,Tea Company
+40,Medium Cups,500,2023-10-01,2023-10-09,True,Cup Company
+41,Large Cups,500,2023-10-01,2023-10-09,True,Cup Company
+42,Medium Straws,1000,2023-10-01,2023-10-09,True,Straw Company
+43,Large Straws,1000,2023-10-01,2023-10-09,True,Straw Company
+44,Lids,100,2023-10-01,2023-10-09,True,Cup Company
+45,Napkins,1000,2023-10-01,2023-10-09,True,Napkin Company
+46,Gloves,1000,2023-10-01,2023-10-09,True,Glove Company
+47,Cleaning Solution,1000,2023-10-01,2023-10-09,True,Cleaning Company
+48,Cleaning Wipes,1000,2023-10-01,2023-10-09,True,Cleaning Company
+49,Trash Bags,1000,2023-10-01,2023-10-09,True,Trash Company
+50,Hand Soap,10,2023-10-01,2023-10-09,True,Soap Company
+51,Hand Sanitizer,1000,2023-10-01,2023-10-09,True,Sanitizer Company
+52,Paper Towels,1000,2023-10-01,2023-10-09,True,Paper Company
+53,Dish Soap,50,2023-10-01,2023-10-09,True,Soap Company

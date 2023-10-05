@@ -1,4 +1,4 @@
-ID,name,price,calories,category,has_Caffeine
+menuItemID,menuItemName,menuItemPrice,menuItemCalories,menuItemCategory,hasCaffeine
 0,Green Tea,5.0,190-270,Milk Foam,True
 1,Black Tea,5.0,190-270,Milk Foam,True
 2,Oolong Tea,5.0,190-270,Milk Foam,True
