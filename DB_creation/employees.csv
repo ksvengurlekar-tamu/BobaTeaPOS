@@ -1,0 +1,11 @@
+employeeID,employeeName,employeeUsername,employeeUserPassword,isManager,employeePayroll,employeeSchedule
+0,Eyad Nazir,n123450,eyadNazir0,False,12.25,MWF 10:30 am - 7:00 pm
+1,Jedidiah Samrajkumar,s123451,jediSamraj1,True,25.0,MWF 12:30 pm - 9:00 pm
+2,Kiran Vengurlekar,v123452,kiranVeng2,False,16.25,MWF 10:30 am - 7:00 pm
+3,Camila Brigueda,b123453,camiBrig3,True,25.0,TRFS 1:00 pm - 9:00 pm
+4,Rose Chakraborty,c123454,roseChak4,False,15.25,TWRS 10:30 am - 4:30 pm
+5,Lebron Aggie,a123455,lebronAggie5,False,15.25,TWRS 10:30 am - 4:30 pm
+6,Messi Brigueda,b123456,messiBrig6,True,25.0,MTWF 10:30 am - 7:00 pm
+7,Ronaldo Chakraborty,c123457,ronaldoChak7,False,15.25,MWF 10:30 am - 6:00 pm
+8,Neymar Aggie,a123458,neymarAggie8,False,16.25,TRS 6:00 pm - 9:00 pm
+9,Eyada Nazir,n123459,eyadaNazir9,True,12.0,WRFS 10:30 am - 7:00 pm
