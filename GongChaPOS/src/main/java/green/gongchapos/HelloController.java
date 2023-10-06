@@ -2,6 +2,7 @@ package green.gongchapos;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
@@ -9,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.*;
+import java.util.Objects;
 import javax.naming.spi.DirStateFactory.Result;
 
 public class HelloController {
@@ -75,28 +77,20 @@ public class HelloController {
             // Handle the button click event here
             System.out.println("Close button clicked");
             primaryStage.close();
+            try {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("DB.fxml")));
+                Scene secondScene = new Scene(root, 800, 800);
+                Stage secondStage = new Stage();
+                secondStage.setScene(secondScene);
+                // Show the Stage
+                secondStage.show();
+            }
+            catch(Exception es){
+                alert.setContentText(es.getMessage());
+                alert.showAndWait();
+            }
         });
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("DB.fxml"));
-            VBox root = loader.load();
-            Scene secondScene = new Scene(vbox, 400, 400);
-            Stage secondStage = new Stage();
-            secondStage.setScene(scene);
-            // Show the Stage
-            secondStage.show();
-        }
-        catch(Exception e){
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }
+
         //welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
-    @FXML
-    protected void ONCLOSE() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DB.fxml"));
-        TextField textField = (TextField) loader.getNamespace().get("texthh");
-        CharSequence pass = textField.getCharacters();
-
     }
 }
