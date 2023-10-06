@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="green.gongchapos.DB">
+   <children>
+      <VBox layoutX="115.0" layoutY="51.0" prefHeight="298.0" prefWidth="371.0">
+         <children>
+            <TextArea prefHeight="200.0" prefWidth="200.0" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#ONCLOSE" prefHeight="75.0" prefWidth="126.0" text="CLOSE" />
+         </children>
+      </VBox>
+      <TextField fx:id="texthh" layoutX="294.0" layoutY="337.0" />
+   </children>
+</AnchorPane>
