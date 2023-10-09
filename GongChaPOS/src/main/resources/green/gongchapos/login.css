@@ -2,6 +2,7 @@ AnchorPane{
     -fx-background-color: #d7c9af;
 }
 
+
 .leftDiv{
     -fx-background-color: #d7c9af;
     -fx-alignment: center;
@@ -14,7 +15,6 @@ AnchorPane{
 }
 
 .logInText{
-    /*-fx-font-family: Amerigo BT;*/
     -fx-alignment:top-center;
 }
 
@@ -45,6 +45,15 @@ AnchorPane{
 .fieldContainer Button:hover{
     -fx-background-color: #CEC1A8;
     -fx-cursor: hand;  /* Hand pointer cursor */
+}
+
+@font-face {
+    font-family: Amerigo BT;
+    src: url('Amerigo BT.ttf');
+}
+Text{
+    -fx-font-family: 'Amerigo BT';
+    -fx-font-size: 64px;
 }
 
 
