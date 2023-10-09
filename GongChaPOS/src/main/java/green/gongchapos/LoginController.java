@@ -59,7 +59,7 @@ public class LoginController {
                     } else {
                         alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error");
-                        alert.setHeaderText("Password Error"); // No header
+                        alert.setHeaderText("Password Error");
                         alert.setContentText("Wrong Password");
                         alert.showAndWait();
                     }
