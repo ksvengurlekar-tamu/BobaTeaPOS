@@ -18,18 +18,18 @@ public class LoginController {
     private void logIn_onClick(ActionEvent actionEvent) {
         Connection conn = null;
         String teamName = "00g";
-        String dbName = "csce315331_"+teamName+"_db";
+        String dbName = "csce315331_" + teamName + "_db";
         String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" + dbName;
 
         try {
             conn = DriverManager.getConnection(dbConnectionString, dbSetup.user, dbSetup.pswd);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
 
-        try{
+        try {
             // Step 1: Check if the username exists
             String checkUsernameSQL = "SELECT employeeUserPassword FROM employees WHERE employeeUserName = ? LIMIT 1";
             try(PreparedStatement checkUsername = conn.prepareStatement(checkUsernameSQL)) {
@@ -45,32 +45,30 @@ public class LoginController {
                     if (storedPassword.equals(password.getText())) {
                         alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Success");
-                        alert.setHeaderText("Successfull log-in"); // No header
+                        alert.setHeaderText("Successful login"); // No header
                         alert.setContentText("You are logged in successfully!");
                         alert.showAndWait();
                     } else {
                         alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error");
                         alert.setHeaderText("Password Error");
-                        alert.setContentText("Wrong Password");
+                        alert.setContentText("Incorrect Password.");
                         alert.showAndWait();
                     }
-                }
-                else {
+                } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText("Username Error");
-                    alert.setContentText("Username Does not exist");
+                    alert.setContentText("Username does not exist.");
                     alert.showAndWait();
                 }
-            }
-            catch (SQLException e) {
-                System.out.println("Error checking username");
+            } catch (SQLException e) {
+                System.out.println("Error checking username.");
                 e.printStackTrace();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
     }
