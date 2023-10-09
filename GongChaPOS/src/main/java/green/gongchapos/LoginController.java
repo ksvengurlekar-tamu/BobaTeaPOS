@@ -3,7 +3,6 @@ package green.gongchapos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.sql.*;
@@ -14,10 +13,6 @@ public class LoginController {
     private TextField userName;
     @FXML
     private TextField password;
-    @FXML
-    private Button logInButton;
-
-    private Alert alert;
 
     @FXML
     private void logIn_onClick(ActionEvent actionEvent) {
@@ -25,7 +20,6 @@ public class LoginController {
         String teamName = "00g";
         String dbName = "csce315331_"+teamName+"_db";
         String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" + dbName;
-        dbSetup myCredentials = new dbSetup();
 
         try {
             conn = DriverManager.getConnection(dbConnectionString, dbSetup.user, dbSetup.pswd);
@@ -36,9 +30,6 @@ public class LoginController {
         }
 
         try{
-            //create a statement object
-            Statement createStmt = conn.createStatement();
-
             // Step 1: Check if the username exists
             String checkUsernameSQL = "SELECT employeeUserPassword FROM employees WHERE employeeUserName = ? LIMIT 1";
             try(PreparedStatement checkUsername = conn.prepareStatement(checkUsernameSQL)) {
@@ -46,6 +37,7 @@ public class LoginController {
                 checkUsername.setString(1, userName.getText());
                 ResultSet resultSet = checkUsername.executeQuery();
 
+                Alert alert;
                 if (resultSet.next()) { // if not empty (meaning username exists)
                     String storedPassword = resultSet.getString("employeeUserPassword");
 
