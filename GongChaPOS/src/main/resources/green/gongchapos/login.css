@@ -53,6 +53,6 @@ AnchorPane {
 }
 
 Text {
-    -fx-font-family: 'Amerigo BT';
-    -fx-font-size: 64px;
+    -fx-font-family: "Amerigo BT";
+    -fx-font-size: 40px;
 }

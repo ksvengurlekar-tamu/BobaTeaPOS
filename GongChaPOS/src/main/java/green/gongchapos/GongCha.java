@@ -11,6 +11,7 @@ import java.util.Objects;
 public class GongCha extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        Font.loadFont(getClass().getResourceAsStream("Amerigo BT.ttf"), 14);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("GongChaPOS");

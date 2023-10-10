@@ -1,5 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap');
+
 .leftNav {
-    -fx-background-color: #98101f
+    -fx-background-color: #98101f;
+    -fx-alignment: top-center;
+    -fx-spacing: 20px;
+    -fx-padding: 40 0 0 0;  /* Top padding of 20, no padding on right, bottom, and left */
+
+}
+.leftNav Text{
+    -fx-font-family: "Amerigo BT";
+    -fx-font-weight: 600;
+    -fx-font-size: 25px;
+    -fx-text-fill: #fcfcf1;
+    -fx-fill: #fcfcf1;
+}
+.leftNav Text:hover{
+    -fx-text-fill: #0099ff;
+    -fx-font-weight: 800;
 }
 
 .mainMenu {
@@ -28,13 +46,4 @@
 
 .seriesHeader {
     -fx-background-color: #fcfcf1;
-}
-
-/* for text in nav bars: leftNav, displayStatusNav */
-.a {
-    color: #E6E6E6;
-}
-
-.a hover {
-    color: #0099ff;
 }
