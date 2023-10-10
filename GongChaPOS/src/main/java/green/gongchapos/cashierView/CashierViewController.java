@@ -1,4 +1,4 @@
-package green.gongchapos;
+package green.gongchapos.cashierView;
 
 public class CashierViewController {
 }

@@ -1,0 +1,40 @@
+.leftNav {
+    -fx-background-color: #98101f
+}
+
+.mainMenu {
+    -fx-background-color: #d7c9af;
+}
+
+.displayStatusNav {
+    /*-fx-alignment: top-right;*/
+    -fx-background-color: #fcfcf1;
+}
+
+.bottomNav {
+    -fx-background-color: #FCFCF1;
+}
+
+.bottomNav Button {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #d7c9af;
+}
+
+.bottomNav Button:hover {
+    -fx-background-color: #0099ff;
+    -fx-cursor: hand;  /* Hand pointer cursor */
+}
+
+.seriesHeader {
+    -fx-background-color: #fcfcf1;
+}
+
+/* for text in nav bars: leftNav, displayStatusNav */
+.a {
+    color: #E6E6E6;
+}
+
+.a hover {
+    color: #0099ff;
+}
