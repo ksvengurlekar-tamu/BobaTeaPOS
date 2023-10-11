@@ -44,6 +44,7 @@ public class ManagerViewController {
     private String seriesName;
 
     public void setManagerViewController(Stage primaryStage) { this.managerViewStage = primaryStage; }
+
     @FXML
     private void selectSeries(ActionEvent actionEvent) {
         Connection conn = null;
@@ -178,5 +179,34 @@ public class ManagerViewController {
         }
 
         cart.clear();
+    }
+
+
+// specific to Manager View
+
+
+    @FXML
+    private void displayMenuItems() {
+
+    }
+
+    private void addMenuItem() {
+        String name = null;
+        String category = null;
+        float price = 0;
+        String color = null;
+
+        String addToSQL = "INSERT INTO menuItems (menuItemName, menuItemCategory, menuItemPrice, color) VALUES (" + name + "," + category +
+            ", " + price + ", " +  color + ")";
+    }
+
+    private void updateMenuItem() {
+        String name = null;
+        String category = null;
+        float price = 0;
+        String color = null;
+
+        String addToSQL = "UPDATE menuItems SET  (menuItemName, menuItemCategory, menuItemPrice, color) VALUES (" + name + "," + category +
+                ", " + price + ", " +  color + ") WHERE id = ?";
     }
 }
