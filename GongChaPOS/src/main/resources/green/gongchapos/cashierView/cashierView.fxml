@@ -60,7 +60,7 @@
             <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="192.0" text="Manager View" />
          </children>
       </HBox>
-      <StackPane layoutX="167.0" layoutY="65.0" prefHeight="571.0" prefWidth="1228.0">
+      <StackPane layoutX="167.0" layoutY="65.0" prefHeight="571.0" prefWidth="1241.0">
          <children>
             <StackPane prefHeight="571.0" prefWidth="1211.0">
                <children>
@@ -107,17 +107,20 @@
                         <VBox fx:id="rightVBox" prefHeight="571.0" prefWidth="332.0" styleClass="rightVBox" GridPane.columnIndex="1">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cart" text="Cart:" wrappingWidth="330.536865234375" />
-                              <ScrollPane prefHeight="284.0" prefWidth="316.0">
+                              <ScrollPane fitToWidth="true" prefHeight="284.0" prefWidth="316.0">
                                  <VBox.margin>
                                     <Insets right="15.0" />
                                  </VBox.margin>
+                                 <content>
+                                    <VBox fx:id="cartPane" prefHeight="280.0" prefWidth="314.0" />
+                                 </content>
                               </ScrollPane>
                               <HBox prefHeight="65.0" prefWidth="359.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tax:" />
                                     <HBox prefHeight="63.0" prefWidth="308.0" styleClass="right-HBox">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00">
+                                          <Text fx:id="taxNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00">
                                              <HBox.margin>
                                                 <Insets right="15.0" />
                                              </HBox.margin>
@@ -131,7 +134,7 @@
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal:" />
                                     <HBox prefHeight="82.0" prefWidth="288.0" styleClass="right-HBox">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00">
+                                          <Text fx:id="subTotalNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00">
                                              <HBox.margin>
                                                 <Insets right="15.0" />
                                              </HBox.margin>
@@ -145,7 +148,7 @@
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total:" />
                                     <HBox prefHeight="82.0" prefWidth="288.0" styleClass="right-HBox">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00">
+                                          <Text fx:id="totalNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0.00">
                                              <HBox.margin>
                                                 <Insets right="15.0" />
                                              </HBox.margin>
@@ -154,7 +157,7 @@
                                     </HBox>
                                  </children>
                               </HBox>
-                              <Button mnemonicParsing="false" styleClass="chargeButton" text="Charge" translateX="100.0" translateY="-20.0" />
+                              <Button mnemonicParsing="false" onAction="#charge" styleClass="chargeButton" text="Charge" translateX="100.0" translateY="-20.0" />
                            </children>
                         </VBox>
                      </children>
@@ -164,7 +167,7 @@
                   </GridPane>
                </children>
             </StackPane>
-            <Pane fx:id="drinkPopUp" prefHeight="572.0" prefWidth="1166.0" styleClass="drinkPopUp">
+            <Pane fx:id="drinkPopUp" opacity="0.0" prefHeight="572.0" prefWidth="1166.0" styleClass="drinkPopUp">
                <children>
                   <HBox prefHeight="337.0" prefWidth="1016.0" styleClass="upperPopUp">
                      <children>

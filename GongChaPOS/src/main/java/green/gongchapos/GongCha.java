@@ -33,12 +33,23 @@ public class GongCha extends Application {
         String dbName = "csce315331_" + teamName + "_db";
         String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" + dbName;
 
+
         try {
             conn = DriverManager.getConnection(dbConnectionString, dbSetup.user, dbSetup.pswd);
         } catch (SQLException e) {
             e.printStackTrace();
             throw e; // Rethrow the exception so the caller can handle it
         }
+        // Close the connection if it's open
+        /*if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }*/
+
+
 
         return conn;
     }
