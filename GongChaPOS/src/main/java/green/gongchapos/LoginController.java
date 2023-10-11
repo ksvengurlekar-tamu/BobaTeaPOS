@@ -1,19 +1,28 @@
 package green.gongchapos;
 
+import green.gongchapos.cashierView.CashierViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.sql.*;
 
 public class LoginController {
 
+    private Stage logInStage;
+    private Stage cashierViewStage;
     @FXML
     private TextField userName;
     @FXML
     private TextField password;
 
+    public void setLogInStage(Stage primaryStage) {
+        this.logInStage = primaryStage;
+    }
     @FXML
     private void logIn_onClick(ActionEvent actionEvent) {
         Connection conn = null;
@@ -48,6 +57,21 @@ public class LoginController {
                         alert.setHeaderText("Successful login"); // No header
                         alert.setContentText("You are logged in successfully!");
                         alert.showAndWait();
+
+                        // Create the CashierViewController and pass the Stage
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cashierView/cashierView.fxml"));
+                        cashierViewStage = new Stage();
+
+                        Scene scene = new Scene(fxmlLoader.load());
+                        CashierViewController controller = fxmlLoader.getController();
+                        
+                        cashierViewStage.setTitle("GongChaPOS");
+                        cashierViewStage.setScene(scene);
+                        controller.setCashierViewController(cashierViewStage);
+                        cashierViewStage.show();
+
+                        logInStage.close();
+
                     } else {
                         alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error");

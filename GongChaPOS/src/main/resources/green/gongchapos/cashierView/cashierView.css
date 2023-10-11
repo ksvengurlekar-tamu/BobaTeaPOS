@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap');
+*{
+    -fx-font-family: "Amerigo BT";
+    -fx-font-size: 25px;
+}
 
 .leftNav {
     -fx-background-color: #98101f;
@@ -8,15 +10,16 @@
     -fx-padding: 40 0 0 0;  /* Top padding of 20, no padding on right, bottom, and left */
 
 }
-.leftNav Text{
+.leftNav Button{
     -fx-font-family: "Amerigo BT";
     -fx-font-weight: 600;
     -fx-font-size: 25px;
     -fx-text-fill: #fcfcf1;
-    -fx-fill: #fcfcf1;
+    -fx-background-color: transparent;
 }
-.leftNav Text:hover{
-    -fx-text-fill: #0099ff;
+
+.leftNav Button:hover{
+    -fx-text-fill: #d7c9af;
     -fx-font-weight: 800;
 }
 
@@ -25,25 +28,73 @@
 }
 
 .displayStatusNav {
-    /*-fx-alignment: top-right;*/
+    -fx-alignment: center-right;
     -fx-background-color: #fcfcf1;
+    -fx-spacing: 20px;
+}
+
+.displayStatusNav Text, .displayStatusNav Label {
+    -fx-font-size: 18px;
 }
 
 .bottomNav {
     -fx-background-color: #FCFCF1;
 }
 
-.bottomNav Button {
+.bottomNav Button, .seriesHeader Button{
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
     -fx-background-color: #d7c9af;
 }
 
-.bottomNav Button:hover {
+.bottomNav Button:hover, .seriesHeader Button:hover{
     -fx-background-color: #0099ff;
     -fx-cursor: hand;  /* Hand pointer cursor */
+}
+.bottomNav Button:focused {
+    -fx-background-color: #0099ff;
 }
 
 .seriesHeader {
     -fx-background-color: #fcfcf1;
+    -fx-alignment: center-left;
+    -fx-spacing: 40px; /* top right bottom left */
+    -fx-padding: 0 0 0 20;
 }
+
+.seriesHeader HBox {
+    -fx-alignment: center;
+}
+
+.mainMenu TilePane {
+    -fx-alignment: center;
+    -fx-padding: 20px;
+    -fx-hgap: 50px;
+    -fx-vgap: 50px;
+}
+.mainMenu TilePane Button {
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-border-width: 2px;
+    -fx-border-color: #fcfcf1;
+    -fx-font-weight: 600;
+}
+
+.mainMenu TilePane Button:hover{
+    -fx-cursor: hand;  /* Hand pointer cursor */
+    -fx-border-color: #0099ff;
+}
+
+.milkFoam{ -fx-background-color: #fff2cc; }
+
+.milkTea{ -fx-background-color: #fce5cd; }
+
+.slush{ -fx-background-color: #d9ead3; }
+
+.seasonal{ -fx-background-color: #c9daf8; }
+
+.teaLatte{ -fx-background-color: #d9d2e9;}
+
+.coffee{ -fx-background-color: #ead1dc; }
+
+

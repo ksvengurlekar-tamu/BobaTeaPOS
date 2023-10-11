@@ -6,5 +6,7 @@ module green.gongchapos {
 
 
     opens green.gongchapos to javafx.fxml;
+    opens green.gongchapos.cashierView to javafx.fxml;  // Add this line to open the cashierView package.
     exports green.gongchapos;
+    exports green.gongchapos.cashierView;
 }
