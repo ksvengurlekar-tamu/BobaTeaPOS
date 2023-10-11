@@ -50,7 +50,7 @@ public class CashierViewController {
 
     @FXML
     public Stage cashierViewStage;
-    
+
     @FXML
     public Pane drinkPopUp;
 
@@ -136,7 +136,8 @@ public class CashierViewController {
         Button sourceButton = (Button) event.getSource();
         String drinkName = sourceButton.getText();
 
-        try(Connection conn = getSQLConnection()) {
+        try {
+            Connection conn = getSQLConnection();
             String getDrinks = "SELECT * FROM menuItems WHERE menuItemCategory = ?";
             try(PreparedStatement drinkStatment = conn.prepareStatement(getDrinks)) {
                 drinkStatment.setString(1, drinkName);
@@ -168,9 +169,9 @@ public class CashierViewController {
                         name = oneText.getText();
 
                         String getOneDrink = "SELECT menuitemprice FROM menuItems WHERE menuItemName = ?";
-                        try(PreparedStatement onedrinkStatment = conn.prepareStatement(getOneDrink)) {
-                            onedrinkStatment.setString(1, name);
-                            ResultSet drinkResultSet = onedrinkStatment.executeQuery();
+                        try(PreparedStatement onedrinkStatement = conn.prepareStatement(getOneDrink)) {
+                            onedrinkStatement.setString(1, name);
+                            ResultSet drinkResultSet = onedrinkStatement.executeQuery();
                             while(drinkResultSet.next()) {
                                 price += drinkResultSet.getFloat("menuitemprice");
                             }
@@ -242,7 +243,6 @@ public class CashierViewController {
             rightVBox.setVisible(true);
             isPaneVisible = true;
         }
-
     }
 
 
@@ -310,7 +310,7 @@ public class CashierViewController {
         System.out.println(price);
 
         // TODO: deselect large option
-        sourceButton.setDisable(true);
+        // sourceButton.setDisable(true);
     }
 
 
