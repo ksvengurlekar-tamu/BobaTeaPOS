@@ -128,53 +128,55 @@ public class ManagerViewController {
         cart.add(new Drink(__name__, __isLarge__));
     }
 
-    // private void placeOrder() {  
-    //      int orderID = -1;
-    //     int orderNo = -1;
+    private void placeOrder() {
+        int orderID;
+        int orderNo;
+        int menuItemID;
+        float price;
         
-    //     LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime currentDateTime = LocalDateTime.now();
 
-    //     // Define the date and time format
-    //     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    //     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        // Define the date and time format
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    //     // Format the date and time
-    //     String _date = currentDateTime.format(dateFormatter);
-    //     String _time = currentDateTime.format(timeFormatter);
+        // Format the date and time
+        String _date = currentDateTime.format(dateFormatter);
+        String _time = currentDateTime.format(timeFormatter);
 
 
-    //     try {              
-    //         Connection conn = getSQLConnection();
-    // 
-    //          String orderIDQuery = "SELECT MAX(orderID), MAX(orderNo) FROM sales"; 
-    //         try(PreparedStatement orderIDStatement = conn.prepareStatement(orderIDQuery)) {
-    //             ResultSet resultSet = orderIDStatement.executeQuery();
-    //             orderID = resultSet.getInt("orderID");
-    //              orderNo = resultSet.getInt("orderNo");
-    //         }
-    //          
-        //     for (Drink d : cart) {
-        //         // String menuIDQuery = "SELECT menuItemID, menuItemPrice FROM menuItems WHERE menuItemName = " + d.name;
-        //          try(PreparedStatement orderStatement = conn.prepareStatement(menuIDQuery)) {
-    //                  ResultSet resultSet = orderStatement.executeQuery();
-    //                  menuItemID = resultSet.getInt("menuItemID");
-            //          price = resultSet("menuItemPrice");
-    //              }
+        try {
+            Connection conn = getSQLConnection();
 
-        //         // run sql command
-        //         String placeOrderSQL = "INSERT INTO sales (" + orderID + ", " + orderNo + ", " + _date + ", " + _time + 
-        //             ", " + price + ", " + d.isLarge + ", " + menuItemID + ")";
-                   // try(PreparedStatement orderStatement = conn.prepareStatement(placeOrderSQL)) {}
-                //    orderID++; // orderID is a primary key and must be unique
+            String orderIDQuery = "SELECT MAX(orderID), MAX(orderNo) FROM sales";
+            try(PreparedStatement orderIDStatement = conn.prepareStatement(orderIDQuery)) {
+                ResultSet resultSet = orderIDStatement.executeQuery();
+                orderID = resultSet.getInt("orderID");
+                 orderNo = resultSet.getInt("orderNo");
+            }
 
-        //      }
+            for (Drink d : cart) {
+                String menuIDQuery = "SELECT menuItemID, menuItemPrice FROM menuItems WHERE menuItemName = " + d.name;
+                try(PreparedStatement orderStatement = conn.prepareStatement(menuIDQuery)) {
+                    ResultSet resultSet = orderStatement.executeQuery();
+                    menuItemID = resultSet.getInt("menuItemID");
+                    price = resultSet.getFloat("menuItemPrice");
+                }
 
-        // }
-    //     catch (SQLException e) {
-    //         System.out.println("Error accessing order number.");
-    //         e.printStackTrace();
-    //     }
+                // run insert sql command
+                String placeOrderSQL = "INSERT INTO sales (" + orderID + ", " + orderNo + ", " + _date + ", " + _time +
+                    ", " + price + ", " + d.isLarge + ", " + menuItemID + ")";
+                try (PreparedStatement orderStatement = conn.prepareStatement(placeOrderSQL)) {}
 
-    //     cart.clear();
-    // }
+                orderID++; // orderID is a primary key and must be unique
+            }
+
+        }
+        catch (SQLException e) {
+            System.out.println("Error accessing order number.");
+            e.printStackTrace();
+        }
+
+        cart.clear();
+    }
 }
