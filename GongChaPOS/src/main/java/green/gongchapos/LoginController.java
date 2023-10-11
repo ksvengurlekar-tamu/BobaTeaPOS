@@ -19,7 +19,7 @@ import static green.gongchapos.GongCha.getSQLConnection;
 public class LoginController {
 
     private Stage logInStage;
-    private Stage cashierViewStage;
+    private Stage viewStage;
     @FXML
     private TextField userName;
     @FXML
@@ -34,7 +34,7 @@ public class LoginController {
 
         try {
             // Step 1: Check if the username exists
-            String checkUsernameSQL = "SELECT employeeUserPassword FROM employees WHERE employeeUserName = ? LIMIT 1";
+            String checkUsernameSQL = "SELECT employeeUserPassword, isManager FROM employees WHERE employeeUserName = ? LIMIT 1";
             try(PreparedStatement checkUsername = conn.prepareStatement(checkUsernameSQL)) {
 
                 checkUsername.setString(1, userName.getText());
@@ -43,6 +43,7 @@ public class LoginController {
                 Alert alert;
                 if (resultSet.next()) { // if not empty (meaning username exists)
                     String storedPassword = resultSet.getString("employeeUserPassword");
+                    boolean isManager = resultSet.getBoolean("isManager");
 
                     // Step 2: Check if the input password matches the stored password
                     if (storedPassword.equals(password.getText())) {
@@ -53,15 +54,23 @@ public class LoginController {
                         alert.showAndWait();
 
                         // Create the CashierViewController and pass the Stage
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cashierView/cashierView.fxml"));
-                        cashierViewStage = new Stage();
+                        FXMLLoader fxmlLoader;
+
+                        if (isManager) {
+                            fxmlLoader = new FXMLLoader(getClass().getResource("managerView/managerView.fxml"));
+                        }
+                        else {
+                            fxmlLoader = new FXMLLoader(getClass().getResource("cashierView/cashierView.fxml"));
+                        }
+
+                        viewStage = new Stage();
 
                         Scene scene = new Scene(fxmlLoader.load());
                         CashierViewController controller = fxmlLoader.getController();
 
-                        cashierViewStage.setTitle("GongChaPOS");
-                        cashierViewStage.setScene(scene);
-                        controller.setCashierViewController(cashierViewStage);
+                        viewStage.setTitle("GongChaPOS");
+                        viewStage.setScene(scene);
+                        controller.setCashierViewController(viewStage);
                         GridPane gridPane = (GridPane) scene.lookup("#drinkPane");
                         
                         gridPane.setDisable(true);
@@ -76,7 +85,7 @@ public class LoginController {
                         drinkPopUp.setVisible(false);
                         drinkPopUp.setOpacity(0);
 
-                        cashierViewStage.show();
+                        viewStage.show();
                         logInStage.close();
 
                     } else {

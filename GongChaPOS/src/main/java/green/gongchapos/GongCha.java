@@ -12,7 +12,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
 
+
+
 public class GongCha extends Application {
+    private static Connection conn = null;
+
     @Override
     public void start(Stage stage) throws IOException {
         Font.loadFont(getClass().getResourceAsStream("Amerigo BT.ttf"), 14);
@@ -28,7 +32,13 @@ public class GongCha extends Application {
     }
 
     public static Connection getSQLConnection() throws SQLException {
-        Connection conn = null;
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                closeDatabaseConnection();
+            }
+        });
+
         String teamName = "00g";
         String dbName = "csce315331_" + teamName + "_db";
         String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" + dbName;
@@ -36,8 +46,10 @@ public class GongCha extends Application {
 
         try {
             conn = DriverManager.getConnection(dbConnectionString, dbSetup.user, dbSetup.pswd);
+            System.out.println("Succesfully created connection.");
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error creating connection.");
             throw e; // Rethrow the exception so the caller can handle it
         }
         // Close the connection if it's open
@@ -54,5 +66,19 @@ public class GongCha extends Application {
         return conn;
     }
 
-    public static void main(String[] args) { launch(); }
+    private static void closeDatabaseConnection() {
+        if (conn != null) {
+            try {
+                conn.close();
+                System.out.println("Successfully closed connection.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Error closing connection.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
 }
