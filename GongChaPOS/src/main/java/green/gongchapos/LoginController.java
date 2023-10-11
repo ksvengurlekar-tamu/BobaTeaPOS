@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.sql.*;
@@ -64,12 +65,15 @@ public class LoginController {
 
                         Scene scene = new Scene(fxmlLoader.load());
                         CashierViewController controller = fxmlLoader.getController();
-                        
+
                         cashierViewStage.setTitle("GongChaPOS");
                         cashierViewStage.setScene(scene);
                         controller.setCashierViewController(cashierViewStage);
-                        cashierViewStage.show();
+                        GridPane gridPane = (GridPane) scene.lookup("#drinkPane");
+                        gridPane.setDisable(true);
+                        gridPane.setVisible(false);
 
+                        cashierViewStage.show();
                         logInStage.close();
 
                     } else {

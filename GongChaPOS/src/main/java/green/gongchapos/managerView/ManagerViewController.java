@@ -1,4 +1,4 @@
-package green.gongchapos.cashierView;
+package green.gongchapos.managerView;
 
 import green.gongchapos.dbSetup;
 import javafx.event.ActionEvent;
@@ -8,8 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.sql.*;
@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import static green.gongchapos.GongCha.getSQLConnection;
 
 
-public class CashierViewController {
+public class ManagerViewController {
 
     public GridPane mainMenuPane;
     public GridPane drinkPane;
     public TilePane subDrinkPane;
-    private Stage cashierViewStage;
+    private Stage managerViewStage;
 
     public static class Drink {
         String name;
@@ -41,7 +41,7 @@ public class CashierViewController {
     @FXML
     private String seriesName;
 
-    public void setCashierViewController(Stage primaryStage) { this.cashierViewStage = primaryStage; }
+    public void setManagerViewController(Stage primaryStage) { this.managerViewStage = primaryStage; }
     @FXML
     private void selectSeries(ActionEvent actionEvent) {
         Connection conn = null;
@@ -68,7 +68,7 @@ public class CashierViewController {
 
     @FXML
     private void seriesPress(ActionEvent event) throws SQLException {
-        Scene scene = cashierViewStage.getScene();
+        Scene scene = managerViewStage.getScene();
         GridPane mainMenuPane = (GridPane) scene.lookup("#mainMenuPane");
         mainMenuPane.setDisable(true);
         mainMenuPane.setVisible(false);
@@ -87,13 +87,12 @@ public class CashierViewController {
                 drinkStatment.setString(1, drinkName);
                 ResultSet resultSet = drinkStatment.executeQuery();
 
-                subDrinkPane.setAlignment(Pos.CENTER_LEFT);
+                subDrinkPane.setAlignment(Pos.CENTER);
                 subDrinkPane.setHgap(10.0);
                 subDrinkPane.setVgap(10.0);
 
                 while(resultSet.next()) {
                     Text text = new Text(resultSet.getString("menuItemName"));
-                    text.setTextAlignment(TextAlignment.CENTER);
                     Button drinkButton = new Button();
                     drinkButton.setMinSize(161, 120);
                     drinkButton.setMaxSize(161, 120);
@@ -125,7 +124,7 @@ public class CashierViewController {
     //
 
     private void placeOrder() {
-        // acces cart for each of the drinks
+        // access cart for each of the drinks
 
         // find the current employee's id
         // get passed order number
