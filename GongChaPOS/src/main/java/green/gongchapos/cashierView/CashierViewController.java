@@ -6,12 +6,16 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,28 +28,43 @@ import static green.gongchapos.GongCha.main;
 
 public class CashierViewController {
 
-    private GridPane mainMenuPane;
-    private GridPane drinkPane;
-    private TilePane subDrinkPane;
-    private VBox rightVBox;
-    private Stage cashierViewStage;
-    private GridPane drinkPopUp;
+    @FXML
+    public GridPane mainMenuPane;
+    @FXML
+    public GridPane drinkPane;
+    @FXML
+    public TilePane subDrinkPane;
+    @FXML
+    public VBox rightVBox;
+    @FXML
+    public Stage cashierViewStage;
+    
+    public Pane drinkPopUp;
 
     private boolean isPaneVisible = false; // Initial visibility state
+
+    private float price = 0;
+    private String name = "";
+    private boolean isLarge = false;
+
 
 
     public static class Drink {
         String name;
         boolean isLarge;
+        float price;
 
-        Drink (String name, boolean isLarge) {
+        Drink (String name, boolean isLarge, float price) {
             this.name = name;
             this.isLarge = isLarge;
+            this.price = price;
         }
     }
 
     // checkout cart of Drink data types; each add to order button press will add to this
-    private ArrayList<Drink> cart;
+    private ArrayList<Drink> cart = new ArrayList<>();
+    private ObservableList<String> observableCart = FXCollections.observableArrayList(); // ObservableList for cart
+    private ListView<String> cartView = new ListView<>(observableCart); // element for viewing cart data in GUI
 
     @FXML
     private String seriesName;
@@ -92,6 +111,28 @@ public class CashierViewController {
                     drinkButton.setId("drinkButton");
 
                     drinkButton.setOnAction(drinkButtonEvent -> {
+                        Button Button = (Button) drinkButtonEvent.getSource();
+                        // TODO FIX THIS
+                        Text oneText = (Text) Button.lookup(".text");
+                        String name = oneText.getText();
+                        System.out.println(name);
+                        String getOneDrink = "SELECT menuitemprice FROM menuItems WHERE menuItemName = ?";
+                        try(PreparedStatement onedrinkStatment = conn.prepareStatement(getOneDrink)) {
+                            onedrinkStatment.setString(1, name);
+                            ResultSet drinkResultSet = onedrinkStatment.executeQuery();
+                            while(drinkResultSet.next()){
+                                price += drinkResultSet.getFloat("menuitemprice");
+                            }
+                            System.out.println(price);
+
+                        }
+                        catch(SQLException e){
+                            System.out.println("Error getting drinks");
+                            e.printStackTrace();
+                        }
+
+
+
                         mainMenuPane.setDisable(true);
                         mainMenuPane.setVisible(false);
                         mainMenuPane.setOpacity(0.3);
@@ -162,19 +203,80 @@ public class CashierViewController {
 
     }
 
+    public void toppingButton(ActionEvent actionEvent) {
+        Button sourceButton = (Button) actionEvent.getSource();
+        String toppingName = sourceButton.getText();
 
-    private void addButton() {
-        String __name__ = null;
-        boolean __isLarge__ = false;
 
-        cart.add(new Drink(__name__, __isLarge__));
+        try {
+            Connection conn = getSQLConnection();
+            String getTopping = "SELECT menuitemprice FROM menuItems WHERE menuitemname = ?";
+            try(PreparedStatement toppingStatement = conn.prepareStatement(getTopping)) {
+                toppingStatement.setString(1, toppingName);
+                ResultSet resultSet = toppingStatement.executeQuery();
+                while(resultSet.next()) {
+                    price += resultSet.getFloat("menuitemprice");
+                }
+                System.out.println(price);
+            } catch(SQLException e) {
+                System.out.println("Error getting toppings");
+                e.printStackTrace();
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("Error getting drinks");
+            e.printStackTrace();
+        }
+
+    }
+    public void isLarge(ActionEvent actionEvent) {
+        Button sourceButton = (Button) actionEvent.getSource();
+        String size = sourceButton.getText();
+        if(size.contains("Large")) {
+            price += 0.75;
+            isLarge = true;
+        }
+        else{
+            isLarge = false;
+        }
+        System.out.println(price);
+
+        // TODO: deselect large option
+
+    }
+
+    public void addButton(ActionEvent actionEvent) {
+
+        System.out.println(price);
+        cart.add(new Drink(name, isLarge, price));
+        price = 0;
+
+        mainMenuPane.setDisable(false);
+        mainMenuPane.setVisible(true);
+        mainMenuPane.setOpacity(1);
+
+        drinkPopUp.setDisable(true);
+        drinkPopUp.setVisible(false);
+
+//        observableCart.setAll(cart);
+//
+
+    }
+
+    private void totalCharge() {
+        double totalNoTax = 0.0;
+        double tax = totalNoTax * 0.0625;
+        double totalWithTax = totalNoTax + tax;
+
+        // TODO: Make this an event handler, activating placeOrder() after charge button pressed
+
     }
 
     private void placeOrder() {
-        int orderID;
-        int orderNo;
-        int menuItemID;
-        float price;
+        int orderID = -1;
+        int orderNo = -1;
+        int menuItemID = -1;
+        float price = 0;
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -193,22 +295,34 @@ public class CashierViewController {
             String orderIDQuery = "SELECT MAX(orderID), MAX(orderNo) FROM sales";
             try(PreparedStatement orderIDStatement = conn.prepareStatement(orderIDQuery)) {
                 ResultSet resultSet = orderIDStatement.executeQuery();
-                orderID = resultSet.getInt("orderID");
-                 orderNo = resultSet.getInt("orderNo");
+                while(resultSet.next()) {
+                    orderID = resultSet.getInt("orderID");
+                    orderNo = resultSet.getInt("orderNo");
+                }
             }
 
             for (Drink d : cart) {
-                String menuIDQuery = "SELECT menuItemID, menuItemPrice FROM menuItems WHERE menuItemName = " + d.name;
+                String menuIDQuery = "SELECT menuItemID FROM menuItems WHERE menuItemName = " + d.name;
                 try(PreparedStatement orderStatement = conn.prepareStatement(menuIDQuery)) {
                     ResultSet resultSet = orderStatement.executeQuery();
-                    menuItemID = resultSet.getInt("menuItemID");
-                    price = resultSet.getFloat("menuItemPrice");
+                    while(resultSet.next()) {
+                        menuItemID = resultSet.getInt("menuItemID");
+                    }
+                }
+                catch(SQLException e) {
+                    System.out.println("Error getting menu item ID");
+                    e.printStackTrace();
                 }
 
                 // run insert sql command
                 String placeOrderSQL = "INSERT INTO sales (" + orderID + ", " + orderNo + ", " + _date + ", " + _time +
-                    ", " + price + ", " + d.isLarge + ", " + menuItemID + ")";
-                try (PreparedStatement orderStatement = conn.prepareStatement(placeOrderSQL)) {}
+                    ", " + d.price + ", " + d.isLarge + ", " + menuItemID + ")";
+                try (PreparedStatement orderStatement = conn.prepareStatement(placeOrderSQL)) {
+                    System.out.println("Successfully placed order");
+                } catch(SQLException e){
+                    System.out.println("Error placing order");
+                    e.printStackTrace();
+                }
 
                 orderID++; // orderID is a primary key and must be unique
             }

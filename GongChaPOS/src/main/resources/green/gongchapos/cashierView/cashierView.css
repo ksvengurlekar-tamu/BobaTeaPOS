@@ -195,3 +195,12 @@
 .addButton:hover {
     -fx-cursor: hand;  /* Hand pointer cursor */
 }
+
+.chargeButton{
+    -fx-background-color: #0099ff;
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+    -fx-opacity: 1;
+    -fx-border-radius: 5px;
+}
+
