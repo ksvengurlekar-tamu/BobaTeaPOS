@@ -8,9 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.*;
+
+import static green.gongchapos.GongCha.getSQLConnection;
 
 public class LoginController {
 
@@ -25,19 +28,8 @@ public class LoginController {
         this.logInStage = primaryStage;
     }
     @FXML
-    private void logIn_onClick(ActionEvent actionEvent) {
-        Connection conn = null;
-        String teamName = "00g";
-        String dbName = "csce315331_" + teamName + "_db";
-        String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" + dbName;
-
-        try {
-            conn = DriverManager.getConnection(dbConnectionString, dbSetup.user, dbSetup.pswd);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
+    private void logIn_onClick(ActionEvent actionEvent) throws SQLException {
+        Connection conn = getSQLConnection();
 
         try {
             // Step 1: Check if the username exists
@@ -72,6 +64,10 @@ public class LoginController {
                         GridPane gridPane = (GridPane) scene.lookup("#drinkPane");
                         gridPane.setDisable(true);
                         gridPane.setVisible(false);
+
+                        VBox rightVBox = (VBox) scene.lookup("#rightVBox");
+                        rightVBox.setDisable(true);
+                        rightVBox.setVisible(false);
 
                         cashierViewStage.show();
                         logInStage.close();

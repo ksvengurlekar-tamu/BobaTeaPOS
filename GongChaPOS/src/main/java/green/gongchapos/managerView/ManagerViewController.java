@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static green.gongchapos.GongCha.getSQLConnection;
 
@@ -119,29 +121,60 @@ public class ManagerViewController {
     }
 
 
-    // private void addToOrder() {
-    // cart.add(new Drink(__name__, __isLarge__));
-    //
+    private void addToOrder() {
+        String __name__ = null;
+        boolean __isLarge__ = false;
 
-    private void placeOrder() {
-        // access cart for each of the drinks
-
-        // find the current employee's id
-        // get passed order number
-        String orderNoQuery = "SELECT MAX(orderNo) FROM sales";
-        int orderNo;
-        // get current data and time
-        for (Drink d : cart) {
-           // Button sourceButton = (Button) event.getSource();
-            //String drinkName = sourceButton.getText();
-            // String drinkPriceQuery = "SELECT menuItemID, menuItemPrice FROM menuItems WHERE menuItemName = " ;
-            // get id of drink based on d.name
-            // get that drink's ^ price
-
-            // run sql command
-            String placeOrderSQL = "INSERT INTO sales (orderNo, _date, _time, price, isLarge, menuItemsID)";
-        }
-
-        cart.clear();
+        cart.add(new Drink(__name__, __isLarge__));
     }
+
+    // private void placeOrder() {  
+    //      int orderID = -1;
+    //     int orderNo = -1;
+        
+    //     LocalDateTime currentDateTime = LocalDateTime.now();
+
+    //     // Define the date and time format
+    //     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    //     // Format the date and time
+    //     String _date = currentDateTime.format(dateFormatter);
+    //     String _time = currentDateTime.format(timeFormatter);
+
+
+    //     try {              
+    //         Connection conn = getSQLConnection();
+    // 
+    //          String orderIDQuery = "SELECT MAX(orderID), MAX(orderNo) FROM sales"; 
+    //         try(PreparedStatement orderIDStatement = conn.prepareStatement(orderIDQuery)) {
+    //             ResultSet resultSet = orderIDStatement.executeQuery();
+    //             orderID = resultSet.getInt("orderID");
+    //              orderNo = resultSet.getInt("orderNo");
+    //         }
+    //          
+        //     for (Drink d : cart) {
+        //         // String menuIDQuery = "SELECT menuItemID, menuItemPrice FROM menuItems WHERE menuItemName = " + d.name;
+        //          try(PreparedStatement orderStatement = conn.prepareStatement(menuIDQuery)) {
+    //                  ResultSet resultSet = orderStatement.executeQuery();
+    //                  menuItemID = resultSet.getInt("menuItemID");
+            //          price = resultSet("menuItemPrice");
+    //              }
+
+        //         // run sql command
+        //         String placeOrderSQL = "INSERT INTO sales (" + orderID + ", " + orderNo + ", " + _date + ", " + _time + 
+        //             ", " + price + ", " + d.isLarge + ", " + menuItemID + ")";
+                   // try(PreparedStatement orderStatement = conn.prepareStatement(placeOrderSQL)) {}
+                //    orderID++; // orderID is a primary key and must be unique
+
+        //      }
+
+        // }
+    //     catch (SQLException e) {
+    //         System.out.println("Error accessing order number.");
+    //         e.printStackTrace();
+    //     }
+
+    //     cart.clear();
+    // }
 }
