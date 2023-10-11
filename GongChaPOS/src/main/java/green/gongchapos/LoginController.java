@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -62,12 +63,18 @@ public class LoginController {
                         cashierViewStage.setScene(scene);
                         controller.setCashierViewController(cashierViewStage);
                         GridPane gridPane = (GridPane) scene.lookup("#drinkPane");
+                        
                         gridPane.setDisable(true);
                         gridPane.setVisible(false);
 
                         VBox rightVBox = (VBox) scene.lookup("#rightVBox");
                         rightVBox.setDisable(true);
                         rightVBox.setVisible(false);
+
+                        Pane drinkPopUp = (Pane) scene.lookup("#drinkPopUp");
+                        drinkPopUp.setDisable(true);
+                        drinkPopUp.setVisible(false);
+                        drinkPopUp.setOpacity(0);
 
                         cashierViewStage.show();
                         logInStage.close();
