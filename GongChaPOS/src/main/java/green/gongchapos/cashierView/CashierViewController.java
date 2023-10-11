@@ -1,6 +1,5 @@
 package green.gongchapos.cashierView;
 
-import green.gongchapos.dbSetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -34,6 +33,9 @@ import static green.gongchapos.GongCha.main;
  *
  * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
  */
+
+// TODO: remove unnecessary created conn connections; make it only once
+
 public class CashierViewController {
 
     @FXML
@@ -63,17 +65,16 @@ public class CashierViewController {
 
     //public ListView<String> cartView;
 
-    private boolean isPaneVisible = false; // Initial visibility state
+    public boolean isPaneVisible = false; // Initial visibility state
 
     // Global drink adding variables
-    private float price = 0;
-    private String name = "";
-    private boolean isLarge = false;
+    public float price = 0;
+    public String name = "";
+    public boolean isLarge = false;
 
     // Global total variables
-    private float total = 0;
-    private float subtotal = 0;
-    private float tax = 0;
+    public float subtotal = 0;
+    public float tax = 0;
 
     /** Drink class acts as a struct for a menu item that is being ordered
      * Contains a name, boolean to represent if its large, and price
@@ -102,13 +103,8 @@ public class CashierViewController {
     }
 
 
-    private ArrayList<Drink> cart = new ArrayList<>();
-    private ObservableList<Drink> observableCart;
-    // private ArrayList<String> cart = new ArrayList<>();
-    // private ObservableList<String> observableCart = FXCollections.observableArrayList();   cartView = new ListView<Drink>(observableCart);
-
-    @FXML
-    private String seriesName;
+    public ArrayList<Drink> cart = new ArrayList<>();
+    public ObservableList<Drink> observableCart;
 
     public void setCashierViewController(Stage primaryStage) { this.cashierViewStage = primaryStage; }
 
@@ -123,7 +119,7 @@ public class CashierViewController {
      * @throws SQLException If a database error occurs during the process of fetching drink data.
      */
     @FXML
-    private void seriesPress(ActionEvent event) throws SQLException {
+    public void seriesPress(ActionEvent event) throws SQLException {
         subDrinkPane.getChildren().clear();
 
         Scene scene = cashierViewStage.getScene();
@@ -367,7 +363,7 @@ public class CashierViewController {
      * tax by multiplying by 6.25% sales tax in Texas, updates the overall total display
      * field with the calculations.
      */
-    private void totalCharge() {
+    public void totalCharge() {
         subtotal += price;
         subTotalNumber.setText(String.format("%.2f", subtotal));
         tax += price * 0.0625;
@@ -384,7 +380,7 @@ public class CashierViewController {
      * @throws SQLException if there's an issue with the SQL database operations.
      */
     @FXML
-    private void charge() {
+    public void charge() {
         int orderID = -1;
         int orderNo = -1;
         int menuItemID = -1;
@@ -467,18 +463,14 @@ public class CashierViewController {
             System.out.println("Error accessing database.");
             e.printStackTrace();
         }
-       /*
-        finally {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-       */
 
+        cartPane.getChildren().clear();
         cart.clear();
+
+        subtotal = 0;
+        subTotalNumber.setText(String.format("%.2f", subtotal));
+        tax = 0;
+        taxNumber.setText(String.format("%.2f", subtotal));
+        totalNumber.setText(String.format("%.2f", subtotal));
     }
 }

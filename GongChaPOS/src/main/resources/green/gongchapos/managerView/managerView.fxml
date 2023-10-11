@@ -19,11 +19,11 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="710.0" prefWidth="1287.0" stylesheets="@managerView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="green.gongchapos.managerView.ManagerViewController">
-    <children>
-        <HBox layoutX="638.0" prefHeight="65.0" prefWidth="771.0" styleClass="displayStatusNav">
+   <children>
+      <HBox layoutX="638.0" prefHeight="65.0" prefWidth="771.0" styleClass="displayStatusNav">
          <children>
             <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manager View " />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cashier View " />
             <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Printer" />
             <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
@@ -31,13 +31,13 @@
             <Label fx:id="Time" prefHeight="31.0" prefWidth="97.0" text="Time" />
          </children>
       </HBox>
-        <VBox prefHeight="743.0" prefWidth="162.0" styleClass="leftNav" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="743.0" prefWidth="162.0" styleClass="leftNav" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button mnemonicParsing="false" prefWidth="192.0" styleClass="mainMenuButton" text="Main Menu" />
             <Button mnemonicParsing="false" text="Recipes" />
             <Button mnemonicParsing="false" text="Time Sheet" />
          </children></VBox>
-        <HBox layoutX="162.0" prefHeight="65.0" prefWidth="476.0" styleClass="seriesHeader">
+      <HBox layoutX="162.0" prefHeight="65.0" prefWidth="476.0" styleClass="seriesHeader">
          <children>
             <Button mnemonicParsing="false" onAction="#backButton" prefHeight="48.0" prefWidth="125.0">
                <graphic>
@@ -51,7 +51,7 @@
             </HBox>
          </children>
       </HBox>
-        <HBox layoutX="162.0" layoutY="643.0" prefHeight="100.0" prefWidth="1246.0" style="-fx-background-color: #FCFCF1;" styleClass="bottomNav">
+      <HBox layoutX="162.0" layoutY="643.0" prefHeight="100.0" prefWidth="1246.0" style="-fx-background-color: #FCFCF1;" styleClass="bottomNav">
          <children>
             <Button mnemonicParsing="false" onAction="#onCheckout" prefHeight="67.0" prefWidth="164.0" text="Checkout" />
             <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Transactions" />
@@ -64,16 +64,16 @@
          <children>
             <StackPane prefHeight="571.0" prefWidth="1211.0">
                <children>
-                    <GridPane fx:id="mainMenuPane" prefHeight="581.0" prefWidth="1258.0" styleClass="mainMenu">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="622.64013671875" minWidth="10.0" prefWidth="492.3275960286458" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="781.7029418945312" minWidth="10.0" prefWidth="771.0057373046875" />
-                        </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        </rowConstraints>
-                        <children>
-                            <TilePane prefHeight="584.0" prefWidth="489.0">
+                  <GridPane fx:id="mainMenuPane" prefHeight="581.0" prefWidth="1258.0" styleClass="mainMenu">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="622.64013671875" minWidth="10.0" prefWidth="492.3275960286458" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="781.7029418945312" minWidth="10.0" prefWidth="771.0057373046875" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TilePane prefHeight="584.0" prefWidth="489.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#seriesPress" prefHeight="120.0" prefWidth="161.0" styleClass="milkFoam" text="Milk Foam" />
                               <Button mnemonicParsing="false" onAction="#seriesPress" prefHeight="120.0" prefWidth="161.0" styleClass="milkTea" text="Milk Tea" />
@@ -83,25 +83,25 @@
                               <Button mnemonicParsing="false" onAction="#seriesPress" prefHeight="120.0" prefWidth="161.0" styleClass="coffee" text="Coffee" />
                            </children>
                         </TilePane>
-                            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-alignment: center;" GridPane.columnIndex="1">
-                                <children>
-                                    <ImageView fitHeight="361.0" fitWidth="312.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../images/GongChaLogo.png" />
-                                        </image>
-                                    </ImageView>
-                                </children>
-                            </VBox>
-                        </children>
-                    </GridPane>
+                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-alignment: center;" GridPane.columnIndex="1">
+                           <children>
+                              <ImageView fitHeight="361.0" fitWidth="312.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/GongChaLogo.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
                   <GridPane fx:id="drinkPane" prefHeight="580.0" prefWidth="1258.0" styleClass="drinkPane">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="921.4461669921875" minWidth="10.0" prefWidth="921.4461669921875" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="618.1768188476562" minWidth="10.0" prefWidth="315.0538330078125" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="921.4461669921875" minWidth="10.0" prefWidth="921.4461669921875" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="618.1768188476562" minWidth="10.0" prefWidth="315.0538330078125" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
                         <TilePane fx:id="subDrinkPane" prefHeight="580.0" prefWidth="905.0" />
                         <VBox fx:id="rightVBox" prefHeight="571.0" prefWidth="332.0" styleClass="rightVBox" GridPane.columnIndex="1">
@@ -321,5 +321,5 @@
             </Pane>
          </children>
       </StackPane>
-    </children>
+   </children>
 </AnchorPane>
