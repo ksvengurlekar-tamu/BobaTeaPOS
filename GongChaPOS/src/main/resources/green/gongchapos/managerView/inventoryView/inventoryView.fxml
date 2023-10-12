@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="green.gongchapos.inventoryView.InventoryView"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="710.0" prefWidth="1287.0" stylesheets="@inventoryView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="green.gongchapos.managerView.InventoryViewController">
+   <children>
+      <HBox layoutX="638.0" prefHeight="65.0" prefWidth="771.0" styleClass="displayStatusNav">
+         <children>
+            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manager View " />
+            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Printer" />
+            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Display" />
+            <Label fx:id="Time" prefHeight="31.0" prefWidth="97.0" text="Time" />
+         </children>
+      </HBox>
+      <VBox prefHeight="743.0" prefWidth="162.0" styleClass="leftNav" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button mnemonicParsing="false" prefWidth="192.0" styleClass="mainMenuButton" text="Main Menu" />
+            <Button mnemonicParsing="false" text="Recipes" />
+            <Button mnemonicParsing="false" text="Time Sheet" />
+         </children>
+      </VBox>
+      <HBox layoutX="162.0" prefHeight="65.0" prefWidth="476.0" styleClass="seriesHeader">
+         <children>
+            <Button mnemonicParsing="false" onAction="#backButton" prefHeight="48.0" prefWidth="125.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="LONG_ARROW_LEFT" />
+               </graphic>
+            </Button>
+            <HBox prefHeight="65.0" prefWidth="373.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bubble Tea Series" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox layoutX="162.0" layoutY="643.0" prefHeight="100.0" prefWidth="1246.0" style="-fx-background-color: #FCFCF1;" styleClass="bottomNav">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onCheckout" prefHeight="67.0" prefWidth="164.0" text="Checkout" />
+            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Transactions" />
+            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Orders" />
+            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Notifications" />
+            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="192.0" text="Manager View" />
+         </children>
+      </HBox>
+      <ScrollPane layoutX="197.0" layoutY="113.0" prefHeight="383.0" prefWidth="1181.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TableView prefHeight="263.0" prefWidth="1179.0" AnchorPane.bottomAnchor="-63.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-979.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="ID" />
+                      <TableColumn prefWidth="75.0" text="Name" />
+                        <TableColumn prefWidth="75.0" text="Quantity" />
+                        <TableColumn prefWidth="75.0" text="Received" />
+                        <TableColumn prefWidth="75.0" text="Expires" />
+                        <TableColumn prefWidth="75.0" text="In Stick" />
+                        <TableColumn prefWidth="75.0" text="Supplier" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
 </AnchorPane>
