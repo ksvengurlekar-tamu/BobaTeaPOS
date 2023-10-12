@@ -1,18 +1,21 @@
 package green.gongchapos;
 
 import green.gongchapos.cashierView.CashierViewController;
+import green.gongchapos.managerView.ManagerViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.*;
+import java.util.Objects;
 
 import static green.gongchapos.GongCha.getSQLConnection;
 
@@ -65,12 +68,24 @@ public class LoginController {
 
                         viewStage = new Stage();
 
+                        Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/GongChaLogo.png")));
+                        viewStage.getIcons().add(Logo);
+
                         Scene scene = new Scene(fxmlLoader.load());
-                        CashierViewController controller = fxmlLoader.getController();
+                        if(isManager){
+                            ManagerViewController controller = fxmlLoader.getController();
+                            controller.setCashierViewController(viewStage);
+                        }
+                        else{
+                            CashierViewController controller = fxmlLoader.getController();
+                            controller.setCashierViewController(viewStage);
+                        }
+
 
                         viewStage.setTitle("GongChaPOS");
                         viewStage.setScene(scene);
-                        controller.setCashierViewController(viewStage);
+
+
                         GridPane gridPane = (GridPane) scene.lookup("#drinkPane");
                         
                         gridPane.setDisable(true);

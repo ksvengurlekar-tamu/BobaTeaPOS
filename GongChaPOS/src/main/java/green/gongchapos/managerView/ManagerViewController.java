@@ -1,5 +1,6 @@
-package green.gongchapos.cashierView;
+package green.gongchapos.managerView;
 
+import green.gongchapos.cashierView.CashierViewController;
 import green.gongchapos.dbSetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,7 +35,7 @@ import static green.gongchapos.GongCha.main;
  *
  * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
  */
-public class ManagerViewController extends CashierViewController{
+public class ManagerViewController extends CashierViewController {
 
     
 }
