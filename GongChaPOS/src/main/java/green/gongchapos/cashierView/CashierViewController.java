@@ -4,15 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.control.Alert;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
@@ -79,6 +76,29 @@ public class CashierViewController {
     public HBox topLeftHBox;
     public HBox topRightHBox;
     public HBox bottomHBox;
+    public Label Time;
+    public Text seriesNameText;
+    public Button mediumSize;
+    public Button largeSize;
+    public Button noIce;
+    public Button lightIce;
+    public Button regularIce;
+    public Button extraIce;
+    public Button zeroSugar;
+    public Button quarterSugar;
+    public Button halfSugar;
+    public Button normalSugar;
+    public Button tapiocaPearls;
+    public Button pudding;
+    public Button herbalJelly;
+    public Button whitePearls;
+    public Button oreoCrumbs;
+    public Button coconutJelly;
+    public Button milkFoam;
+    public Button basilSeeds;
+    public Button aiyuJelly;
+
+
 
     /** Drink class acts as a struct for a menu item that is being ordered
      * Contains a name, boolean to represent if its large, and price
@@ -134,13 +154,14 @@ public class CashierViewController {
         drinkPane.setVisible(true);
 
         Button sourceButton = (Button) event.getSource();
-        String drinkName = sourceButton.getText();
+        String seriesName = sourceButton.getText();
+        seriesNameText.setText(seriesName + " Series");
 
         try {
             Connection conn = getSQLConnection();
             String getDrinks = "SELECT * FROM menuItems WHERE menuItemCategory = ?";
             try(PreparedStatement drinkStatment = conn.prepareStatement(getDrinks)) {
-                drinkStatment.setString(1, drinkName);
+                drinkStatment.setString(1, seriesName);
                 ResultSet resultSet = drinkStatment.executeQuery();
 
                 subDrinkPane.setAlignment(Pos.TOP_LEFT);
@@ -260,7 +281,7 @@ public class CashierViewController {
         mainMenuPane.setVisible(true);
         drinkPane.setDisable(true);
         drinkPane.setVisible(false);
-
+        seriesNameText.setText("Bubble Tea Series");
     }
 
 
@@ -272,6 +293,18 @@ public class CashierViewController {
     public void toppingButton(ActionEvent actionEvent) {
         Button sourceButton = (Button) actionEvent.getSource();
         String toppingName = sourceButton.getText();
+
+        tapiocaPearls.setStyle("-fx-background-color: #ffffff;");
+        pudding.setStyle("-fx-background-color: #ffffff;");
+        herbalJelly.setStyle("-fx-background-color: #ffffff;");
+        whitePearls.setStyle("-fx-background-color: #ffffff;");
+        oreoCrumbs.setStyle("-fx-background-color: #ffffff;");
+        coconutJelly.setStyle("-fx-background-color: #ffffff;");
+        milkFoam.setStyle("-fx-background-color: #ffffff;");
+        basilSeeds.setStyle("-fx-background-color: #ffffff;");
+        aiyuJelly.setStyle("-fx-background-color: #ffffff;");
+
+        sourceButton.setStyle("-fx-background-color: #0099ff;");
 
         try {
             Connection conn = getSQLConnection();
@@ -305,17 +338,42 @@ public class CashierViewController {
     public void isLarge(ActionEvent actionEvent) {
         Button sourceButton = (Button) actionEvent.getSource();
         String size = sourceButton.getText();
-        if(size.contains("Large")) {
+        if (size.contains("Large")) {
             price += 0.75;
             isLarge = true;
-        }
-        else {
+        } else {
             isLarge = false;
         }
         System.out.println(price);
 
+        mediumSize.setStyle("-fx-background-color: #ffffff;");
+        largeSize.setStyle("-fx-background-color: #ffffff;");
+        sourceButton.setStyle("-fx-background-color: #0099ff;");
+
         // TODO: deselect large option
         // sourceButton.setDisable(true);
+    }
+
+
+    public void iceLevelButton(ActionEvent actionEvent) {
+        Button sourceButton = (Button) actionEvent.getSource();
+        noIce.setStyle("-fx-background-color: #ffffff;");
+        lightIce.setStyle("-fx-background-color: #ffffff;");
+        regularIce.setStyle("-fx-background-color: #ffffff;");
+        extraIce.setStyle("-fx-background-color: #ffffff;");
+
+        sourceButton.setStyle("-fx-background-color: #0099ff;");
+    }
+
+
+    public void sugarLevelButton(ActionEvent actionEvent) {
+        Button sourceButton = (Button) actionEvent.getSource();
+        zeroSugar.setStyle("-fx-background-color: #ffffff;");
+        quarterSugar.setStyle("-fx-background-color: #ffffff;");
+        halfSugar.setStyle("-fx-background-color: #ffffff;");
+        normalSugar.setStyle("-fx-background-color: #ffffff;");
+
+        sourceButton.setStyle("-fx-background-color: #0099ff;");
     }
 
 
@@ -488,6 +546,7 @@ public class CashierViewController {
         totalNumber.setText(String.format("%.2f", subtotal));
     }
 
+
     /** Logs an employee out of the POS system.
      * This method logs an employee out when the logout button is pressed.
      * After logging out, an alert will pop up to let the employee know that
@@ -495,27 +554,26 @@ public class CashierViewController {
      *
      *  @param event The event triggered by the button press of the logout button.
      */
-    // @FXML
-    // public void logoutButton(ActionEvent event) {
+    @FXML
+    public void logoutButton(ActionEvent event) {
     //     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     //     alert.setTitle("Success");
     //     alert.setHeaderText("Successful logout");
     //     alert.setContentText("You have logged out successfully!");
     //     alert.showAndWait();
 
-    //     FXMLLoader fxmlLoader;
-    //     fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+    //     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
 
     //     Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/GongChaLogo.png")));
     //     viewStage.getIcons().add(Logo);
 
-    //     viewStage = new Stage();
-
+    //     Stage viewStage = new Stage();
     //     Scene scene = new Scene(fxmlLoader.load());
+
     //     LoginController controller = fxmlLoader.getController();
-    //     stage.setTitle("GongChaPOS");
-    //     stage.setScene(scene);
-    //     controller.setLogInStage(stage);
-    //     stage.show();
-    // }
+    //     viewStage.setTitle("GongChaPOS");
+    //     viewStage.setScene(scene);
+    //     controller.setLogInStage(viewStage);
+    //     viewStage.show();
+    }
 }
