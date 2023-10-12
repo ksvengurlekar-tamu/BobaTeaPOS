@@ -21,16 +21,24 @@ import static green.gongchapos.GongCha.getSQLConnection;
 
 public class LoginController {
 
+    @FXML
     private Stage logInStage;
+
+    @FXML
     private Stage viewStage;
+
     @FXML
     private TextField userName;
+
     @FXML
     private TextField password;
+
 
     public void setLogInStage(Stage primaryStage) {
         this.logInStage = primaryStage;
     }
+
+
     @FXML
     private void logIn_onClick(ActionEvent actionEvent) throws SQLException {
         Connection conn = getSQLConnection();
@@ -61,8 +69,7 @@ public class LoginController {
 
                         if (isManager) {
                             fxmlLoader = new FXMLLoader(getClass().getResource("managerView/managerView.fxml"));
-                        }
-                        else {
+                        } else {
                             fxmlLoader = new FXMLLoader(getClass().getResource("cashierView/cashierView.fxml"));
                         }
 
@@ -72,19 +79,16 @@ public class LoginController {
                         viewStage.getIcons().add(Logo);
 
                         Scene scene = new Scene(fxmlLoader.load());
-                        if(isManager){
+                        if (isManager) {
                             ManagerViewController controller = fxmlLoader.getController();
                             controller.setCashierViewController(viewStage);
-                        }
-                        else{
+                        } else {
                             CashierViewController controller = fxmlLoader.getController();
                             controller.setCashierViewController(viewStage);
                         }
 
-
                         viewStage.setTitle("GongChaPOS");
                         viewStage.setScene(scene);
-
 
                         GridPane gridPane = (GridPane) scene.lookup("#drinkPane");
                         

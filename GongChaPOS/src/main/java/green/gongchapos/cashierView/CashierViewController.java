@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.control.Alert;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
@@ -75,6 +76,9 @@ public class CashierViewController {
     // Global total variables
     public float subtotal = 0;
     public float tax = 0;
+    public HBox topLeftHBox;
+    public HBox topRightHBox;
+    public HBox bottomHBox;
 
     /** Drink class acts as a struct for a menu item that is being ordered
      * Contains a name, boolean to represent if its large, and price
@@ -177,9 +181,14 @@ public class CashierViewController {
                             e.printStackTrace();
                         }
 
-                        mainMenuPane.setDisable(true);
-                        mainMenuPane.setVisible(false);
-                        mainMenuPane.setOpacity(0.3);
+                        drinkPane.setDisable(true);
+                        drinkPane.setOpacity(0.5);
+                        bottomHBox.setDisable(true);
+                        bottomHBox.setOpacity(0.5);
+                        topRightHBox.setDisable(true);
+                        topRightHBox.setOpacity(0.5);
+                        topLeftHBox.setDisable(true);
+                        topLeftHBox.setOpacity(0.5);
 
                         drinkPopUp.setDisable(false);
                         drinkPopUp.setVisible(true);
@@ -323,9 +332,14 @@ public class CashierViewController {
         System.out.println(price);
         cart.add(new Drink(name, isLarge, price));
 
-        mainMenuPane.setDisable(false);
-        mainMenuPane.setVisible(true);
-        mainMenuPane.setOpacity(1);
+        drinkPane.setDisable(false);
+        drinkPane.setOpacity(1);
+        bottomHBox.setDisable(false);
+        bottomHBox.setOpacity(1);
+        topRightHBox.setDisable(false);
+        topRightHBox.setOpacity(1);
+        topLeftHBox.setDisable(false);
+        topLeftHBox.setOpacity(1);
 
         drinkPopUp.setDisable(true);
         drinkPopUp.setVisible(false);
@@ -473,4 +487,35 @@ public class CashierViewController {
         taxNumber.setText(String.format("%.2f", subtotal));
         totalNumber.setText(String.format("%.2f", subtotal));
     }
+
+    /** Logs an employee out of the POS system.
+     * This method logs an employee out when the logout button is pressed.
+     * After logging out, an alert will pop up to let the employee know that
+     * they have logged out successfully.
+     *
+     *  @param event The event triggered by the button press of the logout button.
+     */
+    // @FXML
+    // public void logoutButton(ActionEvent event) {
+    //     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    //     alert.setTitle("Success");
+    //     alert.setHeaderText("Successful logout");
+    //     alert.setContentText("You have logged out successfully!");
+    //     alert.showAndWait();
+
+    //     FXMLLoader fxmlLoader;
+    //     fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+
+    //     Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/GongChaLogo.png")));
+    //     viewStage.getIcons().add(Logo);
+
+    //     viewStage = new Stage();
+
+    //     Scene scene = new Scene(fxmlLoader.load());
+    //     LoginController controller = fxmlLoader.getController();
+    //     stage.setTitle("GongChaPOS");
+    //     stage.setScene(scene);
+    //     controller.setLogInStage(stage);
+    //     stage.show();
+    // }
 }

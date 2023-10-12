@@ -20,51 +20,42 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="1287.0" stylesheets="@cashierView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="green.gongchapos.cashierView.CashierViewController">
     <children>
-        <HBox layoutX="638.0" prefHeight="65.0" prefWidth="771.0" styleClass="displayStatusNav">
-         <children>
-            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cashier View " />
-            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Printer" />
-            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Display" />
-            <Label fx:id="Time" prefHeight="31.0" prefWidth="97.0" text="Time" />
-         </children>
-      </HBox>
         <VBox prefHeight="743.0" prefWidth="162.0" styleClass="leftNav" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button mnemonicParsing="false" prefWidth="192.0" styleClass="mainMenuButton" text="Main Menu" />
             <Button mnemonicParsing="false" text="Recipes" />
             <Button mnemonicParsing="false" text="Time Sheet" />
          </children></VBox>
-        <HBox layoutX="162.0" prefHeight="65.0" prefWidth="476.0" styleClass="seriesHeader">
+      <StackPane layoutX="167.0" layoutY="2.0" prefHeight="710.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#backButton" prefHeight="48.0" prefWidth="125.0">
-               <graphic>
-                  <FontAwesomeIconView glyphName="LONG_ARROW_LEFT" />
-               </graphic>
-            </Button>
-            <HBox prefHeight="65.0" prefWidth="373.0">
+              <HBox fx:id="topLeftHBox" maxHeight="65.0" maxWidth="771.0" prefHeight="65.0" prefWidth="771.0" styleClass="displayStatusNav" StackPane.alignment="TOP_RIGHT">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bubble Tea Series" />
+                  <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cashier View " />
+                  <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Printer" />
+                  <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Display" />
+                  <Label fx:id="Time" prefHeight="31.0" prefWidth="97.0" text="Time" />
                </children>
             </HBox>
-         </children>
-      </HBox>
-        <HBox layoutX="162.0" layoutY="643.0" prefHeight="100.0" prefWidth="1246.0" style="-fx-background-color: #FCFCF1;" styleClass="bottomNav">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onCheckout" prefHeight="67.0" prefWidth="164.0" text="Checkout" />
-            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Transactions" />
-            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Orders" />
-            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Notifications" />
-            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="192.0" text="Manager View" />
-         </children>
-      </HBox>
-      <StackPane layoutX="167.0" layoutY="65.0" prefHeight="571.0" prefWidth="1241.0">
-         <children>
-            <StackPane prefHeight="571.0" prefWidth="1211.0">
+              <HBox fx:id="topRightHBox" maxHeight="65.0" maxWidth="476.0" prefHeight="65.0" prefWidth="476.0" styleClass="seriesHeader" StackPane.alignment="TOP_LEFT">
                <children>
-                    <GridPane fx:id="mainMenuPane" prefHeight="581.0" prefWidth="1258.0" styleClass="mainMenu">
+                  <Button mnemonicParsing="false" onAction="#backButton" prefHeight="48.0" prefWidth="125.0">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="LONG_ARROW_LEFT" />
+                     </graphic>
+                  </Button>
+                  <HBox prefHeight="65.0" prefWidth="373.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bubble Tea Series" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <StackPane maxHeight="546.0" maxWidth="1125.0" prefHeight="546.0" prefWidth="1125.0" translateY="-20.0">
+               <children>
+                    <GridPane fx:id="mainMenuPane" maxHeight="546.0" maxWidth="1125.0" minHeight="546.0" minWidth="1125.0" prefHeight="546.0" prefWidth="1125.0" styleClass="mainMenu" StackPane.alignment="TOP_LEFT">
                         <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="622.64013671875" minWidth="10.0" prefWidth="492.3275960286458" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="781.7029418945312" minWidth="10.0" prefWidth="771.0057373046875" />
@@ -94,20 +85,20 @@
                             </VBox>
                         </children>
                     </GridPane>
-                  <GridPane fx:id="drinkPane" prefHeight="580.0" prefWidth="1258.0" styleClass="drinkPane">
+                  <GridPane fx:id="drinkPane" alignment="CENTER" maxHeight="546.0" maxWidth="1125.0" prefHeight="546.0" prefWidth="1125.0" styleClass="drinkPane" StackPane.alignment="TOP_LEFT">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="921.4461669921875" minWidth="10.0" prefWidth="921.4461669921875" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="618.1768188476562" minWidth="10.0" prefWidth="315.0538330078125" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="921.4461669921875" minWidth="10.0" prefWidth="802.7659301757812" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="618.1768188476562" minWidth="10.0" prefWidth="322.23406982421875" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TilePane fx:id="subDrinkPane" prefHeight="580.0" prefWidth="905.0" />
-                        <VBox fx:id="rightVBox" prefHeight="571.0" prefWidth="332.0" styleClass="rightVBox" GridPane.columnIndex="1">
+                        <TilePane fx:id="subDrinkPane" maxHeight="-Infinity" prefHeight="546.0" prefWidth="803.0" />
+                        <VBox fx:id="rightVBox" prefHeight="580.0" prefWidth="367.0" styleClass="rightVBox" GridPane.columnIndex="1">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cart" text="Cart:" wrappingWidth="330.536865234375" />
-                              <ScrollPane fitToWidth="true" prefHeight="284.0" prefWidth="316.0">
+                              <ScrollPane fitToWidth="true" prefHeight="294.0" prefWidth="316.0">
                                  <VBox.margin>
                                     <Insets right="15.0" />
                                  </VBox.margin>
@@ -167,7 +158,19 @@
                   </GridPane>
                </children>
             </StackPane>
-            <Pane fx:id="drinkPopUp" opacity="0.0" prefHeight="572.0" prefWidth="1166.0" styleClass="drinkPopUp">
+              <HBox fx:id="bottomHBox" maxHeight="103.0" maxWidth="1246.0" prefHeight="103.0" prefWidth="1125.0" style="-fx-background-color: #FCFCF1;" styleClass="bottomNav" StackPane.alignment="BOTTOM_CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onCheckout" prefHeight="67.0" prefWidth="164.0" text="Checkout" />
+                  <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="171.0" text="Transactions" />
+                  <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="164.0" text="Orders" />
+                  <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="172.0" text="Notifications" />
+                  <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="192.0" text="Manager View" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <Pane fx:id="drinkPopUp" opacity="0.0" prefHeight="676.0" prefWidth="1086.0" scaleX="0.9" scaleY="0.9" styleClass="drinkPopUp">
                <children>
                   <HBox prefHeight="337.0" prefWidth="1016.0" styleClass="upperPopUp">
                      <children>
@@ -178,12 +181,12 @@
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Text>
-                              <Button mnemonicParsing="false" onAction="#isLarge" prefHeight="40.0" styleClass="popupButtonDef" text="Medium (16 fl. oz)">
+                              <Button mnemonicParsing="false" onAction="#isLarge" prefHeight="60.0" styleClass="popupButtonDef" text="Medium (16 fl. oz)">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#isLarge" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Large (24 fl. oz) ">
+                              <Button mnemonicParsing="false" onAction="#isLarge" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Large (24 fl. oz) ">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -197,22 +200,22 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="No Ice">
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="No Ice">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Light Ice">
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Light Ice">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButtonDef" text="Regular Ice">
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButtonDef" text="Regular Ice">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Extra Ice" />
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Extra Ice" />
                            </children>
                         </VBox>
                         <VBox prefHeight="317.0" prefWidth="364.0">
@@ -222,27 +225,27 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="0%">
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="0%">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="25%">
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="25%">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="50%">
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="50%">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="223.5" styleClass="popupButtonDef" text="100%" />
+                              <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="223.5" styleClass="popupButtonDef" text="100%" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox layoutY="310.0" prefHeight="361.0" prefWidth="1108.0" styleClass="lowerPopUp">
+                  <HBox layoutY="336.0" prefHeight="371.0" prefWidth="1108.0" styleClass="lowerPopUp">
                      <children>
                         <VBox prefHeight="316.0" prefWidth="1078.0">
                            <children>
@@ -255,17 +258,17 @@
                                  <children>
                                     <VBox prefHeight="210.0" prefWidth="298.0" styleClass="lowerPopUp">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="224.0" styleClass="popupButton" text="Tapioca Pearls">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="224.0" styleClass="popupButton" text="Tapioca Pearls">
                                              <VBox.margin>
                                                 <Insets bottom="20.0" left="-20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Pudding">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Pudding">
                                              <VBox.margin>
                                                 <Insets bottom="20.0" left="-20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Herbal Jelly">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Herbal Jelly">
                                              <VBox.margin>
                                                 <Insets left="-20.0" />
                                              </VBox.margin>
@@ -274,17 +277,17 @@
                                     </VBox>
                                     <VBox prefHeight="234.0" prefWidth="300.0" styleClass="lowerPopUp">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="White Pearls">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="White Pearls">
                                              <VBox.margin>
                                                 <Insets bottom="20.0" left="-20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Oreo Crumbs">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Oreo Crumbs">
                                              <VBox.margin>
                                                 <Insets bottom="20.0" left="-20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Coconut Jelly">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Coconut Jelly">
                                              <VBox.margin>
                                                 <Insets left="-20.0" />
                                              </VBox.margin>
@@ -293,17 +296,17 @@
                                     </VBox>
                                     <VBox prefHeight="279.0" prefWidth="227.0" styleClass="lowerPopUp">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Milk Foam">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Milk Foam">
                                              <VBox.margin>
                                                 <Insets bottom="20.0" left="-20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Basil Seeds">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Basil Seeds">
                                              <VBox.margin>
                                                 <Insets bottom="20.0" left="-20.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="40.0" prefWidth="223.5" styleClass="popupButton" text="Ai-Yu Jelly">
+                                          <Button mnemonicParsing="false" onAction="#toppingButton" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Ai-Yu Jelly">
                                              <VBox.margin>
                                                 <Insets left="-20.0" />
                                              </VBox.margin>
@@ -316,7 +319,8 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <Button layoutX="987.0" layoutY="502.0" mnemonicParsing="false" onAction="#addButton" prefHeight="57.0" prefWidth="109.0" styleClass="addButton" text="ADD" />
+                  <HBox alignment="CENTER_RIGHT" layoutX="3.0" layoutY="639.0" prefHeight="67.0" prefWidth="1119.0" style="-fx-background-color: black; -fx-opacity: 0.1;" />
+                  <Button layoutX="961.0" layoutY="645.0" mnemonicParsing="false" onAction="#addButton" prefHeight="56.0" prefWidth="159.0" styleClass="addButton" text="ADD" />
                </children>
             </Pane>
          </children>
