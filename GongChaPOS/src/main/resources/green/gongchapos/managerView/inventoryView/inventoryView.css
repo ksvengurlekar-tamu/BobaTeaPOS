@@ -19,7 +19,7 @@
     -fx-background-color: transparent;
 }
 
-.mainMenuButton {
+.inventoryButton {
     -fx-font-family: "Amerigo BT";
     -fx-font-weight: 800;
     -fx-font-size: 25px;
@@ -202,5 +202,24 @@
     -fx-font-weight: 800;
     -fx-opacity: 1;
     -fx-border-radius: 5px;
+}
+
+.inventoryAddPane{
+    -fx-background-color: #d7c9af;
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+
+
+}
+addText{
+    -fx-font-size: 30px;
+}
+.addHBox{
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+}
+
+.inventoryAddPane TextField{
+    -fx-background-color: white;
 }
 

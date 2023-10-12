@@ -1,14 +1,18 @@
 package green.gongchapos.managerView;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.collections.ObservableList;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.collections.FXCollections;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
 
@@ -17,45 +21,24 @@ import java.sql.*;
 import static green.gongchapos.GongCha.getSQLConnection;
 
 public class InventoryViewController {
-    /*
-    @FXML
-    private TableView<InventoryItem> inventoryTable;
-    @FXML
-    private TableColumn<InventoryItem, String> nameColumn;
-    @FXML
-    private TableColumn<InventoryItem, Integer> quantityColumn;
-    @FXML
-    private TableColumn<InventoryItem, String> receivedDateColumn;
-    @FXML
-    private TableColumn<InventoryItem, String> expirationDateColumn;
-    @FXML
-    private TableColumn<InventoryItem, Boolean> inStockColumn;
-    @FXML
-    private TableColumn<InventoryItem, String> supplierColumn;
+    public AnchorPane inventoryPane;
+    public Pane inventoryAddPane;
+    public TextField itemID;
+    public TextField itemName;
+    public TextField quantity;
+    public TextField dateReceived;
+    public TextField expDate;
+    public TextField inStock;
+    public TextField supplier;
 
-    private String name;
-    private int quantity;
-    private String receivedDate;
-    private String expirationDate;
-    private boolean inStock;
-    private String supplier;
-*/
-//    public InventoryItem(String name, int quantity, String receivedDate, String expirationDate, boolean inStock, String supplier) {
-//        this.name = name;
-//        this.quantity = quantity;
-//        this.receivedDate = receivedDate;
-//        this.expirationDate = expirationDate;
-//        this.inStock = inStock;
-//        this.supplier = supplier;
-//    }
-
+    private ObservableList<ObservableList> data;
     private TableView tableView = new TableView();
 
     /**
      * Displays the inventory table by fetching data from the database and populating the TableView.
      *
      */
-    private void displayTable() {
+    public void displayTable() {
         try (Connection conn = getSQLConnection()) {
             String stmt = "SELECT * FROM inventory";
             PreparedStatement p = conn.prepareStatement(stmt);
@@ -64,6 +47,7 @@ public class InventoryViewController {
 
         // find some way to put the pulled select * into a JavaFX element tableView
             ResultSet rs = conn.createStatement().executeQuery(stmt);
+            data = FXCollections.observableArrayList();
 
             for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
                 //We are using non property style for making dynamic table
@@ -71,7 +55,13 @@ public class InventoryViewController {
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
                 col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
                     public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
-                        return new SimpleStringProperty(param.getValue().get(j).toString());
+                        SimpleStringProperty s = new SimpleStringProperty();
+                        String colName = param.getValue().get(j).toString();
+                        colName = colName.replace("inventory.", "");
+                        colName = colName.replace("date.", "");
+                        colName = colName.substring(0, 1).toUpperCase() + colName.substring(1);
+                        s.set(colName);
+                        return s;
                     }
                 });
 
@@ -79,50 +69,35 @@ public class InventoryViewController {
                 System.out.println("Column ["+i+"] ");
             }
 
+            while(rs.next()){
+                //Iterate Row
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
+                    //Iterate Column
+                    row.add(rs.getString(i));
+                }
+                System.out.println("Row [1] added "+row );
+                data.add(row);
 
+            }
 
+            //FINALLY ADDED TO TableView
+            tableView.setItems(data);
 
-//            while (table.next()) {
-//                InventoryItem item = new InventoryItem(
-//                    table.getString("inventoryName"),
-//                    table.getInt("inventoryQuantity"),
-//                    table.getString("inventoryReceivedDate"),
-//                    table.getString("inventoryExpirationDate"),
-//                    table.getBoolean("inventoryInStock"),
-//                    table.getString("inventorySupplier")
-//                );
-//
-//                inventoryItems.add(item);
-//            }
-//
-//        // Bind columns to the corresponding properties of the InventoryItem class
-//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-//        receivedDateColumn.setCellValueFactory(new PropertyValueFactory<>("receivedDate"));
-//        expirationDateColumn.setCellValueFactory(new PropertyValueFactory<>("expirationDate"));
-//        inStockColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-//        supplierColumn.setCellValueFactory(new PropertyValueFactory<>("supplier"));
-//
-//        // Set the items in the TableView
-//        inventoryTable.setItems(inventoryItems);
+            inventoryPane.getChildren().add(tableView);
+            AnchorPane.setTopAnchor(tableView, 0.0);
+            AnchorPane.setBottomAnchor(tableView, 0.0);
+            AnchorPane.setLeftAnchor(tableView, 0.0);
+            AnchorPane.setRightAnchor(tableView, 0.0);
         } catch (SQLException e) {
             System.out.println("Error accessing database.");
             e.printStackTrace();
         }
     }
 
-     /**
-     * Adds an item to the inventory. If the item with the given ID already exists, it will be updated.
-     *
-     * @param id The ID of the item.
-     * @param name The name of the item.
-     * @param quantity The quantity of the item.
-     * @param dateReceived The date the item was received.
-     * @param expirationDate The expiration date of the item.
-     * @param inStock Whether the item is in stock.
-     * @param supplier The supplier of the item.
-     */
-    private void addButton(String id, String name, String quantity, String dateReceived, String expirationDate, String inStock, String supplier) {
+
+    @FXML
+    private void submitInventory(ActionEvent actionEvent) {
         Button button = new Button("Add");
         button.setOnAction((ActionEvent e) -> {
             System.out.println("Add");
@@ -131,75 +106,81 @@ public class InventoryViewController {
         // will probably take inputs as strings: need to cast to correct datatypes before query
         // if arguments are passed into a single string of arguments: split into array of strings
 
-        if (id.isEmpty()) {
-            System.out.println("wrong id");
+        if (itemName.getText().isEmpty()) {
+            System.out.println("no name given");
             return;
         }
 
         try (Connection conn = getSQLConnection()) {
-            String query = "SELECT * FROM inventory WHERE id = ?";
-            int targetID = 123; // TODO: make this input from front end
+            String query = "SELECT * FROM inventory WHERE inventoryName = ?";
 
             PreparedStatement findId = conn.prepareStatement(query);
-            findId.setInt(1, targetID);
+            findId.setString(1, itemName.getText());
             ResultSet rs = findId.executeQuery();
 
-            boolean idExists = rs.next();
+            boolean nameExists = false;
 
-            // query for id here
-            if (idExists) {
-                helperUpdateItem(id, name, quantity, dateReceived, expirationDate, inStock, supplier);
+            // query for item name here
+            if (rs.next() && rs.getString("iventoryName").equals(itemName)) {
+                helperUpdateItem();
                 return;
             }
 
             PreparedStatement insertItem = conn.prepareStatement("INSERT INTO inventory (inventoryName, inventoryQuantity, inventoryReceivedDate, inventoryExpirationDate, inventoryInStock, inventorySupplier) VALUES (?, ?, ?, ?, ?, ?)");
 
-            insertItem.setString(1, name);
-            insertItem.setFloat(2, Float.parseFloat(quantity));
+            insertItem.setString(1, itemName.getText());
+            insertItem.setFloat(2, Float.parseFloat(quantity.getText()));
 
-            java.sql.Date r_date = java.sql.Date.valueOf(dateReceived);
+            java.sql.Date r_date = java.sql.Date.valueOf(dateReceived.getText());
             insertItem.setDate(3, r_date);
-            java.sql.Date e_date = java.sql.Date.valueOf(expirationDate);
+            java.sql.Date e_date = java.sql.Date.valueOf(expDate.getText());
             insertItem.setDate(4, e_date);
 
-            insertItem.setBoolean(5, Boolean.parseBoolean(inStock));
-            insertItem.setString(6, supplier);
+            insertItem.setBoolean(5, Boolean.parseBoolean(inStock.getText()));
+            insertItem.setString(6, supplier.getText());
             insertItem.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error accessing database.");
             e.printStackTrace();
         }
     }
+
 
     /**
-     * Helper method to update an existing item in the inventory.
+     * Helper method to update an existing item in the inventory; runs an update SQL query
      *
-     * @param id The ID of the item.
-     * @param name The name of the item.
-     * @param quantity The quantity of the item.
-     * @param dateReceived The date the item was received.
-     * @param expirationDate The expiration date of the item.
-     * @param inStock Whether the item is in stock.
-     * @param supplier The supplier of the item.
      */
-    private void helperUpdateItem (String id, String name, String quantity, String dateReceived, String expirationDate, String inStock, String supplier) {
+    private void helperUpdateItem () {
         try (Connection conn = getSQLConnection()) {
-            PreparedStatement insertItem = conn.prepareStatement("UPDATE inventory SET (inventoryName, inventoryQuantity, inventoryReceivedDate, inventoryExpirationDate, inventoryInStock, inventorySupplier) = VALUES(?, ?, ?, ?, ?, ?) WHERE inventoryID = ?");
+            PreparedStatement insertItem = conn.prepareStatement("UPDATE inventory SET inventoryQuantity = ?, inventoryReceivedDate = ?, inventoryExpirationDate = ?, inventoryInStock = ?, inventorySupplier = ? WHERE inventoryName = ?");
 
-            insertItem.setString(1, name);
-            insertItem.setFloat(2, Float.parseFloat(quantity));
+            insertItem.setFloat(1, Float.parseFloat(quantity.getText()));
 
-            java.sql.Date r_date = java.sql.Date.valueOf(dateReceived);
-            insertItem.setDate(3, r_date);
-            java.sql.Date e_date = java.sql.Date.valueOf(expirationDate);
-            insertItem.setDate(4, e_date);
+            java.sql.Date r_date = java.sql.Date.valueOf(dateReceived.getText());
+            insertItem.setDate(2, r_date);
+            java.sql.Date e_date = java.sql.Date.valueOf(expDate.getText());
+            insertItem.setDate(3, e_date);
 
-            insertItem.setBoolean(5, Boolean.parseBoolean(inStock));
-            insertItem.setString(6, supplier);
+            insertItem.setBoolean(4, Boolean.parseBoolean(inStock.getText()));
+            insertItem.setString(5, supplier.getText());
+            insertItem.setString(6, itemName.getText());
             insertItem.executeUpdate();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println("Error accessing database.");
             e.printStackTrace();
         }
     }
+
+
+    public void inventoryAdd(ActionEvent actionEvent) {
+        inventoryAddPane.setVisible(true);
+        inventoryAddPane.setDisable(false);
+        inventoryAddPane.setOpacity(1);
+
+        inventoryPane.setOpacity(0.5);
+        inventoryPane.setDisable(true);
+
+    }
 }
+

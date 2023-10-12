@@ -1,5 +1,9 @@
 package green.gongchapos.cashierView;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -16,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.util.Duration;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -107,9 +112,25 @@ public class CashierViewController {
 
     public ArrayList<Drink> cart = new ArrayList<>();
 
+
+    public void initialize() {
+        Platform.runLater(() -> {
+            // Create a SimpleDateFormat to format the time
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+
+            // Use a Timeline to update the time label every second
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                Date currentTime = new Date();
+                String formattedTime = dateFormat.format(currentTime);
+                Time.setText(formattedTime);
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+        });
+    }
+
+
     public void setCashierViewController(Stage primaryStage) { this.cashierViewStage = primaryStage; }
-
-
 
 
     /** Drink class acts as a struct for a menu item that is being ordered
@@ -137,21 +158,6 @@ public class CashierViewController {
            return String.format("%s: $%.2f", name, price);
         }
     }
-
-
-    // public void initialize() {
-    //     // Create a SimpleDateFormat to format the time
-    //     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
-    //     // Use a Timeline to update the time label every second
-    //     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-    //         Date now = new Date();
-    //         String formattedTime = dateFormat.format(now);
-    //         timeLabel.setText(formattedTime);
-    //     }));
-    //     timeline.setCycleCount(Animation.INDEFINITE);
-    //     timeline.play();
-    // }
 
 
     /** Handle the action triggered by selecting a series (e.g., category) of drinks.

@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
@@ -39,11 +40,15 @@ import static green.gongchapos.GongCha.main;
  * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
  */
 public class ManagerViewController extends CashierViewController {
-    public void inventoryClick(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("managerView/inventoryView/inventoryView.fxml"));
+    public void inventoryClick(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/green/gongchapos/managerView/inventoryView/inventoryView.fxml"));
+        
+        Scene inventoryScene = new Scene(loader.load());
+        InventoryViewController controller = loader.getController();
+        controller.displayTable();
 
-        Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/GongChaLogo.png")));
-        viewStage.getIcons().add(Logo);
+        cashierViewStage.setScene(inventoryScene);
+        cashierViewStage.show();
     }
 
     
