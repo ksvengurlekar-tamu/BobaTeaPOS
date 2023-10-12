@@ -2,6 +2,7 @@ package green.gongchapos;
 
 import green.gongchapos.cashierView.CashierViewController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -29,16 +30,18 @@ public class GongCha extends Application {
         Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/GongChaLogo.png")));
         stage.getIcons().add(Logo);
 
-        if (java.awt.Taskbar.isTaskbarSupported()) {
-            var taskbar = java.awt.Taskbar.getTaskbar();
+        Platform.runLater(() -> {
+                    if (java.awt.Taskbar.isTaskbarSupported()) {
+                        var taskbar = java.awt.Taskbar.getTaskbar();
 
-            if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
-                final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-                var dockIcon = defaultToolkit.getImage(getClass().getResource("images/GongChaLogo.png"));
-                taskbar.setIconImage(dockIcon);
-            }
+                        if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+                            final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+                            var dockIcon = defaultToolkit.getImage(getClass().getResource("images/GongChaLogo.png"));
+                            taskbar.setIconImage(dockIcon);
+                        }
 
-        }
+                    }
+        });
 
         Scene scene = new Scene(fxmlLoader.load());
         LoginController controller = fxmlLoader.getController(); // Get the controller instance;
