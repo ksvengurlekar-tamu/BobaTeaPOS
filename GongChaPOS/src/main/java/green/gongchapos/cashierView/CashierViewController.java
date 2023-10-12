@@ -198,7 +198,7 @@ public class CashierViewController {
                             }
 
                         } catch(SQLException e) {
-                            System.out.println("Error getting drinks");
+                            System.out.println("Error getting drinks.");
                             e.printStackTrace();
                         }
 
@@ -244,7 +244,7 @@ public class CashierViewController {
                 }
 
             } catch (SQLException e) {
-                System.out.println("Error getting drinks");
+                System.out.println("Error getting drinks.");
                 e.printStackTrace();
             }
 
@@ -294,17 +294,28 @@ public class CashierViewController {
         Button sourceButton = (Button) actionEvent.getSource();
         String toppingName = sourceButton.getText();
 
-        tapiocaPearls.setStyle("-fx-background-color: #ffffff;");
-        pudding.setStyle("-fx-background-color: #ffffff;");
-        herbalJelly.setStyle("-fx-background-color: #ffffff;");
-        whitePearls.setStyle("-fx-background-color: #ffffff;");
-        oreoCrumbs.setStyle("-fx-background-color: #ffffff;");
-        coconutJelly.setStyle("-fx-background-color: #ffffff;");
-        milkFoam.setStyle("-fx-background-color: #ffffff;");
-        basilSeeds.setStyle("-fx-background-color: #ffffff;");
-        aiyuJelly.setStyle("-fx-background-color: #ffffff;");
+        tapiocaPearls.getStyleClass().clear();
+        pudding.getStyleClass().clear();
+        herbalJelly.getStyleClass().clear();
+        whitePearls.getStyleClass().clear();
+        oreoCrumbs.getStyleClass().clear();
+        coconutJelly.getStyleClass().clear();
+        milkFoam.getStyleClass().clear();
+        basilSeeds.getStyleClass().clear();
+        aiyuJelly.getStyleClass().clear();
 
-        sourceButton.setStyle("-fx-background-color: #0099ff;");
+        tapiocaPearls.getStyleClass().add("popupButton");
+        pudding.getStyleClass().add("popupButton");
+        herbalJelly.getStyleClass().add("popupButton");
+        whitePearls.getStyleClass().add("popupButton");
+        oreoCrumbs.getStyleClass().add("popupButton");
+        coconutJelly.getStyleClass().add("popupButton");
+        milkFoam.getStyleClass().add("popupButton");
+        basilSeeds.getStyleClass().add("popupButton");
+        aiyuJelly.getStyleClass().add("popupButton");
+
+        sourceButton.getStyleClass().remove("popupButton");
+        sourceButton.getStyleClass().add("popupButtonDef");
 
         try {
             Connection conn = getSQLConnection();
@@ -317,14 +328,13 @@ public class CashierViewController {
                 }
                 System.out.println(price);
             } catch(SQLException e) {
-                System.out.println("Error getting toppings");
+                System.out.println("Error getting toppings.");
                 e.printStackTrace();
             }
         } catch(SQLException e) {
             System.out.println("Error accessing database.");
             e.printStackTrace();
         }
-
     }
 
 
@@ -338,42 +348,71 @@ public class CashierViewController {
     public void isLarge(ActionEvent actionEvent) {
         Button sourceButton = (Button) actionEvent.getSource();
         String size = sourceButton.getText();
-        if (size.contains("Large")) {
-            price += 0.75;
+
+        mediumSize.getStyleClass().clear();
+        largeSize.getStyleClass().clear();
+
+        mediumSize.getStyleClass().add("popupButton");
+        largeSize.getStyleClass().add("popupButton");
+
+        if (size.contains("Large") && !isLarge) {
+            price += 0.75F;
             isLarge = true;
-        } else {
+            largeSize.getStyleClass().remove("popupButton");
+            largeSize.getStyleClass().add("popupButtonDef");
+        } else if (!size.contains("Large") && isLarge) {
             isLarge = false;
+            price -= 0.75F;
+            mediumSize.getStyleClass().remove("popupButton");
+            mediumSize.getStyleClass().add("popupButtonDef");
+        } else if (size.contains("Large") && isLarge) {
+            isLarge = true;
+            largeSize.getStyleClass().remove("popupButton");
+            largeSize.getStyleClass().add("popupButtonDef");
+        } else if (!size.contains("Large") && !isLarge) {
+            isLarge = false;
+            mediumSize.getStyleClass().remove("popupButton");
+            mediumSize.getStyleClass().add("popupButtonDef");
         }
         System.out.println(price);
-
-        mediumSize.setStyle("-fx-background-color: #ffffff;");
-        largeSize.setStyle("-fx-background-color: #ffffff;");
-        sourceButton.setStyle("-fx-background-color: #0099ff;");
-
-        // TODO: deselect large option
-        // sourceButton.setDisable(true);
     }
 
 
     public void iceLevelButton(ActionEvent actionEvent) {
         Button sourceButton = (Button) actionEvent.getSource();
-        noIce.setStyle("-fx-background-color: #ffffff;");
-        lightIce.setStyle("-fx-background-color: #ffffff;");
-        regularIce.setStyle("-fx-background-color: #ffffff;");
-        extraIce.setStyle("-fx-background-color: #ffffff;");
+        String iceLevel = sourceButton.getText();
 
-        sourceButton.setStyle("-fx-background-color: #0099ff;");
+        noIce.getStyleClass().clear();
+        lightIce.getStyleClass().clear();
+        regularIce.getStyleClass().clear();
+        extraIce.getStyleClass().clear();
+
+        noIce.getStyleClass().add("popupButton");
+        lightIce.getStyleClass().add("popupButton");
+        regularIce.getStyleClass().add("popupButton");
+        extraIce.getStyleClass().add("popupButton");
+
+        sourceButton.getStyleClass().remove("popupButton");
+        sourceButton.getStyleClass().add("popupButtonDef");
     }
 
 
     public void sugarLevelButton(ActionEvent actionEvent) {
         Button sourceButton = (Button) actionEvent.getSource();
-        zeroSugar.setStyle("-fx-background-color: #ffffff;");
-        quarterSugar.setStyle("-fx-background-color: #ffffff;");
-        halfSugar.setStyle("-fx-background-color: #ffffff;");
-        normalSugar.setStyle("-fx-background-color: #ffffff;");
+        String sugarLevel = sourceButton.getText();
 
-        sourceButton.setStyle("-fx-background-color: #0099ff;");
+        zeroSugar.getStyleClass().clear();
+        quarterSugar.getStyleClass().clear();
+        halfSugar.getStyleClass().clear();
+        normalSugar.getStyleClass().clear();
+
+        zeroSugar.getStyleClass().add("popupButton");
+        quarterSugar.getStyleClass().add("popupButton");
+        halfSugar.getStyleClass().add("popupButton");
+        normalSugar.getStyleClass().add("popupButton");
+
+        sourceButton.getStyleClass().remove("popupButton");
+        sourceButton.getStyleClass().add("popupButtonDef");
     }
 
 
@@ -500,7 +539,7 @@ public class CashierViewController {
                         menuItemID = resultSet.getInt("menuItemID");
                     }
                 } catch(SQLException e) {
-                    System.out.println("Error getting menu item ID");
+                    System.out.println("Error getting menu item ID.");
                     e.printStackTrace();
                 }
 
@@ -524,7 +563,7 @@ public class CashierViewController {
                     orderStatement.executeUpdate();
                     System.out.println("Successfully placed order");
                 } catch(SQLException e) {
-                    System.out.println("Error placing order");
+                    System.out.println("Error placing order.");
                     e.printStackTrace();
                 }
 

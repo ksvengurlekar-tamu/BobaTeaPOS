@@ -158,24 +158,31 @@
 
 .popupButton {
     -fx-font-size: 20px;
+    -fx-alignment: center;
     -fx-font-weight: 800;
     -fx-background-color: #ffffff;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }
 
+.popupButton:hover {
+    -fx-background-color: #A0D9FF;
+    -fx-cursor: hand;  /* Hand pointer cursor */
+}
+
 .popupButtonDef {
     -fx-font-size: 20px;
+    -fx-alignment: center;
     -fx-font-weight: 800;
     -fx-background-color: #0099ff;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }
 
-.popupButton:hover {
-    -fx-background-color: #0099ff;
-    -fx-cursor: hand;  /* Hand pointer cursor */
-}
+/*.popupButtonDef:hover {*/
+/*    -fx-background-color: #A0D9FF;*/
+/*    -fx-cursor: hand;  !* Hand pointer cursor *!*/
+/*}*/
 
 .addBar {
     -fx-background-color: #000000;
@@ -196,7 +203,7 @@
     -fx-cursor: hand;  /* Hand pointer cursor */
 }
 
-.chargeButton{
+.chargeButton {
     -fx-background-color: #0099ff;
     -fx-font-size: 20px;
     -fx-font-weight: 800;

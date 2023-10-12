@@ -184,12 +184,12 @@
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Text>
-                              <Button fx:id="mediumSize" mnemonicParsing="false" onAction="#isLarge" prefHeight="60.0" styleClass="popupButtonDef" text="Medium (16 fl. oz)">
+                              <Button fx:id="mediumSize" mnemonicParsing="false" onAction="#isLarge" prefHeight="60.0" prefWidth="223.5" styleClass="popupButtonDef" text="Medium (16 fl. oz)" textAlignment="CENTER">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="largeSize" mnemonicParsing="false" onAction="#isLarge" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Large (24 fl. oz) ">
+                              <Button fx:id="largeSize" mnemonicParsing="false" onAction="#isLarge" prefHeight="60.0" prefWidth="223.5" styleClass="popupButton" text="Large (24 fl. oz)" textAlignment="CENTER">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
