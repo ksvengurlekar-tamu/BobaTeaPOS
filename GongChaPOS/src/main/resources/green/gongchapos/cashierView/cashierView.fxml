@@ -173,7 +173,7 @@
                   <Insets left="50.0" right="50.0" />
                </padding>
             </HBox>
-            <Pane fx:id="drinkPopUp" prefHeight="676.0" prefWidth="1086.0" scaleX="0.9" scaleY="0.9" styleClass="drinkPopUp">
+            <Pane fx:id="drinkPopUp" opacity="0.0" prefHeight="676.0" prefWidth="1086.0" scaleX="0.9" scaleY="0.9" styleClass="drinkPopUp">
                <children>
                   <HBox prefHeight="337.0" prefWidth="1197.0" styleClass="upperPopUp">
                      <children>
