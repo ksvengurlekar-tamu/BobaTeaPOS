@@ -4,8 +4,11 @@ import green.gongchapos.cashierView.CashierViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +25,20 @@ public class GongCha extends Application {
         Font.loadFont(getClass().getResourceAsStream("Amerigo BT.ttf"), 14);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+
+        Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/GongChaLogo.png")));
+        stage.getIcons().add(Logo);
+
+        if (java.awt.Taskbar.isTaskbarSupported()) {
+            var taskbar = java.awt.Taskbar.getTaskbar();
+
+            if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+                final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+                var dockIcon = defaultToolkit.getImage(getClass().getResource("images/GongChaLogo.png"));
+                taskbar.setIconImage(dockIcon);
+            }
+
+        }
 
         Scene scene = new Scene(fxmlLoader.load());
         LoginController controller = fxmlLoader.getController(); // Get the controller instance;

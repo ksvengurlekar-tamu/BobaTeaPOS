@@ -3,6 +3,7 @@ module green.gongchapos {
     requires javafx.fxml;
     requires java.sql;
     requires java.naming;
+    requires java.desktop;
 
 
     opens green.gongchapos to javafx.fxml;
