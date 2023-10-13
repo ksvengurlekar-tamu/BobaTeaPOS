@@ -1,5 +1,9 @@
 package green.gongchapos.managerView;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +14,15 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.collections.FXCollections;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
-
+import javafx.util.Duration;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import java.io.IOException;
 import java.sql.*;
@@ -34,11 +42,40 @@ public class InventoryViewController {
     public TextField inStock;
     public TextField supplier;
 
+    @FXML
+    private Label Time;
+
     private ObservableList<ObservableList> data;
     private TableView tableView = new TableView();
 
 
     public void setInvViewController(Stage primaryStage) { this.invViewStage = primaryStage; }
+
+
+    /** Initializes the application's user interface by setting up a digital clock
+     * that displays the current time, updating every second. This method should be
+     * called when the application starts.
+     * 
+     */
+    public void initialize() {
+        Platform.runLater(() -> {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+
+            Font.loadFont(getClass().getResourceAsStream("Amerigo BT.ttf"), 14);
+
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                Date currentTime = new Date();
+                String formattedTime = dateFormat.format(currentTime);
+
+                Time.setStyle("-fx-font-size: 20;");
+                Time.setText(formattedTime);
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+        });
+    }
+
+
     /**
      * Displays the inventory table by fetching data from the database and populating the TableView.
      *
@@ -62,8 +99,7 @@ public class InventoryViewController {
                     public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
                         SimpleStringProperty s = new SimpleStringProperty();
                         String colName = param.getValue().get(j).toString();
-                        colName = colName.replace("inventory.", "");
-                        colName = colName.replace("date.", "");
+                        colName = colName.replaceAll("(?i)inventory|date", "");
                         colName = colName.substring(0, 1).toUpperCase() + colName.substring(1);
                         s.set(colName);
                         return s;
@@ -75,10 +111,29 @@ public class InventoryViewController {
 
             while(rs.next()){
                 //Iterate Row
-                ObservableList<String> row = FXCollections.observableArrayList();
+                ObservableList<Object> row = FXCollections.observableArrayList();
                 for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
-                    //Iterate Column
-                    row.add(rs.getString(i));
+                    int columnType = rs.getMetaData().getColumnType(i);
+                    Object value;
+
+                    switch (columnType) {
+                        case Types.INTEGER:
+                            value = rs.getInt(i);
+                            System.out.println("int item added to TableView");
+                            break;
+                        case Types.BOOLEAN:
+                            value = rs.getBoolean(i);
+                            break;
+                        case Types.DATE:
+                            value = rs.getDate(i);
+                            System.out.println("date item added to TableView");
+                            break;
+                        default:
+                            // Default to treating it as a string
+                            value = rs.getString(i);
+                            break;
+                    }
+                    row.add(value);
                 }
                 data.add(row);
 
