@@ -2,28 +2,31 @@ package green.gongchapos.managerView;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.collections.FXCollections;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 
+import java.io.IOException;
 import java.sql.*;
 
 import static green.gongchapos.GongCha.getSQLConnection;
 
 public class InventoryViewController {
+
+    @FXML
+    public Stage invViewStage;
     public AnchorPane inventoryPane;
     public Pane inventoryAddPane;
-    public TextField itemID;
     public TextField itemName;
     public TextField quantity;
     public TextField dateReceived;
@@ -34,11 +37,13 @@ public class InventoryViewController {
     private ObservableList<ObservableList> data;
     private TableView tableView = new TableView();
 
+
+    public void setInvViewController(Stage primaryStage) { this.invViewStage = primaryStage; }
     /**
      * Displays the inventory table by fetching data from the database and populating the TableView.
      *
      */
-    public void displayTable() {
+    public void displayTable(boolean screenExists) {
         try (Connection conn = getSQLConnection()) {
             String stmt = "SELECT * FROM inventory";
             PreparedStatement p = conn.prepareStatement(stmt);
@@ -49,7 +54,7 @@ public class InventoryViewController {
             ResultSet rs = conn.createStatement().executeQuery(stmt);
             data = FXCollections.observableArrayList();
 
-            for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
+            for(int i = 0 ; i < rs.getMetaData().getColumnCount(); i++){
                 //We are using non property style for making dynamic table
                 final int j = i;
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
@@ -66,7 +71,6 @@ public class InventoryViewController {
                 });
 
                 tableView.getColumns().addAll(col);
-                System.out.println("Column ["+i+"] ");
             }
 
             while(rs.next()){
@@ -76,19 +80,22 @@ public class InventoryViewController {
                     //Iterate Column
                     row.add(rs.getString(i));
                 }
-                System.out.println("Row [1] added "+row );
                 data.add(row);
 
             }
 
             //FINALLY ADDED TO TableView
+
             tableView.setItems(data);
 
-            inventoryPane.getChildren().add(tableView);
-            AnchorPane.setTopAnchor(tableView, 0.0);
-            AnchorPane.setBottomAnchor(tableView, 0.0);
-            AnchorPane.setLeftAnchor(tableView, 0.0);
-            AnchorPane.setRightAnchor(tableView, 0.0);
+            if(!screenExists) {
+                inventoryPane.getChildren().add(tableView);
+                AnchorPane.setTopAnchor(tableView, 0.0);
+                AnchorPane.setBottomAnchor(tableView, 0.0);
+                AnchorPane.setLeftAnchor(tableView, 0.0);
+                AnchorPane.setRightAnchor(tableView, 0.0);
+            }
+
         } catch (SQLException e) {
             System.out.println("Error accessing database.");
             e.printStackTrace();
@@ -98,47 +105,71 @@ public class InventoryViewController {
 
     @FXML
     private void submitInventory(ActionEvent actionEvent) {
-        Button button = new Button("Add");
-        button.setOnAction((ActionEvent e) -> {
-            System.out.println("Add");
-        });
-
+        Alert alert;
         // will probably take inputs as strings: need to cast to correct datatypes before query
         // if arguments are passed into a single string of arguments: split into array of strings
 
         if (itemName.getText().isEmpty()) {
-            System.out.println("no name given");
+            alert = new Alert(Alert.AlertType.ERROR, "Please enter an item name.");
+            alert.show();
             return;
         }
 
         try (Connection conn = getSQLConnection()) {
             String query = "SELECT * FROM inventory WHERE inventoryName = ?";
 
-            PreparedStatement findId = conn.prepareStatement(query);
-            findId.setString(1, itemName.getText());
-            ResultSet rs = findId.executeQuery();
-
-            boolean nameExists = false;
+            PreparedStatement findName = conn.prepareStatement(query);
+            findName.setString(1, itemName.getText());
+            ResultSet rs = findName.executeQuery();
 
             // query for item name here
-            if (rs.next() && rs.getString("iventoryName").equals(itemName)) {
-                helperUpdateItem();
-                return;
+            while (rs.next()) {
+                if (rs.getString("inventoryName").equals(itemName.getText())){
+                    helperUpdateItem();
+                    inventoryAddPane.setVisible(false);
+                    inventoryAddPane.setDisable(true);
+                    inventoryAddPane.setOpacity(0);
+
+                    inventoryPane.setOpacity(1);
+                    inventoryPane.setDisable(false);
+                    return;
+                }
             }
 
-            PreparedStatement insertItem = conn.prepareStatement("INSERT INTO inventory (inventoryName, inventoryQuantity, inventoryReceivedDate, inventoryExpirationDate, inventoryInStock, inventorySupplier) VALUES (?, ?, ?, ?, ?, ?)");
 
-            insertItem.setString(1, itemName.getText());
-            insertItem.setFloat(2, Float.parseFloat(quantity.getText()));
+            // query id to add 1 to; incrememnt inventoryID by 1 when adding new item
+            int itemID = 88888;
+            PreparedStatement findBiggestID = conn.prepareStatement("SELECT MAX(inventoryID) AS maxID FROM inventory");
+            ResultSet resultSet = findBiggestID.executeQuery();
+                while (resultSet.next()) {
+                    itemID = resultSet.getInt("maxID");
+                }
+
+            // insert new inventory item
+            PreparedStatement insertItem = conn.prepareStatement("INSERT INTO inventory (inventoryID, inventoryName, inventoryQuantity, inventoryReceivedDate, inventoryExpirationDate, inventoryInStock, inventorySupplier) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            insertItem.setInt(1, itemID + 1);
+            insertItem.setString(2, itemName.getText());
+            insertItem.setFloat(3, Float.parseFloat(quantity.getText()));
 
             java.sql.Date r_date = java.sql.Date.valueOf(dateReceived.getText());
-            insertItem.setDate(3, r_date);
+            insertItem.setDate(4, r_date);
             java.sql.Date e_date = java.sql.Date.valueOf(expDate.getText());
-            insertItem.setDate(4, e_date);
+            insertItem.setDate(5, e_date);
 
-            insertItem.setBoolean(5, Boolean.parseBoolean(inStock.getText()));
-            insertItem.setString(6, supplier.getText());
+            insertItem.setBoolean(6, Boolean.parseBoolean(inStock.getText()));
+            insertItem.setString(7, supplier.getText());
             insertItem.executeUpdate();
+            alert = new Alert(Alert.AlertType.INFORMATION, "Item added to inventory.");
+            alert.show();
+
+            displayTable(true);
+
+            inventoryAddPane.setVisible(false);
+            inventoryAddPane.setDisable(true);
+            inventoryAddPane.setOpacity(0);
+
+            inventoryPane.setOpacity(1);
+            inventoryPane.setDisable(false);
         } catch (SQLException e) {
             System.out.println("Error accessing database.");
             e.printStackTrace();
@@ -165,6 +196,8 @@ public class InventoryViewController {
             insertItem.setString(5, supplier.getText());
             insertItem.setString(6, itemName.getText());
             insertItem.executeUpdate();
+
+            displayTable(true);
         }
         catch (SQLException e) {
             System.out.println("Error accessing database.");
@@ -181,6 +214,18 @@ public class InventoryViewController {
         inventoryPane.setOpacity(0.5);
         inventoryPane.setDisable(true);
 
+    }
+
+    public void mainMenuButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/green/gongchapos/managerView/managerView.fxml"));
+
+        Scene inventoryScene = new Scene(loader.load());
+        ManagerViewController controller = loader.getController();
+        controller.setCashierViewController(invViewStage);
+        controller.backButton(null);
+
+        invViewStage.setScene(inventoryScene);
+        invViewStage.show();
     }
 }
 

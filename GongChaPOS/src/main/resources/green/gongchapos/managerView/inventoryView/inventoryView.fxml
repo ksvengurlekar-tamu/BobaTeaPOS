@@ -27,7 +27,7 @@
       </HBox>
       <VBox prefHeight="743.0" prefWidth="162.0" styleClass="leftNav" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="192.0" styleClass="mainMenuButton" text="Main Menu" />
+            <Button mnemonicParsing="false" onAction="#mainMenuButton" prefWidth="192.0" styleClass="mainMenuButton" text="Main Menu" />
             <Button mnemonicParsing="false" text="Recipes" />
             <Button mnemonicParsing="false" text="Time Sheet" />
             <Button mnemonicParsing="false" styleClass="inventoryButton" text="Inventory" />
@@ -88,7 +88,7 @@
                         <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="In Stock:" wrappingWidth="156.87261962890625" />
-                              <TextField fx:id="inStock" />
+                              <TextField fx:id="inStock" text="true" />
                            </children>
                         </HBox>
                         <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">

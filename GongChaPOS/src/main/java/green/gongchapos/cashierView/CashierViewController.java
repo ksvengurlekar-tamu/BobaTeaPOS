@@ -174,7 +174,7 @@ public class CashierViewController {
     public void seriesPress(ActionEvent event) throws SQLException {
         subDrinkPane.getChildren().clear();
 
-        Scene scene = cashierViewStage.getScene();
+//        Scene scene = cashierViewStage.getScene();
         mainMenuPane.setDisable(true);
         mainMenuPane.setVisible(false);
 
@@ -307,6 +307,10 @@ public class CashierViewController {
     public void backButton(ActionEvent actionEvent) {
         mainMenuPane.setDisable(false);
         mainMenuPane.setVisible(true);
+        drinkPopUp.setDisable(true);
+        drinkPopUp.setVisible(false);
+        drinkPopUp.setOpacity(0);
+        
         drinkPane.setDisable(true);
         drinkPane.setVisible(false);
         seriesNameText.setText("Bubble Tea Series");
