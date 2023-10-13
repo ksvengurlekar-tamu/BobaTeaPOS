@@ -1,0 +1,213 @@
+* {
+    -fx-font-family: "Amerigo BT";
+    -fx-font-size: 25px;
+}
+
+.leftNav {
+    -fx-background-color: #98101f;
+    -fx-alignment: top-center;
+    -fx-spacing: 20px;
+    -fx-padding: 40 0 0 0;  /* Top padding of 20, no padding on right, bottom, and left */
+
+}
+
+.leftNav Button {
+    -fx-font-family: "Amerigo BT";
+    -fx-font-weight: 600;
+    -fx-font-size: 25px;
+    -fx-text-fill: #fcfcf1;
+    -fx-background-color: transparent;
+}
+
+.mainMenuButton {
+    -fx-font-family: "Amerigo BT";
+    -fx-font-weight: 800;
+    -fx-font-size: 25px;
+    -fx-text-fill: #d7c9af;
+    -fx-background-color: transparent;
+}
+
+.leftNav Button:hover {
+    -fx-text-fill: #d7c9af;
+    -fx-font-weight: 800;
+}
+
+.mainMenu {
+    -fx-background-color: #d7c9af;
+}
+
+.displayStatusNav {
+    -fx-alignment: center-right;
+    -fx-background-color: #fcfcf1;
+    -fx-spacing: 20px;
+}
+
+.displayStatusNav Text, .displayStatusNav Label {
+    -fx-font-size: 18px;
+}
+
+.bottomNav {
+    -fx-background-color: #FCFCF1;
+}
+
+.bottomNav Button, .seriesHeader Button {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #d7c9af;
+}
+
+.bottomNav Button:hover, .seriesHeader Button:hover {
+    -fx-background-color: #0099ff;
+    -fx-cursor: hand;  /* Hand pointer cursor */
+}
+
+.bottomNav Button:focused {
+    -fx-background-color: #0099ff;
+}
+
+.seriesHeader {
+    -fx-background-color: #fcfcf1;
+    -fx-alignment: center-left;
+    -fx-spacing: 40px; /* top right bottom left */
+    -fx-padding: 0 0 0 20;
+}
+
+.seriesHeader HBox {
+    -fx-alignment: center;
+}
+
+.mainMenu TilePane {
+    -fx-alignment: center;
+    -fx-padding: 20px;
+    -fx-hgap: 50px;
+    -fx-vgap: 50px;
+}
+
+.mainMenu TilePane Button {
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-border-width: 2px;
+    -fx-border-color: #fcfcf1;
+    -fx-font-weight: 600;
+}
+
+.mainMenu TilePane Button:hover {
+    -fx-cursor: hand;  /* Hand pointer cursor */
+    -fx-border-color: #0099ff;
+}
+
+.milkFoam { -fx-background-color: #fff2cc; }
+
+.milkTea { -fx-background-color: #fce5cd; }
+
+.slush { -fx-background-color: #d9ead3; }
+
+.seasonal { -fx-background-color: #c9daf8; }
+
+.teaLatte { -fx-background-color: #d9d2e9;}
+
+.coffee { -fx-background-color: #ead1dc; }
+
+.bottomNav {
+    -fx-background-color: #FCFCF1;
+    -fx-alignment: center;
+    -fx-spacing: 70px;
+}
+
+.drinkPane {
+    -fx-background-color: #d7c9af;
+}
+
+.rightVBox Text {
+    -fx-font-size: 30px;
+}
+
+.cart {
+    -fx-font-size: 45px;
+    -fx-underline: true;
+}
+
+.right-HBox{
+    -fx-alignment: Top-right;
+}
+
+.drinkPopUp {
+    -fx-background-color: #d7c9af;
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+    -fx-padding: 20px;
+    -fx-border-width: 3px;
+    -fx-border-color: #98101f;
+}
+
+.popUpHeading {
+    -fx-font-size: 30px;
+    -fx-font-weight: 800;
+    -fx-underline: true;
+}
+
+.upperPopUp {
+    -fx-padding: 10 10 10 20; /* top right bottom left */
+    -fx-alignment: top-left;
+}
+
+.lowerPopUp {
+    -fx-padding: 0 10 10 20; /* top right bottom left */
+    -fx-alignment: top-left;
+}
+
+.popupButton {
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+    -fx-font-weight: 800;
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.popupButton:hover {
+    -fx-background-color: #A0D9FF;
+    -fx-cursor: hand;  /* Hand pointer cursor */
+}
+
+.popupButtonDef {
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+    -fx-font-weight: 800;
+    -fx-background-color: #0099ff;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/*.popupButtonDef:hover {*/
+/*    -fx-background-color: #A0D9FF;*/
+/*    -fx-cursor: hand;  !* Hand pointer cursor *!*/
+/*}*/
+
+.addBar {
+    -fx-background-color: #000000;
+    -fx-opacity: 0.2;
+    -fx-alignment: center-right;
+
+}
+
+.addButton {
+    -fx-background-color: #0099ff;
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+    -fx-opacity: 1;
+    -fx-border-radius: 5px;
+}
+
+.addButton:hover {
+    -fx-cursor: hand;  /* Hand pointer cursor */
+}
+
+.chargeButton {
+    -fx-background-color: #0099ff;
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+    -fx-opacity: 1;
+    -fx-border-radius: 5px;
+}
+

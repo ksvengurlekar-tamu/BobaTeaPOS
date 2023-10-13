@@ -1,28 +1,27 @@
-AnchorPane{
+AnchorPane {
     -fx-background-color: #d7c9af;
 }
 
-
-.leftDiv{
+.leftDiv {
     -fx-background-color: #d7c9af;
     -fx-alignment: center;
 }
 
-.rightDiv{
+.rightDiv {
     -fx-background-color: #98101f;
     -fx-border-width: 10 10 10 0; /* top right bottom left */
     -fx-border-color: #d7c9af; /* Change to whatever color you desire */
 }
 
-.logInText{
+.logInText {
     -fx-alignment:top-center;
 }
 
-.fieldContainer{
+.fieldContainer {
     -fx-padding: 20px;
 }
 
-.fieldContainer TextField{
+.fieldContainer TextField {
     -fx-border-radius: 10px;
     -fx-background-radius: 13px;
     -fx-background-color: #ffffff; /* White background */
@@ -30,19 +29,20 @@ AnchorPane{
     -fx-border-width: 1px;
     -fx-cursor: text;  /* I-beam cursor */
 }
-.fieldContainer TextField:focused{
+
+.fieldContainer TextField:focused {
     -fx-border-color: #0099ff; /* Blue border color when focused */
     -fx-border-width: 3px;
     -fx-cursor: hand;  /* Hand pointer cursor */
 }
 
-.fieldContainer Button{
+.fieldContainer Button {
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
     -fx-background-color: #d7c9af;
 }
 
-.fieldContainer Button:hover{
+.fieldContainer Button:hover {
     -fx-background-color: #CEC1A8;
     -fx-cursor: hand;  /* Hand pointer cursor */
 }
@@ -51,9 +51,8 @@ AnchorPane{
     font-family: Amerigo BT;
     src: url('Amerigo BT.ttf');
 }
-Text{
-    -fx-font-family: 'Amerigo BT';
-    -fx-font-size: 64px;
+
+Text {
+    -fx-font-family: "Amerigo BT";
+    -fx-font-size: 40px;
 }
-
-

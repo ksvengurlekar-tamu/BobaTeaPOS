@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="710.0" prefWidth="1287.0" stylesheets="@inventoryView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="green.gongchapos.managerView.InventoryViewController">
+   <children>
+      <HBox layoutX="638.0" prefHeight="65.0" prefWidth="771.0" styleClass="displayStatusNav">
+         <children>
+            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manager View " />
+            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Printer" />
+            <FontAwesomeIconView glyphName="CHECK" translateX="20.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Display" />
+            <Label fx:id="Time" prefHeight="31.0" prefWidth="97.0" text="Time" />
+         </children>
+      </HBox>
+      <VBox prefHeight="743.0" prefWidth="162.0" styleClass="leftNav" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#mainMenuButton" prefWidth="192.0" styleClass="mainMenuButton" text="Main Menu" />
+            <Button mnemonicParsing="false" text="Recipes" />
+            <Button mnemonicParsing="false" text="Time Sheet" />
+            <Button mnemonicParsing="false" styleClass="inventoryButton" text="Inventory" />
+         </children>
+      </VBox>
+      <HBox layoutX="162.0" prefHeight="65.0" prefWidth="476.0" styleClass="seriesHeader">
+         <children>
+            <HBox prefHeight="65.0" prefWidth="373.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory View" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="162.0" layoutY="643.0" prefHeight="100.0" prefWidth="1246.0" style="-fx-background-color: #FCFCF1; -fx-alignment: Right;" styleClass="bottomNav">
+         <children>
+            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="192.0" text="Add">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Button>
+            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="192.0" text="Log out" />
+         </children>
+      </HBox>
+      <StackPane layoutX="162.0" layoutY="65.0" prefHeight="576.0" prefWidth="1247.0">
+         <children>
+            <AnchorPane fx:id="inventoryPane" prefHeight="512.0" prefWidth="917.0" />
+            <Pane fx:id="inventoryAddPane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="500.0" styleClass="drinkPopUp" visible="false">
+               <children>
+                  <VBox prefHeight="470.0" prefWidth="503.0">
+                     <children>
+                        <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Name:" wrappingWidth="156.87261962890625" />
+                              <TextField fx:id="itemName" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity:" wrappingWidth="156.87261962890625" />
+                              <TextField fx:id="quantity" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date Received:" wrappingWidth="156.87261962890625" />
+                              <TextField fx:id="dateReceived" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exp. Date:" wrappingWidth="156.87261962890625" />
+                              <TextField fx:id="expDate" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="In Stock:" wrappingWidth="156.87261962890625" />
+                              <TextField fx:id="inStock" text="true" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier:" wrappingWidth="156.87261962890625" />
+                              <TextField fx:id="supplier" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Button layoutX="350.0" layoutY="404.0" mnemonicParsing="false" onAction="#submitInventory" prefHeight="62.0" prefWidth="140.0" styleClass="addButton" text="Submit" />
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
