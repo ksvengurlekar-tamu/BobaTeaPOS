@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
@@ -38,8 +39,6 @@ import static green.gongchapos.GongCha.main;
  *
  * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
  */
-
-
 public class CashierViewController {
 
     @FXML
@@ -86,6 +85,8 @@ public class CashierViewController {
     public HBox topRightHBox;
     public HBox bottomHBox;
     public Text seriesNameText;
+
+    // Customize button values
     public Button mediumSize;
     public Button largeSize;
     public Button noIce;
@@ -105,23 +106,34 @@ public class CashierViewController {
     public Button milkFoam;
     public Button basilSeeds;
     public Button aiyuJelly;
+    public String seriesName = "";
 
+
+    // toppings in cart
     public float toppingPrice = 0;
     public String toppingName = "";
     public boolean toppingAdded = false;
 
     public ArrayList<Drink> cart = new ArrayList<>();
 
-
+    /** Initializes the application's user interface by setting up a digital clock
+     * that displays the current time, updating every second. This method should be
+     * called when the application starts.
+     *
+     */
     public void initialize() {
         Platform.runLater(() -> {
             // Create a SimpleDateFormat to format the time
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
 
+            Font.loadFont(getClass().getResourceAsStream("Amerigo BT.ttf"), 14);
+
             // Use a Timeline to update the time label every second
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
                 Date currentTime = new Date();
                 String formattedTime = dateFormat.format(currentTime);
+
+                Time.setStyle("-fx-font-size: 20;"); // Change the size here
                 Time.setText(formattedTime);
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
@@ -129,12 +141,14 @@ public class CashierViewController {
         });
     }
 
-
+    /** Sets the Cashier View controller's primary stage to the cashier view.
+     *
+     */
     public void setCashierViewController(Stage primaryStage) { this.cashierViewStage = primaryStage; }
 
 
     /** Drink class acts as a struct for a menu item that is being ordered
-     * Contains a name, boolean to represent if its large, and price
+     * Contains a name, boolean to represent if it's large, and price
      *
      * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
      */
@@ -160,44 +174,25 @@ public class CashierViewController {
     }
 
 
-    /** Handle the action triggered by selecting a series (e.g., category) of drinks.
-     *
-     * This method is responsible for populating a UI element (likely a container)
-     * with buttons and text elements representing drink items fetched from a database.
-     * It is typically invoked when a series button (e.g., category button) is clicked,
-     * triggering an ActionEvent.
-     *
-     * @param event The ActionEvent triggered by selecting a series button.
-     * @throws SQLException If a database error occurs during the process of fetching drink data.
-     */
-    @FXML
-    public void seriesPress(ActionEvent event) throws SQLException {
-        subDrinkPane.getChildren().clear();
-
-//        Scene scene = cashierViewStage.getScene();
-        mainMenuPane.setDisable(true);
-        mainMenuPane.setVisible(false);
-
-        drinkPane.setDisable(false);
-        drinkPane.setVisible(true);
+    protected int generalSeriesPress(ActionEvent event) {
 
         Button sourceButton = (Button) event.getSource();
-        String seriesName = sourceButton.getText();
+        seriesName = sourceButton.getText();
         seriesNameText.setText(seriesName + " Series");
+        int count = 0;
 
         try {
             Connection conn = getSQLConnection();
             String getDrinks = "SELECT * FROM menuItems WHERE menuItemCategory = ?";
-            try(PreparedStatement drinkStatment = conn.prepareStatement(getDrinks)) {
-                drinkStatment.setString(1, seriesName);
-                ResultSet resultSet = drinkStatment.executeQuery();
+            try(PreparedStatement drinkStatement = conn.prepareStatement(getDrinks)) {
+                drinkStatement.setString(1, seriesName);
+                ResultSet resultSet = drinkStatement.executeQuery();
 
                 subDrinkPane.setAlignment(Pos.TOP_LEFT);
                 subDrinkPane.setHgap(10.0);
                 subDrinkPane.setVgap(10.0);
                 subDrinkPane.setPadding(new javafx.geometry.Insets(20, 20, 20, 20));
 
-                int count = 0;
 
                 while(resultSet.next()) {
                     Text text = new Text(resultSet.getString("menuItemName"));
@@ -244,15 +239,14 @@ public class CashierViewController {
                         drinkPopUp.setOpacity(1);
                     });
 
-                    drinkButton.setStyle(
-                        "-fx-background-color: " + drinkColor + "; " +
-                        "-fx-cursor: hand;"
+                    drinkButton.setStyle (
+                            "-fx-background-color: " + drinkColor + "; "
                     );
 
                     drinkButton.hoverProperty().addListener((observable, oldValue, newValue) -> {
                         if (newValue) {
                             // Mouse is hovering over the button
-                            drinkButton.setStyle("-fx-background-color: " + drinkColor + "; -fx-border-color: #0099ff;" + "-fx-border-width: 2px;");
+                            drinkButton.setStyle("-fx-background-color: " + drinkColor + "; -fx-border-color: #0099ff;" + "-fx-border-width: 2px;" + "-fx-cursor: hand;");
                         } else {
                             // Mouse is not hovering over the button
                             drinkButton.setStyle("-fx-background-color: " + drinkColor + "; -fx-border-width: 0px;");
@@ -262,13 +256,6 @@ public class CashierViewController {
                     subDrinkPane.getChildren().add(drinkButton);
                     count++;
 
-                } while(count != 20) {
-                    Button drinkButton = new Button();
-                    drinkButton.setMinSize(161, 120);
-                    drinkButton.setMaxSize(161, 120);
-                    drinkButton.setStyle("-fx-background-color: #ffffff;");
-                    subDrinkPane.getChildren().add(drinkButton);
-                    count++;
                 }
 
             } catch (SQLException e) {
@@ -280,7 +267,40 @@ public class CashierViewController {
             System.out.println("Error accessing database.");
             e.printStackTrace();
         }
+        return count;
     }
+
+
+    /** Handle the action triggered by selecting a series (e.g., category) of drinks.
+     *
+     * This method is responsible for populating a UI element (likely a container)
+     * with buttons and text elements representing drink items fetched from a database.
+     * It is typically invoked when a series button (e.g., category button) is clicked,
+     * triggering an ActionEvent.
+     *
+     * @param event The ActionEvent triggered by selecting a series button.
+     */
+    @FXML
+    public void seriesPress(ActionEvent event) {
+        subDrinkPane.getChildren().clear();
+
+        mainMenuPane.setDisable(true);
+        mainMenuPane.setVisible(false);
+
+        drinkPane.setDisable(false);
+        drinkPane.setVisible(true);
+        int count = generalSeriesPress(event);
+
+        while(count != 20) {
+            Button drinkButton = new Button();
+            drinkButton.setMinSize(161, 120);
+            drinkButton.setMaxSize(161, 120);
+            drinkButton.setStyle("-fx-background-color: #ffffff;");
+            subDrinkPane.getChildren().add(drinkButton);
+            count++;
+        }
+    }
+
 
     /** Handles the checkout action, toggling the visibility of a UI component.
      * If the component is visible, it will be hidden, and vice versa.
@@ -307,10 +327,11 @@ public class CashierViewController {
     public void backButton(ActionEvent actionEvent) {
         mainMenuPane.setDisable(false);
         mainMenuPane.setVisible(true);
+
+
         drinkPopUp.setDisable(true);
         drinkPopUp.setVisible(false);
         drinkPopUp.setOpacity(0);
-        
         drinkPane.setDisable(true);
         drinkPane.setVisible(false);
         seriesNameText.setText("Bubble Tea Series");
@@ -350,7 +371,6 @@ public class CashierViewController {
         milkFoam.getStyleClass().add("popupButton");
         basilSeeds.getStyleClass().add("popupButton");
         aiyuJelly.getStyleClass().add("popupButton");
-
         sourceButton.getStyleClass().remove("popupButton");
         sourceButton.getStyleClass().add("popupButtonDef");
 
@@ -374,6 +394,32 @@ public class CashierViewController {
             System.out.println("Error accessing database.");
             e.printStackTrace();
         }
+    }
+
+
+    private void resetToppingSelection() {
+        toppingName = "";
+        toppingAdded = false;
+
+        tapiocaPearls.getStyleClass().clear();
+        pudding.getStyleClass().clear();
+        herbalJelly.getStyleClass().clear();
+        whitePearls.getStyleClass().clear();
+        oreoCrumbs.getStyleClass().clear();
+        coconutJelly.getStyleClass().clear();
+        milkFoam.getStyleClass().clear();
+        basilSeeds.getStyleClass().clear();
+        aiyuJelly.getStyleClass().clear();
+
+        tapiocaPearls.getStyleClass().add("popupButton");
+        pudding.getStyleClass().add("popupButton");
+        herbalJelly.getStyleClass().add("popupButton");
+        whitePearls.getStyleClass().add("popupButton");
+        oreoCrumbs.getStyleClass().add("popupButton");
+        coconutJelly.getStyleClass().add("popupButton");
+        milkFoam.getStyleClass().add("popupButton");
+        basilSeeds.getStyleClass().add("popupButton");
+        aiyuJelly.getStyleClass().add("popupButton");
     }
 
 
@@ -531,7 +577,10 @@ public class CashierViewController {
         totalCharge();
 
         price = 0;
+
+        resetToppingSelection();
     }
+
 
     /** Updates the total charges, including the subtotal, tax, and total, based
      * on the current price.
@@ -639,7 +688,6 @@ public class CashierViewController {
 
                 orderID++; // orderID is a primary key and must be unique
 
-
                 // Fetch ingredients and amounts used for the selected menu item
                 String inventoryQuery = "SELECT mi.inventoryID, mi.measurement, i.inventoryName " +
                                         "FROM menuItems_Inventory mi " +
@@ -704,7 +752,7 @@ public class CashierViewController {
                     if (quantityResult.next()) {
                         int updatedQuantity = quantityResult.getInt("inventoryQuantity");
 
-                        if (updatedQuantity == 0) {
+                        if (updatedQuantity <= 0) {
                             // If the quantity is now 0, update inventoryInStock to false
                             String updateInStockQuery = "UPDATE Inventory SET inventoryInStock = false WHERE inventoryID = ?";
                             try (PreparedStatement inStockUpdateStatement = conn.prepareStatement(updateInStockQuery)) {
