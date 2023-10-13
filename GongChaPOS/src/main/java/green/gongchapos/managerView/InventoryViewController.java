@@ -119,14 +119,12 @@ public class InventoryViewController {
                     switch (columnType) {
                         case Types.INTEGER:
                             value = rs.getInt(i);
-                            System.out.println("int item added to TableView");
                             break;
                         case Types.BOOLEAN:
                             value = rs.getBoolean(i);
                             break;
                         case Types.DATE:
                             value = rs.getDate(i);
-                            System.out.println("date item added to TableView");
                             break;
                         default:
                             // Default to treating it as a string
@@ -152,8 +150,8 @@ public class InventoryViewController {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error accessing database.");
             e.printStackTrace();
+            return;
         }
     }
 
@@ -226,8 +224,9 @@ public class InventoryViewController {
             inventoryPane.setOpacity(1);
             inventoryPane.setDisable(false);
         } catch (SQLException e) {
-            System.out.println("Error accessing database.");
+            //System.out.println("Error accessing database.");
             e.printStackTrace();
+            return;
         }
     }
 
@@ -255,8 +254,9 @@ public class InventoryViewController {
             displayTable(true);
         }
         catch (SQLException e) {
-            System.out.println("Error accessing database.");
+            //System.out.println("Error accessing database.");
             e.printStackTrace();
+            return;
         }
     }
 

@@ -158,7 +158,7 @@ public class ManagerViewController extends CashierViewController {
             PreparedStatement stmt = conn.prepareStatement(query);
 
             stmt.setString(1, seriesNameText.getText().replace(" Series", ""));
-            System.out.println(seriesNameText.getText().replace(" Series", ""));
+//            System.out.println(seriesNameText.getText().replace(" Series", ""));
             ResultSet resultSet = stmt.executeQuery();
 
             while (resultSet.next()) {
@@ -166,7 +166,7 @@ public class ManagerViewController extends CashierViewController {
             }
 
         } catch(SQLException e) {
-            System.out.println("Error accessing database.");
+//            System.out.println("Error accessing database.");
         }
 
         autoCompleteDrinkName.getEntries().addAll(drinkList);
@@ -233,7 +233,7 @@ public class ManagerViewController extends CashierViewController {
 
             this.backButton(null);
         } catch (SQLException e) {
-            System.out.println("Error accessing database.");
+            // System.out.println("Error accessing database.");
             e.printStackTrace();
         }
 
@@ -268,7 +268,7 @@ public class ManagerViewController extends CashierViewController {
             insertItem.executeUpdate();
         }
         catch (SQLException e) {
-            System.out.println("Error accessing database.");
+//            System.out.println("Error accessing database.");
             e.printStackTrace();
         }
 

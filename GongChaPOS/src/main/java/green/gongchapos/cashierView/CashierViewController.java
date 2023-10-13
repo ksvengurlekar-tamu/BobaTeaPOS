@@ -221,7 +221,7 @@ public class CashierViewController {
                             }
 
                         } catch(SQLException e) {
-                            System.out.println("Error getting drinks.");
+                            // System.out.println("Error getting drinks.");
                             e.printStackTrace();
                         }
 
@@ -259,12 +259,12 @@ public class CashierViewController {
                 }
 
             } catch (SQLException e) {
-                System.out.println("Error getting drinks.");
+                // System.out.println("Error getting drinks.");
                 e.printStackTrace();
             }
 
         } catch (Exception e) {
-            System.out.println("Error accessing database.");
+            // System.out.println("Error accessing database.");
             e.printStackTrace();
         }
         return count;
@@ -385,13 +385,13 @@ public class CashierViewController {
                     price += toppingPrice;
                     toppingAdded = true;
                 }
-                System.out.println(price);
+                // System.out.println(price);
             } catch(SQLException e) {
-                System.out.println("Error getting toppings.");
+                // System.out.println("Error getting toppings.");
                 e.printStackTrace();
             }
         } catch(SQLException e) {
-            System.out.println("Error accessing database.");
+            // System.out.println("Error accessing database.");
             e.printStackTrace();
         }
     }
@@ -459,7 +459,7 @@ public class CashierViewController {
             mediumSize.getStyleClass().remove("popupButton");
             mediumSize.getStyleClass().add("popupButtonDef");
         }
-        System.out.println(price);
+        // System.out.println(price);
     }
 
 
@@ -511,7 +511,7 @@ public class CashierViewController {
      */
     @FXML
     public void addButton(ActionEvent actionEvent) {
-        System.out.println(price);
+        // System.out.println(price);
         cart.add(new Drink(name, isLarge, price));
 
         drinkPane.setDisable(false);
@@ -638,13 +638,13 @@ public class CashierViewController {
                     orderID = resultSet.getInt("orderid");
                     orderNo = resultSet.getInt("orderNo");
 
-                    System.out.println("orderID: " + orderID + "\norderNo: " + orderNo);
+                    // System.out.println("orderID: " + orderID + "\norderNo: " + orderNo);
                 }
 
                 orderID++;
                 orderNo++;
             } catch(SQLException e) {
-                System.out.println("Error accessing order number.");
+                // System.out.println("Error accessing order number.");
                 e.printStackTrace();
             }
 
@@ -657,7 +657,7 @@ public class CashierViewController {
                         menuItemID = resultSet.getInt("menuItemID");
                     }
                 } catch(SQLException e) {
-                    System.out.println("Error getting menu item ID.");
+                    // System.out.println("Error getting menu item ID.");
                     e.printStackTrace();
                 }
 
@@ -680,9 +680,9 @@ public class CashierViewController {
                     orderStatement.setInt(8, menuItemID);
 
                     orderStatement.executeUpdate();
-                    System.out.println("Successfully placed order");
+                    // System.out.println("Successfully placed order");
                 } catch(SQLException e) {
-                    System.out.println("Error placing order.");
+                    // System.out.println("Error placing order.");
                     e.printStackTrace();
                 }
 
@@ -704,16 +704,16 @@ public class CashierViewController {
                         // Update the inventory by subtracting the used amount
                         updateInventoryQuantity(conn, inventoryID, measurement);
 
-                        System.out.println("Used " + measurement + " of " + inventoryName);
+                        // System.out.println("Used " + measurement + " of " + inventoryName);
                     }
                 } catch (SQLException e) {
-                    System.out.println("Error updating inventory.");
+                    // System.out.println("Error updating inventory.");
                     e.printStackTrace();
                 }
             }
 
         } catch (SQLException e) {
-            System.out.println("Error accessing database.");
+            // System.out.println("Error accessing database.");
             e.printStackTrace();
         }
 
@@ -763,12 +763,12 @@ public class CashierViewController {
                     }
                 }
 
-                System.out.println("Inventory updated successfully.");
+                // System.out.println("Inventory updated successfully.");
             } else {
-                System.out.println("No rows updated. Inventory not found or insufficient quantity.");
+                // System.out.println("No rows updated. Inventory not found or insufficient quantity.");
             }
         } catch (SQLException e) {
-            System.out.println("Error updating inventory.");
+//            System.out.println("Error updating inventory.");
             e.printStackTrace();
         }
     }

@@ -122,12 +122,10 @@ public class LoginController {
                     alert.showAndWait();
                 }
             } catch (SQLException e) {
-                System.out.println("Error checking username.");
                 e.printStackTrace();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         /* } finally {
