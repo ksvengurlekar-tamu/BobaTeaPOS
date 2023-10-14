@@ -60,7 +60,7 @@ public class CashierViewController {
     public Pane drinkPopUp;
 
     @FXML
-    private Label Time;
+    public Label Time;
 
     @FXML
     public ListView<Drink> cartView;

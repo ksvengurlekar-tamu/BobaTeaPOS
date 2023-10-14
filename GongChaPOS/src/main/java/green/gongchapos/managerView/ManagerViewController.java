@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import java.util.Random;
 
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -15,10 +15,6 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-/**
- * This class is a TextField which implements an "autocomplete" functionality, based on a supplied list of entries.
- * @author Caleb Brinkman
- */
 public class AutoCompleteTextBox extends TextField
 {
   /** The existing autocomplete entries. */
