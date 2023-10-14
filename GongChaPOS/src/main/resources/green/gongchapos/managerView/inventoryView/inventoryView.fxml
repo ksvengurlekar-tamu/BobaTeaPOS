@@ -3,7 +3,10 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -44,6 +47,13 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" layoutX="151.0" layoutY="643.0" prefHeight="100.0" prefWidth="1257.0" style="-fx-background-color: #FCFCF1; -fx-alignment: Right;" styleClass="bottomNav">
          <children>
+            <Button mnemonicParsing="false" onAction="#salesReportButton" prefHeight="67.0" prefWidth="192.0" text="Sales Report">
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="192.0" text="Excess Report" />
+            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="205.0" text="Restock Report" />
             <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="192.0" text="Add">
                <HBox.margin>
                   <Insets right="10.0" />
@@ -103,6 +113,50 @@
                      </children>
                   </VBox>
                   <Button layoutX="350.0" layoutY="404.0" mnemonicParsing="false" onAction="#submitInventory" prefHeight="62.0" prefWidth="140.0" styleClass="addButton" text="Submit" />
+               </children>
+            </Pane>
+            <Pane fx:id="salesReportPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="565.0" prefWidth="1100.0" styleClass="drinkPopUp">
+               <children>
+                  <HBox prefHeight="62.0" prefWidth="1098.0" style="-fx-alignment: center-left;">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Menu Item name:">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <HBox fx:id="menuItemNameBox" prefHeight="62.0" prefWidth="227.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date:">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Text>
+                        <DatePicker fx:id="salesStartDate" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="220.0">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date:" wrappingWidth="105.73223876953125">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Text>
+                        <DatePicker fx:id="salesEndDate" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="220.0">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <TableView fx:id="salesTableView" layoutX="3.0" layoutY="64.0" prefHeight="443.0" prefWidth="1093.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+                  <Button layoutX="979.0" layoutY="509.0" mnemonicParsing="false" onAction="#salesReportBack" prefHeight="44.0" prefWidth="109.0" styleClass="addButton" text="Button" />
                </children>
             </Pane>
          </children>
