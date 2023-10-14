@@ -32,6 +32,7 @@ import static green.gongchapos.GongCha.getSQLConnection;
 public class InventoryViewController {
 
     @FXML
+    // inventory table columns
     public Stage invViewStage;
     public AnchorPane inventoryPane;
     public Pane inventoryAddPane;
@@ -42,11 +43,22 @@ public class InventoryViewController {
     public TextField inStock;
     public TextField supplier;
 
+    // For sales report
+    public TextField startTime, endTime, menuItem;
+    AutoCompleteTextBox autoCompleteDrinkName = new AutoCompleteTextBox();
+
     @FXML
     private Label Time;
 
+
+    // for the inventory table
     private ObservableList<ObservableList> data;
     private TableView tableView = new TableView();
+
+
+    // for the sales report table
+    private ObservableList<ObservableList> sales_data;
+    private TableView salesReportTableView = new TableView();
 
 
     public void setInvViewController(Stage primaryStage) { this.invViewStage = primaryStage; }
@@ -55,7 +67,7 @@ public class InventoryViewController {
     /** Initializes the application's user interface by setting up a digital clock
      * that displays the current time, updating every second. This method should be
      * called when the application starts.
-     * 
+     *
      */
     public void initialize() {
         Platform.runLater(() -> {
@@ -87,7 +99,7 @@ public class InventoryViewController {
             ResultSet table = p.executeQuery();
             //idExists = rs.next();
 
-        // find some way to put the pulled select * into a JavaFX element tableView
+            // find some way to put the pulled select * into a JavaFX element tableView
             ResultSet rs = conn.createStatement().executeQuery(stmt);
             data = FXCollections.observableArrayList();
 
@@ -194,9 +206,9 @@ public class InventoryViewController {
             int itemID = 88888;
             PreparedStatement findBiggestID = conn.prepareStatement("SELECT MAX(inventoryID) AS maxID FROM inventory");
             ResultSet resultSet = findBiggestID.executeQuery();
-                while (resultSet.next()) {
-                    itemID = resultSet.getInt("maxID");
-                }
+            while (resultSet.next()) {
+                itemID = resultSet.getInt("maxID");
+            }
 
             // insert new inventory item
             PreparedStatement insertItem = conn.prepareStatement("INSERT INTO inventory (inventoryID, inventoryName, inventoryQuantity, inventoryReceivedDate, inventoryExpirationDate, inventoryInStock, inventorySupplier) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -226,7 +238,6 @@ public class InventoryViewController {
         } catch (SQLException e) {
             //System.out.println("Error accessing database.");
             e.printStackTrace();
-            return;
         }
     }
 
@@ -282,5 +293,32 @@ public class InventoryViewController {
         invViewStage.setScene(inventoryScene);
         invViewStage.show();
     }
+
+
+
+    // SALES REPORT DISPLAY
+
+
+    public void queryReport(ActionEvent e) {
+        String startTime = this.startTime.getText();
+        String endTime = this.endTime.getText();
+        String menuItem = this.menuItem.getText();
+
+        // Filtered view with predicates
+        if (startTime != null) {
+            return dateFormatter.format(startTime);
+        } else {
+            // Default to current date when DatePicker is empty
+            return dateFormatter.format(LocalDate.now());
+        }
+    }
+
+        if (string != null && !string.isEmpty()) {
+        return LocalDate.parse(string, dateFormatter);
+    } else {
+        // Return null if the input is empty or invalid
+        return null;
+    }
+
 }
 
