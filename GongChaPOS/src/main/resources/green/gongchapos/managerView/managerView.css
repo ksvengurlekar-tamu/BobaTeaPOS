@@ -184,6 +184,14 @@
 /*    -fx-cursor: hand;  !* Hand pointer cursor *!*/
 /*}*/
 
+.submitButton {
+    -fx-background-color: #0099ff;
+}
+
+.submitButton:hover {
+   -fx-cursor: hand;
+}
+
 .addBar {
     -fx-background-color: #000000;
     -fx-opacity: 0.2;

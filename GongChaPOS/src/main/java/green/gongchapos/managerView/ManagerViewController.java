@@ -1,6 +1,10 @@
 package green.gongchapos.managerView;
 
 import green.gongchapos.cashierView.CashierViewController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +15,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.util.Duration;
+import org.w3c.dom.Text;
+
+import java.net.ConnectException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import java.io.IOException;
@@ -30,8 +41,21 @@ import static green.gongchapos.GongCha.getSQLConnection;
  */
 public class ManagerViewController extends CashierViewController {
     public StackPane drinkStackPane;
-    // menu item view inputs
-
+    public HBox ingredient1Box;
+    AutoCompleteTextBox autoCompleteIngredient1 = new AutoCompleteTextBox();
+    public TextField ingredient1Quantity;
+    public HBox ingredient2Box;
+    AutoCompleteTextBox autoCompleteIngredient2 = new AutoCompleteTextBox();
+    public TextField ingredient2Quantity;
+    public HBox ingredient3Box;
+    AutoCompleteTextBox autoCompleteIngredient3 = new AutoCompleteTextBox();
+    public TextField ingredient3Quantity;
+    public HBox ingredient4Box;
+    AutoCompleteTextBox autoCompleteIngredient4 = new AutoCompleteTextBox();
+    public TextField ingredient4Quantity;
+    public HBox ingredient5Box;
+    AutoCompleteTextBox autoCompleteIngredient5 = new AutoCompleteTextBox();
+    public TextField ingredient5Quantity;
     AutoCompleteTextBox autoCompleteDrinkName = new AutoCompleteTextBox();
     public TextField menuItemPrice;
     public TextField menuItemCalories;
@@ -45,6 +69,28 @@ public class ManagerViewController extends CashierViewController {
     public void initialize() {
         this.backButton(null);
         drinkNameHbox.getChildren().add(autoCompleteDrinkName);
+        ingredient1Box.getChildren().add(autoCompleteIngredient1);
+
+        ingredient2Box.getChildren().add(autoCompleteIngredient2);
+        ingredient3Box.getChildren().add(autoCompleteIngredient3);
+        ingredient4Box.getChildren().add(autoCompleteIngredient4);
+        ingredient5Box.getChildren().add(autoCompleteIngredient5);
+
+        Platform.runLater(() -> {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+
+            Font.loadFont(getClass().getResourceAsStream("Amerigo BT.ttf"), 14);
+
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                Date currentTime = new Date();
+                String formattedTime = dateFormat.format(currentTime);
+
+                Time.setStyle("-fx-font-size: 20;");
+                Time.setText(formattedTime);
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+        });
     }
 
     public void inventoryClick(ActionEvent actionEvent) throws IOException {
@@ -141,14 +187,14 @@ public class ManagerViewController extends CashierViewController {
     }
 
 
-    private void addDrink(ActionEvent event) throws SQLException {
+    private void addDrink(ActionEvent actionEvent) throws SQLException {
         addDrinkPane.setDisable(false);
         addDrinkPane.setVisible(true);
 
         drinkPane.setDisable(true);
         drinkPane.setOpacity(0.5);
 
-        ArrayList<String> drinkList = new ArrayList<String>();
+        ArrayList<String> drinkList = new ArrayList<>();
 
         try {
             Connection conn = getSQLConnection();
@@ -172,6 +218,29 @@ public class ManagerViewController extends CashierViewController {
 
         menuItemCategory.setText(seriesNameText.getText());
 
+        // need complete list of ingredients for autofill
+        ArrayList<String> ingredientList = new ArrayList<>();
+
+        try {
+            Connection conn = getSQLConnection();
+
+            String query = "SELECT inventoryname FROM inventory";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                ingredientList.add(resultSet.getString("inventoryname"));
+            }
+
+        } catch(SQLException e) {
+        //    System.out.println("Error accessing database.");
+        }
+
+        autoCompleteIngredient1.getEntries().addAll(ingredientList);
+        autoCompleteIngredient2.getEntries().addAll(ingredientList);
+        autoCompleteIngredient3.getEntries().addAll(ingredientList);
+        autoCompleteIngredient4.getEntries().addAll(ingredientList);
+        autoCompleteIngredient5.getEntries().addAll(ingredientList);
     }
 
 
@@ -185,6 +254,7 @@ public class ManagerViewController extends CashierViewController {
             return;
         }
 
+        int itemID = 0;
         try (Connection conn = getSQLConnection()) {
             String query = "SELECT * FROM menuItems WHERE menuItemName = ?";
 
@@ -194,7 +264,7 @@ public class ManagerViewController extends CashierViewController {
 
             // query for item name here
             while (rs.next()) {
-                if (rs.getString("menuitemName").equals(autoCompleteDrinkName.getText())){
+                if (rs.getString("menuitemName").equals(autoCompleteDrinkName.getText())) {
                     helperUpdateItem();
                     this.backButton(null);
                     return;
@@ -202,20 +272,31 @@ public class ManagerViewController extends CashierViewController {
             }
 
 
+
             // query id to add 1 to; incrememnt menuitemID by 1 when adding new item
-            int itemID = 88888;
+            itemID = 88888;
             PreparedStatement findBiggestID = conn.prepareStatement("SELECT MAX(menuitemid) AS maxID FROM menuitems");
             ResultSet resultSet = findBiggestID.executeQuery();
-                while (resultSet.next()) {
-                    itemID = resultSet.getInt("maxID");
-                }
-            Random rand = new Random();
+            while (resultSet.next()) {
+                itemID = resultSet.getInt("maxID") + 1;
+            }
 
+            int ingredient1 = helperInventoryQuery(autoCompleteIngredient1, ingredient1Quantity);
+            int ingredient2 = helperInventoryQuery(autoCompleteIngredient2, ingredient2Quantity);
+            int ingredient3 = helperInventoryQuery(autoCompleteIngredient3, ingredient3Quantity);
+            int ingredient4 = helperInventoryQuery(autoCompleteIngredient4, ingredient4Quantity);
+            int ingredient5 = helperInventoryQuery(autoCompleteIngredient5, ingredient5Quantity);
+
+            if (ingredient1 == -1 || ingredient2 == -1 || ingredient3 == -1 || ingredient4 == -1 || ingredient5 == -1) {
+                return;
+            }
+
+            Random rand = new Random();
             String[] hexColorArray = {"#FF5733", "#00AABB", "#FFCC00", "#9933FF", "#33CC33"};
 
             // insert new inventory item
             PreparedStatement insertItem = conn.prepareStatement("INSERT INTO menuitems (menuitemID, menuItemName, menuItemPrice, menuItemCalories, menuItemCategory, hasCaffeine, color) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            insertItem.setInt(1, itemID + 1);
+            insertItem.setInt(1, itemID);
             insertItem.setString(2, autoCompleteDrinkName.getText());
             insertItem.setFloat(3, Float.parseFloat(menuItemPrice.getText()));
 
@@ -229,6 +310,11 @@ public class ManagerViewController extends CashierViewController {
             alert.show();
 
             // updates the drinks
+            helperAddToJunction(itemID, ingredient1, ingredient1Quantity);
+            helperAddToJunction(itemID, ingredient2, ingredient2Quantity);
+            helperAddToJunction(itemID, ingredient3, ingredient3Quantity);
+            helperAddToJunction(itemID, ingredient4, ingredient4Quantity);
+            helperAddToJunction(itemID, ingredient5, ingredient5Quantity);
 
             this.backButton(null);
         } catch (SQLException e) {
@@ -236,11 +322,18 @@ public class ManagerViewController extends CashierViewController {
             e.printStackTrace();
         }
 
+
         autoCompleteDrinkName.setText("");
         menuItemPrice.setText("");
         menuItemCalories.setText("");
         seriesNameText.setText("");
         hasCaffeine.setText("");
+        autoCompleteIngredient1.clear();
+        autoCompleteIngredient2.clear();
+        autoCompleteIngredient3.clear();
+        autoCompleteIngredient4.clear();
+        autoCompleteIngredient5.clear();
+
     }
 
 
@@ -271,10 +364,66 @@ public class ManagerViewController extends CashierViewController {
             e.printStackTrace();
         }
 
+
         autoCompleteDrinkName.setText("");
         menuItemPrice.setText("");
         menuItemCalories.setText("");
         seriesNameText.setText("");
         hasCaffeine.setText("");
+        autoCompleteIngredient1.clear();
+        autoCompleteIngredient2.clear();
+        autoCompleteIngredient3.clear();
+        autoCompleteIngredient4.clear();
+        autoCompleteIngredient5.clear();
     }
+
+
+    private int helperInventoryQuery(AutoCompleteTextBox ingredientName, TextField quantity) {
+        int inventoryID = -2;
+        if (!ingredientName.getText().isEmpty() && !quantity.getText().isEmpty()) {
+            try (Connection conn = getSQLConnection()) {
+                String inventoryIDQuery = "Select inventoryID FROM inventory WHERE inventoryName = ?";
+                PreparedStatement stmt = conn.prepareStatement(inventoryIDQuery);
+                stmt.setString(1, ingredientName.getText());
+
+                ResultSet resultSet = stmt.executeQuery();
+
+                if (resultSet.next()) {
+                    inventoryID = resultSet.getInt("inventoryID");
+                }
+                else {
+                    throw new SQLException("No ingredient " + ingredientName.getText() + " in inventory");
+                }
+
+
+            } catch (SQLException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+                return -1;
+
+            }
+        }
+        return inventoryID;
+    }
+
+
+    private void helperAddToJunction(int menuItemid, int inventoryID, TextField quantity) {
+        if(inventoryID == -2) {
+            return;
+        }
+        try {
+            Connection conn = getSQLConnection();
+            String addToJunctionQuery = "INSERT INTO menuitems_inventory (menuitemID, inventoryID, measurement) VALUES (?, ?, ?)";
+            PreparedStatement stmt2 = conn.prepareStatement(addToJunctionQuery);
+            stmt2.setInt(1, menuItemid);
+            stmt2.setInt(2, inventoryID);
+            stmt2.setFloat(3, Float.parseFloat(quantity.getText()));
+            stmt2.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

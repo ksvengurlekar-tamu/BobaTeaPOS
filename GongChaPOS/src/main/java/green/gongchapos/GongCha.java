@@ -1,6 +1,5 @@
 package green.gongchapos;
 
-import green.gongchapos.cashierView.CashierViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -68,16 +67,7 @@ public class GongCha extends Application {
             e.printStackTrace();
             throw e; // Rethrow the exception so the caller can handle it
         }
-        // Close the connection if it's open
-        /*if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }*/
-
-
+        
 
         return conn;
     }

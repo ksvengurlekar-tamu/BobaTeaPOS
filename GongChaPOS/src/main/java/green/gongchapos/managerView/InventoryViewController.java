@@ -53,7 +53,7 @@ public class InventoryViewController {
     // For sales report
     public TextField startTime, endTime, menuItem;
     public HBox menuItemNameBox;
-    AutoCompleteTextBox autoCompleteDrinkName;
+    AutoCompleteTextBox autoCompleteDrinkName = new AutoCompleteTextBox();;
     public DatePicker salesStartDate;
     public DatePicker salesEndDate;
     public TableView salesTableView;
@@ -84,7 +84,6 @@ public class InventoryViewController {
      */
     public void initialize() {
         Platform.runLater(() -> {
-            autoCompleteDrinkName = new AutoCompleteTextBox();
             menuItemNameBox.getChildren().add(autoCompleteDrinkName);
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
 
@@ -418,8 +417,6 @@ public class InventoryViewController {
             salesTableView.setItems(salesData);
 
 
-
-
             autoCompleteDrinkName.setOnAction(drinkNameEvent -> {
                 salesData.clear();
                 try {
@@ -479,10 +476,6 @@ public class InventoryViewController {
             });
 
 
-
-
-
-
         } catch(SQLException e) {
 //            System.out.println("Error accessing database.");
         }
@@ -490,6 +483,7 @@ public class InventoryViewController {
         
 
     }
+
 
     private ResultSet salesReportQuery() throws SQLException {
         PreparedStatement stmt = null;
