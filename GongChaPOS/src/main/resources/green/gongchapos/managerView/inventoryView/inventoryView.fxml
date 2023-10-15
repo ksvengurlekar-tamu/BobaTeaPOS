@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -89,14 +88,14 @@
                         <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date Received:" wrappingWidth="156.87261962890625" />
-                              <TextField fx:id="dateReceived" />
-                           </children>
+                              <TextField fx:id="dateReceived" promptText="YYYY-MM-DD" />
+                              </children>
                         </HBox>
                         <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exp. Date:" wrappingWidth="156.87261962890625" />
-                              <TextField fx:id="expDate" />
-                           </children>
+                              <TextField fx:id="expDate" promptText="YYYY-MM-DD" />
+                              </children>
                         </HBox>
                         <HBox prefHeight="63.0" prefWidth="1245.0" styleClass="addHBox">
                            <children>
@@ -115,7 +114,7 @@
                   <Button layoutX="350.0" layoutY="404.0" mnemonicParsing="false" onAction="#submitInventory" prefHeight="62.0" prefWidth="140.0" styleClass="addButton" text="Submit" />
                </children>
             </Pane>
-            <Pane fx:id="salesReportPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="565.0" prefWidth="1100.0" styleClass="drinkPopUp">
+            <Pane fx:id="salesReportPane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="565.0" prefWidth="1100.0" styleClass="drinkPopUp" visible="false">
                <children>
                   <HBox prefHeight="62.0" prefWidth="1098.0" style="-fx-alignment: center-left;">
                      <children>
@@ -150,13 +149,8 @@
                         <Insets top="10.0" />
                      </padding>
                   </HBox>
-                  <TableView fx:id="salesTableView" layoutX="3.0" layoutY="64.0" prefHeight="443.0" prefWidth="1093.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                    </columns>
-                  </TableView>
-                  <Button layoutX="979.0" layoutY="509.0" mnemonicParsing="false" onAction="#salesReportBack" prefHeight="44.0" prefWidth="109.0" styleClass="addButton" text="Button" />
+                  <TableView fx:id="salesTableView" layoutX="3.0" layoutY="64.0" prefHeight="443.0" prefWidth="1093.0" />
+                  <Button layoutX="979.0" layoutY="509.0" mnemonicParsing="false" onAction="#salesReportBack" prefHeight="44.0" prefWidth="109.0" styleClass="addButton" text="Back" />
                </children>
             </Pane>
          </children>

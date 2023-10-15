@@ -48,6 +48,8 @@
 
 .bottomNav {
     -fx-background-color: #FCFCF1;
+    -fx-alignment: center;
+    -fx-spacing: 70px;
 }
 
 .bottomNav Button, .seriesHeader Button {
@@ -108,11 +110,7 @@
 
 .coffee { -fx-background-color: #ead1dc; }
 
-.bottomNav {
-    -fx-background-color: #FCFCF1;
-    -fx-alignment: center;
-    -fx-spacing: 70px;
-}
+
 
 .drinkPane {
     -fx-background-color: #d7c9af;

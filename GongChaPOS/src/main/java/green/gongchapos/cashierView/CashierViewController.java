@@ -1,17 +1,24 @@
 package green.gongchapos.cashierView;
 
+import green.gongchapos.LoginController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.Node;
+import java.io.IOException;
+import java.util.Objects;
+
+import java.io.IOException;import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -783,25 +790,27 @@ public class CashierViewController {
      *  @param event The event triggered by the button press of the logout button.
      */
     @FXML
-    public void logoutButton(ActionEvent event) {
-    //     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    //     alert.setTitle("Success");
-    //     alert.setHeaderText("Successful logout");
-    //     alert.setContentText("You have logged out successfully!");
-    //     alert.showAndWait();
+    public void logoutButton(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Successful logout");
+        alert.setContentText("You have logged out successfully!");
+        alert.showAndWait();
 
-    //     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        Stage cashierStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        cashierStage.close();
 
-    //     Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/GongChaLogo.png")));
-    //     viewStage.getIcons().add(Logo);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/green/gongchapos/Login.fxml"));
+        Stage viewStage = new Stage();
 
-    //     Stage viewStage = new Stage();
-    //     Scene scene = new Scene(fxmlLoader.load());
+        Scene logInScene = new Scene(loader.load());
+        LoginController controller = loader.getController();
+        controller.setLogInStage(viewStage);
 
-    //     LoginController controller = fxmlLoader.getController();
-    //     viewStage.setTitle("GongChaPOS");
-    //     viewStage.setScene(scene);
-    //     controller.setLogInStage(viewStage);
-    //     viewStage.show();
+        viewStage.setTitle("GongChaPOS");
+        viewStage.setScene(logInScene);
+        Image Logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/green/gongchapos/images/GongChaLogo.png")));
+        viewStage.getIcons().add(Logo);
+        viewStage.show();
     }
 }
