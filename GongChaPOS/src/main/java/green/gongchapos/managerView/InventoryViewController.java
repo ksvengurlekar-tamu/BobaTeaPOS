@@ -23,16 +23,17 @@ import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
 import javafx.util.Duration;
+
+import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-import java.util.HashMap;
+
 
 import java.io.IOException;
 import java.sql.*;
+
 
 import static green.gongchapos.GongCha.getSQLConnection;
 
@@ -51,17 +52,26 @@ public class InventoryViewController {
     public TextField supplier;
 
     // For sales report
-    public TextField startTime, endTime, menuItem;
     public HBox menuItemNameBox;
+    public TableView excessTable;
+    public Pane excessReportPane;
+    public Pane restockPane;
     AutoCompleteTextBox autoCompleteDrinkName = new AutoCompleteTextBox();;
     public DatePicker salesStartDate;
     public DatePicker salesEndDate;
     public TableView salesTableView;
     public Pane salesReportPane;
-
     private ObservableList<ObservableList> salesData;
-    // private ObservableList<Map<String, Object>> salesData = FXCollections.observableArrayList();
 
+    // For restock report
+    public TableView restockTable;
+
+
+    // For pair report
+    public DatePicker pairStartDate;
+    public DatePicker pairEndDate;
+    public TableView pairTable;
+    public Pane pairPane;
 
     @FXML
     private Label Time;
@@ -74,13 +84,14 @@ public class InventoryViewController {
     private ObservableList<ObservableList> data;
     private final TableView tableView = new TableView();
 
+    public DatePicker targetDate;
+
     public void setInvViewController(Stage primaryStage) { this.invViewStage = primaryStage; }
 
 
     /** Initializes the application's user interface by setting up a digital clock
      * that displays the current time, updating every second. This method should be
      * called when the application starts.
-     *
      */
     public void initialize() {
         Platform.runLater(() -> {
@@ -90,7 +101,7 @@ public class InventoryViewController {
             Font.loadFont(getClass().getResourceAsStream("Amerigo BT.ttf"), 14);
 
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-                Date currentTime = new Date();
+                java.util.Date currentTime = new java.util.Date();
                 String formattedTime = dateFormat.format(currentTime);
 
                 Time.setStyle("-fx-font-size: 20;");
@@ -102,9 +113,12 @@ public class InventoryViewController {
     }
 
 
-    /**
-     * Displays the inventory table by fetching data from the database and populating the TableView.
+    /** Displays the inventory table by fetching data from the database and populating the TableView.
      *
+     * This method populates the TableView with data from the inventory which is retrieved the database
+     * and shown to the Managers.
+     *
+     * @param screenExists A boolean to indicate whether the TableView is already present on the screen.
      */
     public void displayTable(boolean screenExists) {
         try (Connection conn = getSQLConnection()) {
@@ -115,7 +129,7 @@ public class InventoryViewController {
             data = FXCollections.observableArrayList();
 
             for (int i = 0 ; i < rs.getMetaData().getColumnCount(); i++) {
-                //We are using non property style for making dynamic table
+                // We are using non property style for making dynamic table
                 final int j = i;
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
                 col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
@@ -133,7 +147,7 @@ public class InventoryViewController {
             }
 
             while(rs.next()) {
-                //Iterate Row
+                // Iterate Row
                 ObservableList<Object> row = FXCollections.observableArrayList();
                 for (int i=1 ; i<=rs.getMetaData().getColumnCount(); i++) {
                     int columnType = rs.getMetaData().getColumnType(i);
@@ -160,8 +174,7 @@ public class InventoryViewController {
 
             }
 
-            //FINALLY ADDED TO TableView
-
+            // FINALLY ADDED TO TableView
             tableView.setItems(data);
 
             if (!screenExists) {
@@ -179,6 +192,16 @@ public class InventoryViewController {
     }
 
 
+    /** Adds a new inventory item to the Inventory in our database. We also
+     * take care of clearing the popup window when we add an item so that the next time
+     * we do this, we don't see the information from the last item that was added.
+     *
+     * This method adds a new item to the inventory in case we have new drinks that require
+     * new ingredients rather than the ones that are already in the database.
+     *
+     * @param actionEvent The ActionEvent when "Submit" button is pressed within the Inventory View to
+     * update or add a new inventory item.
+     */
     @FXML
     private void submitInventory(ActionEvent actionEvent) {
         Alert alert;
@@ -211,7 +234,6 @@ public class InventoryViewController {
                     return;
                 }
             }
-
 
             // query id to add 1 to; incrememnt inventoryID by 1 when adding new item
             int itemID = 88888;
@@ -262,9 +284,11 @@ public class InventoryViewController {
     }
 
 
-    /**
-     * Helper method to update an existing item in the inventory; runs an update SQL query
+    /** Helper method to update an existing item in the inventory; runs an update SQL query
      *
+     * This method updates an item that is already within the inventory database and clears
+     * the popup to allow for an update in the future without seeing the information that was
+     * previously added.
      */
     private void helperUpdateItem () {
         Alert alert;
@@ -305,6 +329,14 @@ public class InventoryViewController {
     }
 
 
+    /** Allows for going back to the inventory stage when adding a new item to the inventory.
+     *
+     * This method updates the user interface to go from the popup button to go back to the
+     * inventory stage.
+     *
+     * @param actionEvent This ActionEvent is triggered by pressing the "Add" button in
+     * the inventory.
+     */
     public void inventoryAdd(ActionEvent actionEvent) {
         inventoryAddPane.setVisible(true);
         inventoryAddPane.setDisable(false);
@@ -312,9 +344,17 @@ public class InventoryViewController {
 
         inventoryPane.setOpacity(0.5);
         inventoryPane.setDisable(true);
-
     }
 
+
+    /** Switches to the main menu stage within the inventory view stage.
+     *
+     * This method is responsible for transitioning from the inventory view to the
+     * main menu view after clicking on the "Main Menu" tab.
+     *
+     * @param actionEvent This ActionEvent is triggered by pressing the "Main Menu" button
+     * on the left side of the interface from the inventory stage.
+     */
     public void mainMenuButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/green/gongchapos/managerView/managerView.fxml"));
 
@@ -327,11 +367,13 @@ public class InventoryViewController {
         invViewStage.show();
     }
 
-
-
     // SALES REPORT DISPLAY
 
-
+    /** Displays the sales report interface and initializes data for it.
+     *
+     * @param event This ActionEvent triggers an action when the "Sales Report" button
+     * is pressed within the inventory view.
+     */
     public void salesReportButton(ActionEvent event) {
         salesReportPane.setVisible(true);
         salesReportPane.setDisable(false);
@@ -485,6 +527,9 @@ public class InventoryViewController {
     }
 
 
+    /** Queries the database to retrieve the data from the sales table
+     *
+     */
     private ResultSet salesReportQuery() throws SQLException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -521,24 +566,340 @@ public class InventoryViewController {
         inventoryPane.setOpacity(1);
         inventoryPane.setDisable(false);
     }
-
-    public void excessReport(Date timeStamp) throws SQLException{
-        try (Connection conn = getSQLConnection()) {
-            /*
+    /*
             iterate through all the sales after the timeStamp to the present
                 for each sale, iterate through the inventory and add to the used quantity for that ingredient
             iterate through the inventory and compare the used quantity to the original stocked quantity
                 if used quantity to original quantity is <= 0.1, then add to the excess report
+            */
+/**
+ * Generates an excess report by analyzing sales data and inventory items.
+ * This method calculates which items in the inventory are in excess based on the
+ * ratio of used quantity to the original stocked quantity. Items are considered
+ * in excess if the ratio is less than or equal to 10% (0.1).
+ * The excess report provides a list of items that meet the excess criteria and can
+ * be used for further action, such as restocking or managing inventory.
+ *
+ * @throws SQLException If there is an issue with the database connection or SQL queries.
+ */
 
+    /*public void excessReport() throws SQLException{
+        try (Connection conn = getSQLConnection()) {
+        LocalDate targetDate = targetDate.getValue();
 
-             */
+        // Create a map to track used quantity for each ingredient
+        Map<Integer, Float> ingredientUsedQuantity = new HashMap<>();
+
+        // Step 1: Retrieve sales data after the target date
+        String salesQuery =  "SELECT mi.menuItemID, mi.menuItemName, mi.menuItemPrice, mi.menuItemCalories, "
+                   + "mi.menuItemCategory, mi.hasCaffeine, m.inventoryID, m.measurement "
+                   + "FROM Sales s "
+                   + "JOIN menuItems mi ON s.menuItemID = mi.menuItemID "
+                   + "JOIN menuItems_Inventory m ON mi.menuItemID = m.menuItemID "
+                   + "WHERE s.saleDate >= ?";
+
+        try (PreparedStatement salesStmt = conn.prepareStatement(salesQuery)) {
+            salesStmt.setDate(1, java.sql.Date.valueOf(targetDate));
+
+            try (ResultSet salesResult = salesStmt.executeQuery()) {
+                while (salesResult.next()) {
+                    int menuItemID = salesResult.getInt("menuItemID");
+                    float quantitySold = salesResult.getFloat("quantitySold");
+
+                    // Step 2: Calculate the used quantity for this ingredient
+                    String inventoryQuery = "SELECT inventoryID, measurement FROM menuItems_Inventory WHERE menuItemID = ?";
+                    try (PreparedStatement inventoryStmt = conn.prepareStatement(inventoryQuery)) {
+                        inventoryStmt.setInt(1, menuItemID);
+                        try (ResultSet inventoryResult = inventoryStmt.executeQuery()) {
+                            if (inventoryResult.next()) {
+                                int inventoryID = inventoryResult.getInt("inventoryID");
+                                float measurement = inventoryResult.getFloat("measurement");
+
+                                // Calculate the used quantity for this ingredient
+                                float usedQuantity = quantitySold * measurement;
+
+                                // Update the used quantity in the map
+                                ingredientUsedQuantity.merge(inventoryID, usedQuantity, Float::sum);
+                            }
+                        }
+                    }
+                }
+            }
         }
-        catch (Exception e) {
+
+        // Step 3: Iterate through the inventory and compare used quantity to original stocked quantity
+        String inventoryQuery = "SELECT inventoryID, inventoryQuantity FROM Inventory";
+
+        try (PreparedStatement inventoryStmt = conn.prepareStatement(inventoryQuery)) {
+            try (ResultSet inventoryResult = inventoryStmt.executeQuery()) {
+                while (inventoryResult.next()) {
+                    int inventoryID = inventoryResult.getInt("inventoryID");
+                    int stockedQuantity = inventoryResult.getInt("inventoryQuantity");
+                    float usedQuantity = ingredientUsedQuantity.getOrDefault(inventoryID, 0.0f);
+
+                    // Check if an excess report needs to be generated
+                    if (usedQuantity <= stockedQuantity * 0.1) {
+                        // Add this inventory item to the excess report
+                        System.out.println("Inventory ID: " + inventoryID + " - Excess Report Needed");
+                    }
+                }
+            }
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    // Try 2
+    public void excessReport(ActionEvent event) throws SQLException {
+        excessTable.getItems().clear();
+        excessReportPane.setVisible(true);
+        excessReportPane.setDisable(false);
+        excessReportPane.setOpacity(1);
+
+        inventoryPane.setOpacity(0.5);
+        inventoryPane.setDisable(true);
+
+    }
+
+
+    public void ExcessReportBack(ActionEvent event) {
+
+        excessReportPane.setVisible(false);
+        excessReportPane.setDisable(true);
+        excessReportPane.setOpacity(0);
+
+        inventoryPane.setOpacity(1);
+        inventoryPane.setDisable(false);
+        inventoryPane.setVisible(true);
+    }
+
+
+    public void excessReportGenerate(ActionEvent event) throws SQLException {
+        excessTable.getItems().clear();
+        excessTable.getColumns().clear();
+
+        try (Connection conn = getSQLConnection()) {
+            LocalDate date = targetDate.getValue();
+
+            // Create a map to track used quantity for each ingredient
+            Map<Integer, Float> ingredientUsedQuantity = new HashMap<>();
+
+
+            // Step 1: Iterate through all the sales after the targetDate
+            String sql = "SELECT mi.menuItemID, mi.menuItemName, mi.menuItemPrice, mi.menuItemCalories, "
+                       + "mi.menuItemCategory, mi.hasCaffeine, m.inventoryID, m.measurement "
+                       + "FROM Sales s "
+                       + "JOIN menuItems mi ON s.menuItemID = mi.menuItemID "
+                       + "JOIN menuItems_Inventory m ON mi.menuItemID = m.menuItemID "
+                       + "WHERE s.saleDate >= ?";
+
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setDate(1, java.sql.Date.valueOf(date));
+
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        int menuItemID = rs.getInt("menuItemID");
+                        int inventoryID = rs.getInt("inventoryID");
+                        float measurement = rs.getFloat("measurement");
+                        float saleQuantity = 1.0f; // Assuming 1 item sold, adjust if needed
+
+                        // Calculate the used quantity for this ingredient
+                        float usedQuantity = saleQuantity * measurement;
+
+                        // Update the used quantity in the map
+                        ingredientUsedQuantity.merge(inventoryID, usedQuantity, Float::sum);
+                    }
+                }
+            }
+
+            // Step 2: Iterate through the inventory and compare used quantity to original stocked quantity
+            sql = "SELECT * FROM Inventory";
+
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                try (ResultSet rs = stmt.executeQuery()) {
+                    ObservableList<ObservableList> excessData = FXCollections.observableArrayList();
+
+                    for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
+                        // We are using non property style for making dynamic table
+                        final int j = i;
+                        TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                        col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+                            public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
+                                SimpleStringProperty s = new SimpleStringProperty();
+                                String colName = param.getValue().get(j).toString();
+                                colName = colName.replaceAll("(?i)inventory|date", "");
+                                colName = colName.substring(0, 1).toUpperCase() + colName.substring(1);
+                                s.set(colName);
+                                return s;
+                            }
+                        });
+                        excessTable.getColumns().addAll(col);
+                    }
+
+                    while (rs.next()) {
+                        int inventoryID = rs.getInt("inventoryID");
+                        int stockedQuantity = rs.getInt("inventoryQuantity");
+                        float usedQuantity = ingredientUsedQuantity.getOrDefault(inventoryID, 0.0f);
+                        Date receivedDate = rs.getDate("inventoryReceivedDate");
+                        LocalDate rd = receivedDate.toLocalDate();
+
+
+                        // if the invetory item has been restocked within that time: SKIPPPPPPPPPPPPPPP
+                        if (rd.isAfter(date)) {
+                            continue;
+                        }
+
+                        // Check if excess report needs to be generated
+                        if (usedQuantity < (stockedQuantity *  0.1)) {
+                            // Add this inventory item to the excess report
+                            System.out.println("Inventory ID: " + inventoryID + " - Excess Report Needed");
+
+                            //Iterate Row
+                            ObservableList <Object> row = FXCollections.observableArrayList();
+
+                            for (int i = 1 ; i <= rs.getMetaData().getColumnCount(); i++) {
+                                int columnType = rs.getMetaData().getColumnType(i);
+                                Object value;
+
+                                switch (columnType) {
+                                    case Types.INTEGER:
+                                        value = rs.getInt(i);
+                                        System.out.println(value);
+                                        break;
+                                    case Types.FLOAT:
+                                        value = rs.getFloat(i);
+                                        System.out.println(value);
+                                        break;
+                                    case Types.BOOLEAN:
+                                        value = rs.getBoolean(i);
+                                        System.out.println(value);
+                                        break;
+                                    case Types.DATE:
+                                        value = rs.getDate(i);
+                                        System.out.println(value);
+                                        break;
+                                    default:
+                                        // Default to treating it as a string
+                                        value = rs.getString(i);
+                                        System.out.println(value);
+                                        break;
+                                }
+                                row.add(value);
+                            }
+                            excessData.add(row);
+                        }
+                    }
+                    excessTable.setItems(excessData);
+                }
+            }
+
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
+    public void RestockReportBack(ActionEvent event) {
+        restockPane.setVisible(false);
+        restockPane.setDisable(true);
+        restockPane.setOpacity(0);
+
+        inventoryPane.setOpacity(1);
+        inventoryPane.setDisable(false);
+    }
+
+    @FXML
+    public void restockReport(ActionEvent event) {
+        restockPane.setVisible(true);
+        restockPane.setDisable(false);
+        restockPane.setOpacity(1);
+
+        inventoryPane.setOpacity(0.5);
+        inventoryPane.setDisable(true);
+
+        restockTable.getItems().clear();
+        restockTable.getColumns().clear();
+
+        try (Connection conn = getSQLConnection()) {
+            String query = "SELECT * FROM inventory WHERE inventoryinstock = false";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ObservableList<ObservableList> restockReport = FXCollections.observableArrayList();
+            ResultSet rs = stmt.executeQuery();
+
+            for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
+                // We are using non property style for making dynamic table
+                final int j = i;
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
+                        SimpleStringProperty s = new SimpleStringProperty();
+                        String colName = param.getValue().get(j).toString();
+                        colName = colName.replaceAll("(?i)inventory|date", "");
+                        colName = colName.substring(0, 1).toUpperCase() + colName.substring(1);
+                        s.set(colName);
+                        return s;
+                    }
+                });
+                restockTable.getColumns().addAll(col);
+            }
+
+            while (rs.next()) {
+                ObservableList<Object> row = FXCollections.observableArrayList();
+                for (int i = 1 ; i <= rs.getMetaData().getColumnCount(); i++) {
+                    int columnType = rs.getMetaData().getColumnType(i);
+                    Object value;
+
+                    switch (columnType) {
+                        case Types.INTEGER:
+                            value = rs.getInt(i);
+                            break;
+                        case Types.BOOLEAN:
+                            value = rs.getBoolean(i);
+                            break;
+                        case Types.DATE:
+                            value = rs.getDate(i);
+                            break;
+                        default:
+                            // Default to treating it as a string
+                            value = rs.getString(i);
+                            break;
+                    }
+                    row.add(value);
+                }
+                restockReport.add(row);
+            }
+            restockTable.setItems(restockReport);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void pairPaneBack(ActionEvent event) {
+        pairPane.setVisible(false);
+        pairPane.setDisable(true);
+        pairPane.setOpacity(0);
+
+        inventoryPane.setOpacity(1);
+        inventoryPane.setDisable(false);
+    }
+
+    public void pairPane() {
+        pairPane.setVisible(true);
+        pairPane.setDisable(false);
+        pairPane.setOpacity(1);
+
+        inventoryPane.setOpacity(0.5);
+        inventoryPane.setDisable(true);
+
+        pairTable.getItems().clear();
+        pairTable.getColumns().clear();
+
+    }
 
 }
 

@@ -116,12 +116,13 @@ public class CashierViewController {
     public String seriesName = "";
 
 
-    // toppings in cart
+    // Toppings in cart
     public float toppingPrice = 0;
     public String toppingName = "";
     public boolean toppingAdded = false;
 
     public ArrayList<Drink> cart = new ArrayList<>();
+
 
     /** Initializes the application's user interface by setting up a digital clock
      * that displays the current time, updating every second. This method should be
@@ -148,8 +149,10 @@ public class CashierViewController {
         });
     }
 
+
     /** Sets the Cashier View controller's primary stage to the cashier view.
      *
+     * @param primaryStage The stage that is associated with the Cashier View.
      */
     public void setCashierViewController(Stage primaryStage) { this.cashierViewStage = primaryStage; }
 
@@ -161,11 +164,14 @@ public class CashierViewController {
      */
     public static class Drink {
         String name;
+
+        String Topping;
         boolean isLarge;
         float price;
 
-        Drink (String name, boolean isLarge, float price) {
+        Drink (String name, String Topping, boolean isLarge, float price) {
             this.name = name;
+            this.Topping = Topping;
             this.isLarge = isLarge;
             this.price = price;
         }
@@ -181,12 +187,20 @@ public class CashierViewController {
     }
 
 
+    /** Populates the user interface with a list of drinks based on the
+     * series name that is clicked.
+     *
+     * @param event The Action Event trigged by the button click.
+     * @return count The number of menu items in the Gong Cha database.
+     */
     protected int generalSeriesPress(ActionEvent event) {
+        subDrinkPane.getChildren().clear();
 
         Button sourceButton = (Button) event.getSource();
         seriesName = sourceButton.getText();
         seriesNameText.setText(seriesName + " Series");
         int count = 0;
+        Boolean inStock = false;
 
         try {
             Connection conn = getSQLConnection();
@@ -200,9 +214,13 @@ public class CashierViewController {
                 subDrinkPane.setVgap(10.0);
                 subDrinkPane.setPadding(new javafx.geometry.Insets(20, 20, 20, 20));
 
-
                 while(resultSet.next()) {
+                    inStock = resultSet.getBoolean("menuiteminstock");
+
                     Text text = new Text(resultSet.getString("menuItemName"));
+                    if(!inStock){
+                        text.setStyle("-fx-opacity: 0.3");
+                    }
                     text.setTextAlignment(TextAlignment.CENTER);
                     Button drinkButton = new Button();
                     drinkButton.setMinSize(161, 120);
@@ -210,7 +228,12 @@ public class CashierViewController {
                     text.wrappingWidthProperty().bind(drinkButton.widthProperty());
                     drinkButton.setGraphic(text);
 
-                    String drinkColor = resultSet.getString("color");
+                    String drinkColor;
+                    if (inStock) {
+                        drinkColor = resultSet.getString("color");
+                    } else {
+                        drinkColor = "rgba(192, 192, 192, 0.7);";
+                    }
                     drinkButton.setId("drinkButton");
 
                     drinkButton.setOnAction(drinkButtonEvent -> {
@@ -250,16 +273,17 @@ public class CashierViewController {
                             "-fx-background-color: " + drinkColor + "; "
                     );
 
-                    drinkButton.hoverProperty().addListener((observable, oldValue, newValue) -> {
-                        if (newValue) {
-                            // Mouse is hovering over the button
-                            drinkButton.setStyle("-fx-background-color: " + drinkColor + "; -fx-border-color: #0099ff;" + "-fx-border-width: 2px;" + "-fx-cursor: hand;");
-                        } else {
-                            // Mouse is not hovering over the button
-                            drinkButton.setStyle("-fx-background-color: " + drinkColor + "; -fx-border-width: 0px;");
-                        }
-                    });
-
+                    if (inStock) {
+                        drinkButton.hoverProperty().addListener((observable, oldValue, newValue) -> {
+                            if (newValue) {
+                                // Mouse is hovering over the button
+                                drinkButton.setStyle("-fx-background-color: " + drinkColor + "; -fx-border-color: #0099ff;" + "-fx-border-width: 2px;" + "-fx-cursor: hand;");
+                            } else {
+                                // Mouse is not hovering over the button
+                                drinkButton.setStyle("-fx-background-color: " + drinkColor + "; -fx-border-width: 0px;");
+                            }
+                        });
+                    }
                     subDrinkPane.getChildren().add(drinkButton);
                     count++;
 
@@ -289,7 +313,7 @@ public class CashierViewController {
      */
     @FXML
     public void seriesPress(ActionEvent event) {
-        subDrinkPane.getChildren().clear();
+
 
         mainMenuPane.setDisable(true);
         mainMenuPane.setVisible(false);
@@ -306,6 +330,28 @@ public class CashierViewController {
             subDrinkPane.getChildren().add(drinkButton);
             count++;
         }
+    }
+
+
+    /** Reverts the state of the drink pop-up customization interface back to
+     * the previous stage.
+     *
+     * @param event The ActionEvent that triggers this event is a click of the
+     * back button when on the drink customization.
+     */
+    public void drinkPopUpBack(ActionEvent event) {
+        drinkPane.setDisable(false);
+        drinkPane.setOpacity(1);
+        bottomHBox.setDisable(false);
+        bottomHBox.setOpacity(1);
+        topRightHBox.setDisable(false);
+        topRightHBox.setOpacity(1);
+        topLeftHBox.setDisable(false);
+        topLeftHBox.setOpacity(1);
+
+        drinkPopUp.setDisable(true);
+        drinkPopUp.setVisible(false);
+        drinkPopUp.setOpacity(0);
     }
 
 
@@ -404,6 +450,11 @@ public class CashierViewController {
     }
 
 
+    /** Resets the topping selection so that it is cleared for the
+     * next drink that may or may not be added to the cart. This method
+     * clears confusion for the cashier in case the next drink does not
+     * include a topping.
+     */
     private void resetToppingSelection() {
         toppingName = "";
         toppingAdded = false;
@@ -431,6 +482,7 @@ public class CashierViewController {
 
 
     /** Handles the action event triggered by the button press of the "Large" button during drink customization.
+     *
      * This method is responsible for updating the item size and adjusting the price based on the selection
      * of the "Large" option. It detects the button that triggered the event and increases the item price and
      * sets the size to large.
@@ -470,6 +522,15 @@ public class CashierViewController {
     }
 
 
+    /** Handles selecting a different ice level and updates the user
+     * interface to avoid confusion for the cashier/manager.
+     *
+     * This method is responsible for managing the interactions between the
+     * button press of the different ice levels and the interface.
+     *
+     * @param actionEvent This ActionEvent is triggered by the button press of
+     * one of the ice level buttons.
+     */
     public void iceLevelButton(ActionEvent actionEvent) {
         Button sourceButton = (Button) actionEvent.getSource();
         String iceLevel = sourceButton.getText();
@@ -489,6 +550,15 @@ public class CashierViewController {
     }
 
 
+    /** Handles selecting a different sugar level and updates the user
+     * interface to avoid confusion for the cashier/manager.
+     *
+     * This method is responsible for managing the interactions between the
+     * button press of the different sugar levels and the interface.
+     *
+     * @param actionEvent This ActionEvent is triggered by the button press of
+     * one of the sugar level buttons.
+     */
     public void sugarLevelButton(ActionEvent actionEvent) {
         Button sourceButton = (Button) actionEvent.getSource();
         String sugarLevel = sourceButton.getText();
@@ -519,7 +589,7 @@ public class CashierViewController {
     @FXML
     public void addButton(ActionEvent actionEvent) {
         // System.out.println(price);
-        cart.add(new Drink(name, isLarge, price));
+        cart.add(new Drink(name, toppingName, isLarge, price));
 
         drinkPane.setDisable(false);
         drinkPane.setOpacity(1);
@@ -657,16 +727,71 @@ public class CashierViewController {
 
             for (Drink d : cart) {
                 String menuIDQuery = "SELECT menuItemID FROM menuItems WHERE menuItemName = ?";
-                try(PreparedStatement orderStatement = conn.prepareStatement(menuIDQuery)) {
+                try (PreparedStatement orderStatement = conn.prepareStatement(menuIDQuery)) {
                     orderStatement.setString(1, d.name);
                     ResultSet resultSet = orderStatement.executeQuery();
-                    while(resultSet.next()) {
+                    while (resultSet.next()) {
                         menuItemID = resultSet.getInt("menuItemID");
+                        String measurementString = "SELECT * FROM menuItems_inventory WHERE menuitemid = ?";
+                        PreparedStatement measurementSTMT = conn.prepareStatement(measurementString);
+                        measurementSTMT.setInt(1, menuItemID);
+                        ResultSet measurementSet = measurementSTMT.executeQuery();
+                        while (measurementSet.next()) {
+                            float quantity = measurementSet.getFloat("measurement");
+                            int inventoryid = measurementSet.getInt("inventoryid");
+
+                            System.out.println(quantity);
+                            System.out.println(inventoryid);
+
+
+                            String inventoryDecreaseString = "UPDATE inventory SET inventoryQuantity = inventoryQuantity - ? WHERE inventoryid = ?";
+                            PreparedStatement inventoryDecreaseSTMT = conn.prepareStatement(inventoryDecreaseString);
+                            if(d.isLarge){
+                                quantity = quantity * 1.5F;
+                            }
+                            inventoryDecreaseSTMT.setFloat(1, quantity);
+                            inventoryDecreaseSTMT.setInt(2, inventoryid);
+                            inventoryDecreaseSTMT.executeUpdate();
+
+
+                            String inventoryCheckString = "SELECT inventoryQuantity FROM inventory WHERE inventoryid = ?";
+                            PreparedStatement inventoryCheckSTMT = conn.prepareStatement(inventoryCheckString);
+                            inventoryCheckSTMT.setInt(1, inventoryid);
+                            ResultSet inventoryCheckSet = inventoryCheckSTMT.executeQuery();
+                            while (inventoryCheckSet.next()) {
+                                if (inventoryCheckSet.getInt("inventoryQuantity") <= 50) { // Restock value, Could be changed later
+                                    String inventoryInStockString = "UPDATE inventory SET inventoryinstock = ? WHERE inventoryid = ?";
+                                    PreparedStatement inventoryInStockSTMT = conn.prepareStatement(inventoryInStockString);
+
+                                    inventoryInStockSTMT.setBoolean(1, false);
+                                    inventoryInStockSTMT.setInt(2, inventoryid);
+                                    inventoryInStockSTMT.executeUpdate();
+                                }
+                                if (inventoryCheckSet.getInt("inventoryQuantity") <= 11) { // MAX measurement used
+                                    String menuItemInStockString = "UPDATE menuitems SET menuiteminstock = ? WHERE menuitemid = ?";
+                                    PreparedStatement menuItemInStockSTMT = conn.prepareStatement(menuItemInStockString);
+                                    menuItemInStockSTMT.setBoolean(1, false);
+                                    menuItemInStockSTMT.setInt(2, menuItemID);
+                                    menuItemInStockSTMT.executeUpdate();
+                                    backButton(null);
+                                    break;
+                                }
+                            }
+                        }
+
                     }
                 } catch(SQLException e) {
                     // System.out.println("Error getting menu item ID.");
                     e.printStackTrace();
                 }
+
+                // Topping Decrement
+                String toppingString = "UPDATE inventory SET inventoryQuantity = inventoryQuantity - ? WHERE inventoryName = ?";
+                System.out.println(d.Topping);
+                PreparedStatement toppingSTMT = conn.prepareStatement(toppingString);
+                toppingSTMT.setFloat(1, 2);
+                toppingSTMT.setString(2, d.Topping);
+                toppingSTMT.executeUpdate();
 
 
                 // run insert sql command
@@ -709,9 +834,9 @@ public class CashierViewController {
                         String inventoryName = inventoryResult.getString("inventoryName");
 
                         // Update the inventory by subtracting the used amount
-                        updateInventoryQuantity(conn, inventoryID, measurement);
+//                        updateInventoryQuantity(conn, inventoryID, measurement);
 
-                        // System.out.println("Used " + measurement + " of " + inventoryName);
+                        System.out.println("Used " + measurement + " of " + inventoryName);
                     }
                 } catch (SQLException e) {
                     // System.out.println("Error updating inventory.");
@@ -734,6 +859,7 @@ public class CashierViewController {
         totalNumber.setText(String.format("%.2f", subtotal));
     }
 
+
     /**
     * Update inventory quantities and in-stock status based on used amounts.
     *
@@ -741,45 +867,44 @@ public class CashierViewController {
     * @param inventoryID  The ID of the inventory item to update.
     * @param usedAmount   The amount of inventory item used in the order.
     */
-    private void updateInventoryQuantity(Connection conn, int inventoryID, float usedAmount) {
-        String updateQuery = "UPDATE Inventory SET inventoryQuantity = inventoryQuantity - ? WHERE inventoryID = ?";
-        //update inventory quantities and the inStock status
-        try (PreparedStatement updateStatement = conn.prepareStatement(updateQuery)) {
-            updateStatement.setFloat(1, usedAmount);
-            updateStatement.setInt(2, inventoryID);
-            int rowsAffected = updateStatement.executeUpdate();
+//     private void updateInventoryQuantity(Connection conn, int inventoryID, float usedAmount) {
+//         String updateQuery = "UPDATE Inventory SET inventoryQuantity = inventoryQuantity - ? WHERE inventoryID = ?";
+//         //update inventory quantities and the inStock status
+//         try (PreparedStatement updateStatement = conn.prepareStatement(updateQuery)) {
+//             updateStatement.setFloat(1, usedAmount);
+//             updateStatement.setInt(2, inventoryID);
+//             int rowsAffected = updateStatement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                // Check if the inventory quantity is now 0
-                String checkQuantityQuery = "SELECT inventoryQuantity FROM Inventory WHERE inventoryID = ?";
-                try (PreparedStatement checkQuantityStatement = conn.prepareStatement(checkQuantityQuery)) {
-                    checkQuantityStatement.setInt(1, inventoryID);
-                    ResultSet quantityResult = checkQuantityStatement.executeQuery();
+//             if (rowsAffected > 0) {
+//                 // Check if the inventory quantity is now 0
+//                 String checkQuantityQuery = "SELECT inventoryQuantity FROM Inventory WHERE inventoryID = ?";
+//                 try (PreparedStatement checkQuantityStatement = conn.prepareStatement(checkQuantityQuery)) {
+//                     checkQuantityStatement.setInt(1, inventoryID);
+//                     ResultSet quantityResult = checkQuantityStatement.executeQuery();
 
-                    if (quantityResult.next()) {
-                        int updatedQuantity = quantityResult.getInt("inventoryQuantity");
+//                     if (quantityResult.next()) {
+//                         int updatedQuantity = quantityResult.getInt("inventoryQuantity");
 
-                        if (updatedQuantity <= 0) {
-                            // If the quantity is now 0, update inventoryInStock to false
-                            String updateInStockQuery = "UPDATE Inventory SET inventoryInStock = false WHERE inventoryID = ?";
-                            try (PreparedStatement inStockUpdateStatement = conn.prepareStatement(updateInStockQuery)) {
-                                inStockUpdateStatement.setInt(1, inventoryID);
-                                inStockUpdateStatement.executeUpdate();
-                            }
-                        }
-                    }
-                }
+//                         if (updatedQuantity <= 0) {
+//                             // If the quantity is now 0, update inventoryInStock to false
+//                             String updateInStockQuery = "UPDATE Inventory SET inventoryInStock = false WHERE inventoryID = ?";
+//                             try (PreparedStatement inStockUpdateStatement = conn.prepareStatement(updateInStockQuery)) {
+//                                 inStockUpdateStatement.setInt(1, inventoryID);
+//                                 inStockUpdateStatement.executeUpdate();
+//                             }
+//                         }
+//                     }
+//                 }
 
-                // System.out.println("Inventory updated successfully.");
-            } else {
-                // System.out.println("No rows updated. Inventory not found or insufficient quantity.");
-            }
-        } catch (SQLException e) {
-//            System.out.println("Error updating inventory.");
-            e.printStackTrace();
-        }
-    }
-
+//                 // System.out.println("Inventory updated successfully.");
+//             } else {
+//                 // System.out.println("No rows updated. Inventory not found or insufficient quantity.");
+//             }
+//         } catch (SQLException e) {
+// //            System.out.println("Error updating inventory.");
+//             e.printStackTrace();
+//         }
+//     }
 
 
     /** Logs an employee out of the POS system.

@@ -65,6 +65,11 @@ public class ManagerViewController extends CashierViewController {
     public HBox drinkNameHbox;
     public Pane addDrinkPane;
 
+    /** Initializes the ManagerViewController and sets up the user interface.
+    * 
+    * This method is called when the Manager View is loaded and initializes various UI elements,
+    * including auto-complete text boxes and a real-time clock for displaying the current time.
+    */
     @Override
     public void initialize() {
         this.backButton(null);
@@ -93,6 +98,12 @@ public class ManagerViewController extends CashierViewController {
         });
     }
 
+
+    /** Handles the "Inventory" button click event by navigating to the inventory view.
+    * 
+    * @param actionEvent The event triggered by clicking the "Inventory" button.
+    * @throws IOException If there is an issue with loading the inventory view.
+    */
     public void inventoryClick(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/green/gongchapos/managerView/inventoryView/inventoryView.fxml"));
 
@@ -105,6 +116,13 @@ public class ManagerViewController extends CashierViewController {
         cashierViewStage.show();
     }
 
+
+    /** Handles the click event for series buttons, displaying a series of drinks in a sub-pane.
+    * 
+    * This method populates the sub-pane with drink buttons based on the selected series.
+    *
+    * @param event The event triggered by clicking a series button.
+    */
     @Override
     public void seriesPress(ActionEvent event) {
 
@@ -167,6 +185,12 @@ public class ManagerViewController extends CashierViewController {
     }
 
 
+    /** Navigates back to the main menu stage once we're in the Series Press stage.
+    *
+    * This method is called when the "Back" button is clicked, returning to the main menu view.
+    *
+    * @param actionEvent The event triggered by clicking the "Back" button.
+    */
     @Override
     public void backButton(ActionEvent actionEvent) {
         mainMenuPane.setDisable(false);
@@ -187,6 +211,13 @@ public class ManagerViewController extends CashierViewController {
     }
 
 
+    /** Allows the manager to add a new drink item to the menu, specifying ingredients and details.
+    * 
+    * This method displays a form for adding a new drink item to the menu.
+    *
+    * @param actionEvent The event triggered by clicking the "+" button to add a drink item.
+    * @throws SQLException If there is an issue with the database connection or SQL queries.
+    */
     private void addDrink(ActionEvent actionEvent) throws SQLException {
         addDrinkPane.setDisable(false);
         addDrinkPane.setVisible(true);
@@ -244,6 +275,15 @@ public class ManagerViewController extends CashierViewController {
     }
 
 
+    /** Handles the submission of a new menu item or an updated menu item. The user
+    * interface is also changed accordingly.
+    * 
+    * This method is responsible for processing the submission of a new menu item
+    * or an updated menu item by checking for input validation and then adding/updating
+    * the database.
+    *
+    * @param actionEvent The event triggered by clicking the "Submit" button.
+    */
     @FXML
     private void submitMenu(ActionEvent actionEvent) {
         Alert alert;
@@ -270,8 +310,6 @@ public class ManagerViewController extends CashierViewController {
                     return;
                 }
             }
-
-
 
             // query id to add 1 to; incrememnt menuitemID by 1 when adding new item
             itemID = 88888;
@@ -337,10 +375,11 @@ public class ManagerViewController extends CashierViewController {
     }
 
 
-     /**
-      * Helper method to update an existing item in the inventory; runs an update SQL query
-      *
-      */
+    /** Helper method for updating an existing menu item's details in the inventory.
+    * 
+    * This method is used to update an existing menu item with modified information.
+    * It executes an SQL update query to modify the item's price, calories, category, caffeine status, and color.
+    */
     private void helperUpdateItem () {
         try (Connection conn = getSQLConnection()) {
             PreparedStatement insertItem = conn.prepareStatement("UPDATE menuitems SET menuItemPrice = ?, menuItemCalories = ?, menuItemCategory = ?, hasCaffeine = ?, color = ? WHERE menuItemName = ?");
@@ -378,6 +417,15 @@ public class ManagerViewController extends CashierViewController {
     }
 
 
+    /** Helper method for querying the inventory to obtain an ingredient's ID.
+    * 
+    * This method queries the database to find the ID of a given ingredient based on its name.
+    * If the ingredient name is not found in the inventory, an error is displayed.
+    *
+    * @param ingredientName The name of the ingredient to query.
+    * @param quantity The quantity associated with the ingredient.
+    * @return The ID of the ingredient in the inventory, or -1 if the ingredient is not found.
+    */
     private int helperInventoryQuery(AutoCompleteTextBox ingredientName, TextField quantity) {
         int inventoryID = -2;
         if (!ingredientName.getText().isEmpty() && !quantity.getText().isEmpty()) {
@@ -407,6 +455,14 @@ public class ManagerViewController extends CashierViewController {
     }
 
 
+    /** Helper method for adding an item to the junction table connecting menu items and ingredients.
+    * 
+    * This method inserts a new record into the junction table to associate a menu item with ingredients and their quantities.
+    *
+    * @param menuItemid The ID of the menu item to associate with ingredients.
+    * @param inventoryID The ID of the ingredient in the inventory.
+    * @param quantity The quantity of the ingredient associated with the menu item.
+    */
     private void helperAddToJunction(int menuItemid, int inventoryID, TextField quantity) {
         if(inventoryID == -2) {
             return;

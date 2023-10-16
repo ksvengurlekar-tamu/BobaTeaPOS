@@ -480,6 +480,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" layoutX="3.0" layoutY="639.0" prefHeight="78.0" prefWidth="1192.0" style="-fx-background-color: black; -fx-opacity: 0.1;" />
                   <Button layoutX="1033.0" layoutY="645.0" mnemonicParsing="false" onAction="#addButton" prefHeight="61.0" prefWidth="152.0" styleClass="addButton" text="ADD" />
+                  <Button layoutX="18.0" layoutY="646.0" mnemonicParsing="false" onAction="#drinkPopUpBack" prefHeight="61.0" prefWidth="152.0" styleClass="addButton" text="Back" />
                </children>
             </Pane>
          </children>
