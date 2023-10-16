@@ -53,7 +53,7 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#excessReport" prefHeight="67.0" prefWidth="192.0" text="Excess Report" />
             <Button mnemonicParsing="false" onAction="#restockReport" prefHeight="67.0" prefWidth="205.0" text="Restock Report" />
-            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="186.0" text="Pair products">
+            <Button mnemonicParsing="false" onAction="#pairProduct" prefHeight="67.0" prefWidth="186.0" text="Pair products">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -175,7 +175,7 @@
                   <TableView fx:id="pairTable" layoutX="9.0" layoutY="60.0" prefHeight="429.0" prefWidth="1082.0" />
                   <Button layoutX="983.0" layoutY="494.0" mnemonicParsing="false" onAction="#pairPaneBack" prefHeight="59.0" prefWidth="108.0" styleClass="addButton" text="Back" />
                   <Text layoutX="550.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
-                  <DatePicker fx:id="pairEndDate" layoutX="680.0" layoutY="8.0" />
+                  <DatePicker fx:id="pairEndDate" layoutX="680.0" layoutY="8.0" onAction="#pairEndDateSet" />
                </children>
             </Pane>
          </children>

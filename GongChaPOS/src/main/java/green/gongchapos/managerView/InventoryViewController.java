@@ -558,6 +558,15 @@ public class InventoryViewController {
         return rs;
     }
 
+    /**
+    * Hides the sales report pane and displays the inventory pane in the user interface.
+    *
+    * This method is used to navigate back from the sales report view to the inventory view
+    * by making the sales report pane invisible and disabled and displaying the inventory
+    * pane.
+    *
+    * @param event The ActionEvent triggered by a user action.
+    */ 
     public void salesReportBack(ActionEvent event) {
         salesReportPane.setVisible(false);
         salesReportPane.setDisable(true);
@@ -567,91 +576,24 @@ public class InventoryViewController {
         inventoryPane.setDisable(false);
     }
     /*
-            iterate through all the sales after the timeStamp to the present
-                for each sale, iterate through the inventory and add to the used quantity for that ingredient
-            iterate through the inventory and compare the used quantity to the original stocked quantity
-                if used quantity to original quantity is <= 0.1, then add to the excess report
-            */
-/**
- * Generates an excess report by analyzing sales data and inventory items.
- * This method calculates which items in the inventory are in excess based on the
- * ratio of used quantity to the original stocked quantity. Items are considered
- * in excess if the ratio is less than or equal to 10% (0.1).
- * The excess report provides a list of items that meet the excess criteria and can
- * be used for further action, such as restocking or managing inventory.
- *
- * @throws SQLException If there is an issue with the database connection or SQL queries.
- */
+    iterate through all the sales after the timeStamp to the present
+        for each sale, iterate through the inventory and add to the used quantity for that ingredient
+    iterate through the inventory and compare the used quantity to the original stocked quantity
+        if used quantity to original quantity is <= 0.1, then add to the excess report
+    */
+    
+    /**
+    * Generates an excess report and displays it in the user interface.
+    *
+    * This method calculates excess inventory items based on certain criteria and
+    * presents the excess report in the application. It clears the existing report
+    * data, sets the excess report pane as visible and enabled, and decreases the
+    * opacity of the inventory pane for a better user focus on the report.
+    *
+    * @param event The ActionEvent triggered by a user action.
+    * @throws SQLException If there is an issue with the database connection or SQL queries.
+    */ 
 
-    /*public void excessReport() throws SQLException{
-        try (Connection conn = getSQLConnection()) {
-        LocalDate targetDate = targetDate.getValue();
-
-        // Create a map to track used quantity for each ingredient
-        Map<Integer, Float> ingredientUsedQuantity = new HashMap<>();
-
-        // Step 1: Retrieve sales data after the target date
-        String salesQuery =  "SELECT mi.menuItemID, mi.menuItemName, mi.menuItemPrice, mi.menuItemCalories, "
-                   + "mi.menuItemCategory, mi.hasCaffeine, m.inventoryID, m.measurement "
-                   + "FROM Sales s "
-                   + "JOIN menuItems mi ON s.menuItemID = mi.menuItemID "
-                   + "JOIN menuItems_Inventory m ON mi.menuItemID = m.menuItemID "
-                   + "WHERE s.saleDate >= ?";
-
-        try (PreparedStatement salesStmt = conn.prepareStatement(salesQuery)) {
-            salesStmt.setDate(1, java.sql.Date.valueOf(targetDate));
-
-            try (ResultSet salesResult = salesStmt.executeQuery()) {
-                while (salesResult.next()) {
-                    int menuItemID = salesResult.getInt("menuItemID");
-                    float quantitySold = salesResult.getFloat("quantitySold");
-
-                    // Step 2: Calculate the used quantity for this ingredient
-                    String inventoryQuery = "SELECT inventoryID, measurement FROM menuItems_Inventory WHERE menuItemID = ?";
-                    try (PreparedStatement inventoryStmt = conn.prepareStatement(inventoryQuery)) {
-                        inventoryStmt.setInt(1, menuItemID);
-                        try (ResultSet inventoryResult = inventoryStmt.executeQuery()) {
-                            if (inventoryResult.next()) {
-                                int inventoryID = inventoryResult.getInt("inventoryID");
-                                float measurement = inventoryResult.getFloat("measurement");
-
-                                // Calculate the used quantity for this ingredient
-                                float usedQuantity = quantitySold * measurement;
-
-                                // Update the used quantity in the map
-                                ingredientUsedQuantity.merge(inventoryID, usedQuantity, Float::sum);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Step 3: Iterate through the inventory and compare used quantity to original stocked quantity
-        String inventoryQuery = "SELECT inventoryID, inventoryQuantity FROM Inventory";
-
-        try (PreparedStatement inventoryStmt = conn.prepareStatement(inventoryQuery)) {
-            try (ResultSet inventoryResult = inventoryStmt.executeQuery()) {
-                while (inventoryResult.next()) {
-                    int inventoryID = inventoryResult.getInt("inventoryID");
-                    int stockedQuantity = inventoryResult.getInt("inventoryQuantity");
-                    float usedQuantity = ingredientUsedQuantity.getOrDefault(inventoryID, 0.0f);
-
-                    // Check if an excess report needs to be generated
-                    if (usedQuantity <= stockedQuantity * 0.1) {
-                        // Add this inventory item to the excess report
-                        System.out.println("Inventory ID: " + inventoryID + " - Excess Report Needed");
-                    }
-                }
-            }
-        }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    // Try 2
     public void excessReport(ActionEvent event) throws SQLException {
         excessTable.getItems().clear();
         excessReportPane.setVisible(true);
@@ -888,7 +830,9 @@ public class InventoryViewController {
         inventoryPane.setDisable(false);
     }
 
-    public void pairPane() {
+    public void pairProduct() {
+        pairStartDate.setValue(java.time.LocalDate.now());
+        
         pairPane.setVisible(true);
         pairPane.setDisable(false);
         pairPane.setOpacity(1);
@@ -899,7 +843,103 @@ public class InventoryViewController {
         pairTable.getItems().clear();
         pairTable.getColumns().clear();
 
+
     }
 
-}
+    /**
+    * Retrieves sales data and creates a mapping of pairs of drinks and their counts.
+    *
+    * This method connects to the database to fetch sales data, and for each order,
+    * it extracts the drink information to create pairs of drinks and counts.
+    * The pairs are then stored in a map, where each key represents a pair of drinks,
+    * and the value is the count of that pair.
+    *
+    * @param event The ActionEvent triggered by a user action.
+    */
+    public void pairEndDateSet(ActionEvent event) {
+//       ArrayList<ArrayList<Integer>> orderDrinks = new ArrayList<>();
+//        // maps a pair of 2 drinks with the count;
+//        Map<List<Integer>, Integer> pairCounts = new HashMap<>();
+//
+//        //  Connect to the database and fetch data
+//        try (Connection conn = getSQLConnection()) {
+//            Statement stmt = conn.createStatement();
+//
+//            String sql = "SELECT DISTINCT orderno FROM sales ORDER BY orderno";
+//            ResultSet rs = stmt.executeQuery(sql);
+//
+//            while (rs.next()) {
+//                int currentOrderNo = rs.getInt("orderno");
+//
+//                // Fetch rows associated with the current order number
+//                String innerSql = "SELECT * FROM sales WHERE orderno = ?";
+//                PreparedStatement innerStmt = conn.prepareStatement(innerSql);
+//                innerStmt.setInt(1, currentOrderNo);
+//                ResultSet innerRs = innerStmt.executeQuery(innerSql);
+//
+//                ArrayList<Integer> row = new ArrayList<>();
+//                while (innerRs.next()) {
+//                    int orderId = innerRs.getInt("orderid");
+//                    row.add(orderId);
+//
+//                }
+//                orderDrinks.add(row);
+//            }
+//        }
+//        catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+        try (Connection conn = getSQLConnection()) {
+            String sql = "SELECT s1.menuItemID, s2.menuItemID " +
+                    "FROM Sales s1 " +
+                    "INNER JOIN Sales s2 ON s1.orderID <> s2.orderID " +
+                    "WHERE s1.saleDate BETWEEN ? AND ? " +
+                    "  AND s2.saleDate BETWEEN ? AND ? " +
+                    "  AND s1.menuItemID = s2.menuItemID " +
+                    "GROUP BY s1.menuItemID, s2.menuItemID";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, String.valueOf(pairStartDate.getValue()));
+            preparedStatement.setString(2, String.valueOf(pairEndDate.getValue()));
+            preparedStatement.setString(3, String.valueOf(pairStartDate.getValue()));
+            preparedStatement.setString(4, String.valueOf(pairEndDate.getValue()));
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Integer[]> commonPairs = new ArrayList<>();
+            while (resultSet.next()) {
+                int menuItemID1 = resultSet.getInt("menuItemID");
+                int menuItemID2 = resultSet.getInt("menuItemID");
+                Integer[] pair = {menuItemID1, menuItemID2};
+                commonPairs.add(pair);
+            }
+
+            for (Integer[] pair : commonPairs) {
+                System.out.println("Common Pair: " + pair[0] + ", " + pair[1]);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    }
+
+
+    /**
+    * Finds and prints common pairs of products based on their sales data.
+    *
+    * This method connects to the database and retrieves common pairs of products
+    * based on their sales data between specified start and end dates. It then
+    * prints the common pairs to the console.
+
+    SELECT menuItem1.menuItemName AS item1, menuItem2.menuItemName AS item2, COUNT(*) AS frequency
+FROM Sales AS sale1
+INNER JOIN Sales AS sale2 ON sale1.orderNo = sale2.orderNo AND sale1.menuItemID <> sale2.menuItemID
+INNER JOIN menuItems AS menuItem1 ON sale1.menuItemID = menuItem1.menuItemID
+INNER JOIN menuItems AS menuItem2 ON sale2.menuItemID = menuItem2.menuItemID
+WHERE sale1.saleDate BETWEEN '2022-10-02' AND '2023-10-02'  -- Corrected date format and date range
+GROUP BY item1, item2;
+
+    */
+
 

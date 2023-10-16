@@ -19,6 +19,13 @@ import java.util.Objects;
 
 import static green.gongchapos.GongCha.getSQLConnection;
 
+/**
+ * Controller class for the login view of the GongChaPOS system. Handles user authentication and
+ * determines whether the user is a cashier or a manager, directing them to the appropriate view.
+ * Manages user login and view switching.
+ *
+ * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
+ */
 public class LoginController {
 
     @FXML
@@ -33,12 +40,22 @@ public class LoginController {
     @FXML
     private TextField password;
 
-
+    /**
+     * Sets the primary login stage.
+     *
+     * @param primaryStage The primary login stage to set.
+     */
     public void setLogInStage(Stage primaryStage) {
         this.logInStage = primaryStage;
     }
 
-
+    /**
+     * Handles the login button click event. Verifies user credentials, determines if the user is a
+     * manager or a cashier, and navigates to the respective view.
+     *
+     * @param actionEvent The ActionEvent associated with the button click.
+     * @throws SQLException If there is an issue with the database connection or SQL queries.
+     */
     @FXML
     private void logIn_onClick(ActionEvent actionEvent) throws SQLException {
         Connection conn = getSQLConnection();
