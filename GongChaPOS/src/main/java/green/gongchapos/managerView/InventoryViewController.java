@@ -522,6 +522,22 @@ public class InventoryViewController {
         inventoryPane.setDisable(false);
     }
 
+    public void excessReport(Date timeStamp) throws SQLException{
+        try (Connection conn = getSQLConnection()) {
+            /*
+            iterate through all the sales after the timeStamp to the present
+                for each sale, iterate through the inventory and add to the used quantity for that ingredient
+            iterate through the inventory and compare the used quantity to the original stocked quantity
+                if used quantity to original quantity is <= 0.1, then add to the excess report
+
+
+             */
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
