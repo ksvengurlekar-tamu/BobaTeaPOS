@@ -335,14 +335,13 @@ public class ManagerViewController extends CashierViewController {
             insertItem.setInt(1, itemID);
             insertItem.setString(2, autoCompleteDrinkName.getText());
             insertItem.setFloat(3, Float.parseFloat(menuItemPrice.getText()));
-
             insertItem.setString(4, menuItemCalories.getText());
             insertItem.setString(5, menuItemCategory.getText().replace(" Series", ""));
-
             insertItem.setBoolean(6, Boolean.parseBoolean(hasCaffeine.getText()));
             insertItem.setString(7, hexColorArray[rand.nextInt(5)]); // for color: need to randomly select a #rgb
             insertItem.executeUpdate();
-            alert = new Alert(Alert.AlertType.INFORMATION, "Item added to" + menuItemCategory.getText() + " Menu Items.");
+
+            alert = new Alert(Alert.AlertType.INFORMATION, "Item added to " + menuItemCategory.getText() + " Menu Items.");
             alert.show();
 
             // updates the drinks
@@ -357,7 +356,6 @@ public class ManagerViewController extends CashierViewController {
             // System.out.println("Error accessing database.");
             e.printStackTrace();
         }
-
 
         autoCompleteDrinkName.setText("");
         menuItemPrice.setText("");
@@ -378,6 +376,7 @@ public class ManagerViewController extends CashierViewController {
     * It executes an SQL update query to modify the item's price, calories, category, caffeine status, and color.
     */
     private void helperUpdateItem () {
+        Alert alert;
         try (Connection conn = getSQLConnection()) {
             PreparedStatement insertItem = conn.prepareStatement("UPDATE menuitems SET menuItemPrice = ?, menuItemCalories = ?, menuItemCategory = ?, hasCaffeine = ?, color = ? WHERE menuItemName = ?");
 
@@ -387,13 +386,14 @@ public class ManagerViewController extends CashierViewController {
             String[] hexColorArray = {"#FF5733", "#00AABB", "#FFCC00", "#9933FF", "#33CC33"};
 
             insertItem.setString(2, menuItemCalories.getText());
-
             insertItem.setString(3, menuItemCategory.getText().replace(" Series", ""));
-
             insertItem.setBoolean(4, Boolean.parseBoolean(hasCaffeine.getText()));
             insertItem.setString(5, hexColorArray[rand.nextInt(5)]); // for color: need to randomly select a #rgb
             insertItem.setString(6, autoCompleteDrinkName.getText());
             insertItem.executeUpdate();
+
+            alert = new Alert(Alert.AlertType.INFORMATION, "Item updated to " + menuItemCategory.getText() + " Menu Items.");
+            alert.show();
         }
         catch (SQLException e) {
 //            System.out.println("Error accessing database.");
