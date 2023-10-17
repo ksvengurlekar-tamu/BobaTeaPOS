@@ -32,7 +32,8 @@ import java.util.ArrayList;
 import static green.gongchapos.GongCha.getSQLConnection;
 
 
-/** Class for the ManagerViewController, which controls the managerView.fxml file and holds all
+/**
+ * Class for the ManagerViewController, which controls the managerView.fxml file and holds all
  * attributes and methods for the manager view of the GongChaPOS system.
  *
  * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
@@ -474,7 +475,5 @@ public class ManagerViewController extends CashierViewController {
         catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
 }

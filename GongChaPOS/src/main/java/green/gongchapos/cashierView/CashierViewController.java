@@ -674,8 +674,6 @@ public class CashierViewController {
     * item details, and inserts them into the sales table in the database.
     * It also updates the order ID, ensuring uniqueness for each order, and
     * subtracts the used inventory ingredients from the inventory.
-    *
-    * @throws SQLException if there's an issue with the SQL database operations.
     */
     @FXML
     public void charge() {
@@ -858,6 +856,7 @@ public class CashierViewController {
      * they have logged out successfully.
      *
      *  @param event The event triggered by the button press of the logout button.
+     *  @throws IOException If there is an issue with loading the UI layout.
      */
     @FXML
     public void logoutButton(ActionEvent event) throws IOException {
