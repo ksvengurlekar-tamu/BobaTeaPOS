@@ -15,16 +15,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
 
-/**
- * The main class for the GongChaPOS application. It extends the JavaFX Application class
+
+/** The main class for the GongChaPOS application. It extends the JavaFX Application class
  * and serves as the entry point for the application. It initializes the user interface and
  * manages the database connection.
+ * 
+ * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar 
  */
 public class GongCha extends Application {
     private static Connection conn = null;
 
-    /**
-     * The starting point of the JavaFX application. Initializes the UI and database connection.
+    /** The starting point of the JavaFX application. Initializes the UI and database connection.
      *
      * @param stage The primary stage for the application.
      * @throws IOException If there is an issue with loading the UI layout.
@@ -59,8 +60,8 @@ public class GongCha extends Application {
         stage.show();
     }
 
-    /**
-     * Establishes a connection to the PostgreSQL database for the application.
+
+    /** Establishes a connection to the PostgreSQL database for the application.
      * The connection details are defined based on the team name and database setup.
      *
      * @return A database connection object.
@@ -90,8 +91,9 @@ public class GongCha extends Application {
         return conn;
     }
 
-    /**
-     * Closes the database connection. It is called during the application's shutdown.
+
+    /** Closes the database connection. It is called during the application's shutdown.
+     * 
      */
     private static void closeDatabaseConnection() {
         if (conn != null) {
@@ -103,8 +105,8 @@ public class GongCha extends Application {
         }
     }
 
-    /**
-     * The main method for launching the GongChaPOS application.
+
+    /** The main method for launching the GongChaPOS application.
      *
      * @param args Command-line arguments (not used in this application).
      */

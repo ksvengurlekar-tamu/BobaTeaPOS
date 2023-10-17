@@ -18,14 +18,12 @@ import javafx.scene.Node;
 import java.io.IOException;
 import java.util.Objects;
 
-import java.io.IOException;import javafx.scene.layout.TilePane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.util.Duration;
@@ -38,7 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static green.gongchapos.GongCha.getSQLConnection;
-import static green.gongchapos.GongCha.main;
 
 
 /** Class for the CashierViewController, which controls the cashierView.fxml file and holds all
@@ -75,9 +72,6 @@ public class CashierViewController {
     public Text taxNumber;
     public Text subTotalNumber;
     public Text totalNumber;
-
-    //public ListView<String> cartView;
-
     public boolean isPaneVisible = false; // Initial visibility state
 
     // Global drink adding variables
@@ -115,7 +109,6 @@ public class CashierViewController {
     public Button aiyuJelly;
     public String seriesName = "";
 
-
     // Toppings in cart
     public float toppingPrice = 0;
     public String toppingName = "";
@@ -125,9 +118,9 @@ public class CashierViewController {
 
 
     /** Initializes the application's user interface by setting up a digital clock
-     * that displays the current time, updating every second. This method should be
-     * called when the application starts.
+     * that displays the current time, updating every second.
      *
+     * This method should be called when the application starts.
      */
     public void initialize() {
         Platform.runLater(() -> {
@@ -313,8 +306,6 @@ public class CashierViewController {
      */
     @FXML
     public void seriesPress(ActionEvent event) {
-
-
         mainMenuPane.setDisable(true);
         mainMenuPane.setVisible(false);
 
@@ -333,11 +324,9 @@ public class CashierViewController {
     }
 
 
-    /** Reverts the state of the drink pop-up customization interface back to
-     * the previous stage.
+    /** Reverts the state of the drink pop-up customization interface back to the previous stage.
      *
-     * @param event The ActionEvent that triggers this event is a click of the
-     * back button when on the drink customization.
+     * @param event The ActionEvent that triggers this event is a click of the back button when on the drink customization.
      */
     public void drinkPopUpBack(ActionEvent event) {
         drinkPane.setDisable(false);
@@ -381,7 +370,6 @@ public class CashierViewController {
         mainMenuPane.setDisable(false);
         mainMenuPane.setVisible(true);
 
-
         drinkPopUp.setDisable(true);
         drinkPopUp.setVisible(false);
         drinkPopUp.setOpacity(0);
@@ -391,7 +379,7 @@ public class CashierViewController {
     }
 
 
-    /** Finds the corresponding topping menu item from the button selected and calcultes the
+    /** Finds the corresponding topping menu item from the button selected and calculates the
      *  running total of the price into the global.
      *
      *  @param actionEvent The action event triggered by the button press of a topping button.
@@ -451,8 +439,9 @@ public class CashierViewController {
 
 
     /** Resets the topping selection so that it is cleared for the
-     * next drink that may or may not be added to the cart. This method
-     * clears confusion for the cashier in case the next drink does not
+     * next drink that may or may not be added to the cart.
+     *
+     * This method clears confusion for the cashier in case the next drink does not
      * include a topping.
      */
     private void resetToppingSelection() {
@@ -627,12 +616,15 @@ public class CashierViewController {
         // Adding the topping if it's added
         if (toppingAdded) {
             Text toppingNameText = new Text(toppingName);
+
             // Indentation for toppingNameText
             toppingNameText.setTranslateX(20);
+
             Text toppingPriceText = new Text(String.format("+$%.2f", toppingPrice));  // Assuming you have toppingPrice variable
 
             // Setting style with opacity and indentation for the topping name
             toppingNameText.setStyle("-fx-font-size: 20px; -fx-opacity: 0.5; -fx-padding: 0 0 0 20px;");
+
             // Setting style with opacity for the topping price
             toppingPriceText.setStyle("-fx-font-size: 20px; -fx-opacity: 0.5;");
 
@@ -676,8 +668,8 @@ public class CashierViewController {
     }
 
 
-    /**
-    * Places an order for items in the cart into the sales database and updates inventory ingredients.
+    /** Places an order for items in the cart into the sales database and updates inventory ingredients.
+    *
     * This method retrieves necessary information from the cart, including
     * item details, and inserts them into the sales table in the database.
     * It also updates the order ID, ensuring uniqueness for each order, and
@@ -858,53 +850,6 @@ public class CashierViewController {
         taxNumber.setText(String.format("%.2f", subtotal));
         totalNumber.setText(String.format("%.2f", subtotal));
     }
-
-
-    /**
-    * Update inventory quantities and in-stock status based on used amounts.
-    *
-    * @param conn         Connection to the database.
-    * @param inventoryID  The ID of the inventory item to update.
-    * @param usedAmount   The amount of inventory item used in the order.
-    */
-//     private void updateInventoryQuantity(Connection conn, int inventoryID, float usedAmount) {
-//         String updateQuery = "UPDATE Inventory SET inventoryQuantity = inventoryQuantity - ? WHERE inventoryID = ?";
-//         //update inventory quantities and the inStock status
-//         try (PreparedStatement updateStatement = conn.prepareStatement(updateQuery)) {
-//             updateStatement.setFloat(1, usedAmount);
-//             updateStatement.setInt(2, inventoryID);
-//             int rowsAffected = updateStatement.executeUpdate();
-
-//             if (rowsAffected > 0) {
-//                 // Check if the inventory quantity is now 0
-//                 String checkQuantityQuery = "SELECT inventoryQuantity FROM Inventory WHERE inventoryID = ?";
-//                 try (PreparedStatement checkQuantityStatement = conn.prepareStatement(checkQuantityQuery)) {
-//                     checkQuantityStatement.setInt(1, inventoryID);
-//                     ResultSet quantityResult = checkQuantityStatement.executeQuery();
-
-//                     if (quantityResult.next()) {
-//                         int updatedQuantity = quantityResult.getInt("inventoryQuantity");
-
-//                         if (updatedQuantity <= 0) {
-//                             // If the quantity is now 0, update inventoryInStock to false
-//                             String updateInStockQuery = "UPDATE Inventory SET inventoryInStock = false WHERE inventoryID = ?";
-//                             try (PreparedStatement inStockUpdateStatement = conn.prepareStatement(updateInStockQuery)) {
-//                                 inStockUpdateStatement.setInt(1, inventoryID);
-//                                 inStockUpdateStatement.executeUpdate();
-//                             }
-//                         }
-//                     }
-//                 }
-
-//                 // System.out.println("Inventory updated successfully.");
-//             } else {
-//                 // System.out.println("No rows updated. Inventory not found or insufficient quantity.");
-//             }
-//         } catch (SQLException e) {
-// //            System.out.println("Error updating inventory.");
-//             e.printStackTrace();
-//         }
-//     }
 
 
     /** Logs an employee out of the POS system.

@@ -15,14 +15,23 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+
+/** Class for the AutoCompleteTextBox used for auto-complete used in Inventory View within the Manager View.
+ *
+ * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
+ */
 public class AutoCompleteTextBox extends TextField
 {
   /** The existing autocomplete entries. */
   private final SortedSet<String> entries;
+
   /** The popup used to select an entry. */
   private ContextMenu entriesPopup;
 
-  /** Construct a new AutoCompleteTextField. */
+
+  /** AutoCompleteTextBox is a custom text box class with autocomplete functionality.
+   *
+   */
   public AutoCompleteTextBox() {
     super();
     entries = new TreeSet<>();
@@ -30,23 +39,23 @@ public class AutoCompleteTextBox extends TextField
     textProperty().addListener(new ChangeListener<String>()
     {
       @Override
+      /** This method is called when the text in the autocomplete textfield changes.
+       *
+       * @param observableValue The textbox that waits for user input
+       * @param s the
+       */
       public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-        if (getText().length() == 0)
-        {
+        if (getText().length() == 0) {
           entriesPopup.hide();
-        } else
-        {
+        } else {
           LinkedList<String> searchResult = new LinkedList<>();
           searchResult.addAll(entries.subSet(getText(), getText() + Character.MAX_VALUE));
-          if (entries.size() > 0)
-          {
+          if (entries.size() > 0) {
             populatePopup(searchResult);
-            if (!entriesPopup.isShowing())
-            {
+            if (!entriesPopup.isShowing()) {
               entriesPopup.show(AutoCompleteTextBox.this, Side.BOTTOM, 0, 0);
             }
-          } else
-          {
+          } else {
             entriesPopup.hide();
           }
         }
@@ -55,21 +64,28 @@ public class AutoCompleteTextBox extends TextField
 
     focusedProperty().addListener(new ChangeListener<Boolean>() {
       @Override
+      /** Handles changes in the ObservableValue for a Boolean property in the AutoCompleteTextBox.
+      *
+      * @param observableValue The ObservableValue represents a boolean property.
+      * @param aBoolean The previous value of the Boolean property.
+      * @param aBoolean2 The new value of the Boolean property.
+      */
       public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean aBoolean2) {
         entriesPopup.hide();
       }
     });
-
   }
 
-  /**
-   * Get the existing set of autocomplete entries.
+
+  /** Get the existing set of autocomplete entries.
+   *
    * @return The existing autocomplete entries.
    */
   public SortedSet<String> getEntries() { return entries; }
 
-  /**
-   * Populate the entry set with the given search results.  Display is limited to 10 entries, for performance.
+
+  /** Populate the entry set with the given search results. Display is limited to 10 entries, for performance.
+   *
    * @param searchResult The set of matching strings.
    */
   private void populatePopup(List<String> searchResult) {
@@ -85,6 +101,10 @@ public class AutoCompleteTextBox extends TextField
       item.setOnAction(new EventHandler<ActionEvent>()
       {
         @Override
+        /** Handles an ActionEvent triggered by a user action, such as selecting an item from a popup menu.
+        *
+        * @param actionEvent The ActionEvent triggered by the user action.
+        */
         public void handle(ActionEvent actionEvent) {
           setText(result);
           entriesPopup.hide();
@@ -94,6 +114,5 @@ public class AutoCompleteTextBox extends TextField
     }
     entriesPopup.getItems().clear();
     entriesPopup.getItems().addAll(menuItems);
-
   }
 }

@@ -17,9 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-import org.w3c.dom.Text;
 
-import java.net.ConnectException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -34,8 +32,8 @@ import java.util.ArrayList;
 import static green.gongchapos.GongCha.getSQLConnection;
 
 
-/** Class for the CashierViewController, which controls the cashierView.fxml file and holds all
- * attributes and methods for the cashier view of the GongChaPOS system.
+/** Class for the ManagerViewController, which controls the managerView.fxml file and holds all
+ * attributes and methods for the manager view of the GongChaPOS system.
  *
  * @author Camila Brigueda, Rose Chakraborty, Eyad Nazir, Jedidiah Samrajkumar, Kiran Vengurlekar
  */
@@ -64,6 +62,7 @@ public class ManagerViewController extends CashierViewController {
     public String color = "";
     public HBox drinkNameHbox;
     public Pane addDrinkPane;
+
 
     /** Initializes the ManagerViewController and sets up the user interface.
     * 
@@ -178,7 +177,6 @@ public class ManagerViewController extends CashierViewController {
                     }
                 });
             }
-
             subDrinkPane.getChildren().add(drinkButton);
             count++;
         }
@@ -234,7 +232,6 @@ public class ManagerViewController extends CashierViewController {
             PreparedStatement stmt = conn.prepareStatement(query);
 
             stmt.setString(1, seriesNameText.getText().replace(" Series", ""));
-//            System.out.println(seriesNameText.getText().replace(" Series", ""));
             ResultSet resultSet = stmt.executeQuery();
 
             while (resultSet.next()) {
@@ -371,7 +368,6 @@ public class ManagerViewController extends CashierViewController {
         autoCompleteIngredient3.clear();
         autoCompleteIngredient4.clear();
         autoCompleteIngredient5.clear();
-
     }
 
 
@@ -402,7 +398,6 @@ public class ManagerViewController extends CashierViewController {
 //            System.out.println("Error accessing database.");
             e.printStackTrace();
         }
-
 
         autoCompleteDrinkName.setText("");
         menuItemPrice.setText("");

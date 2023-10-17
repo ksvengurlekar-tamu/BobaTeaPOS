@@ -39,6 +39,7 @@ public class LoginController {
 
     @FXML
     private TextField password;
+    
 
     /**
      * Sets the primary login stage.
@@ -48,6 +49,7 @@ public class LoginController {
     public void setLogInStage(Stage primaryStage) {
         this.logInStage = primaryStage;
     }
+
 
     /**
      * Handles the login button click event. Verifies user credentials, determines if the user is a
@@ -145,16 +147,5 @@ public class LoginController {
             e.printStackTrace();
             System.exit(0);
         }
-        /* } finally {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-
     }
-
 }
