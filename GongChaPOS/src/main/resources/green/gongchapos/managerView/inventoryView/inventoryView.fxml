@@ -48,22 +48,23 @@
          <children>
             <Button mnemonicParsing="false" onAction="#salesReportButton" prefHeight="67.0" prefWidth="192.0" text="Sales Report">
                <HBox.margin>
-                  <Insets left="30.0" />
+                  <Insets left="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="192.0" text="Excess Report" />
-            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="205.0" text="Restock Report" />
-            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="192.0" text="Add">
+            <Button mnemonicParsing="false" onAction="#excessReport" prefHeight="67.0" prefWidth="192.0" text="Excess Report" />
+            <Button mnemonicParsing="false" onAction="#restockReport" prefHeight="67.0" prefWidth="205.0" text="Restock Report" />
+            <Button mnemonicParsing="false" onAction="#pairProduct" prefHeight="67.0" prefWidth="186.0" text="Pair products">
                <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin></Button>
-            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="192.0" text="Log out">
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="67.0" prefWidth="163.0" text="Add">
                <HBox.margin>
-                  <Insets right="30.0" />
+                  <Insets right="20.0" />
                </HBox.margin></Button>
          </children>
       </HBox>
-      <StackPane layoutX="162.0" layoutY="65.0" prefHeight="576.0" prefWidth="1247.0">
+      <StackPane layoutX="150.0" layoutY="65.0" prefHeight="576.0" prefWidth="1259.0">
          <children>
             <AnchorPane fx:id="inventoryPane" prefHeight="512.0" prefWidth="917.0" />
             <Pane fx:id="inventoryAddPane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="500.0" styleClass="drinkPopUp" visible="false">
@@ -151,6 +152,30 @@
                   </HBox>
                   <TableView fx:id="salesTableView" layoutX="3.0" layoutY="64.0" prefHeight="443.0" prefWidth="1093.0" />
                   <Button layoutX="979.0" layoutY="509.0" mnemonicParsing="false" onAction="#salesReportBack" prefHeight="44.0" prefWidth="109.0" styleClass="addButton" text="Back" />
+               </children>
+            </Pane>
+            <Pane fx:id="excessReportPane" disable="true" maxWidth="-Infinity" prefHeight="565.0" prefWidth="1100.0" styleClass="drinkPopUp" visible="false">
+               <children>
+                  <Text layoutX="21.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Target date:" />
+                  <DatePicker fx:id="targetDate" layoutX="156.0" layoutY="10.0" onAction="#excessReportGenerate" prefHeight="48.0" prefWidth="265.0" />
+                  <TableView fx:id="excessTable" layoutX="6.0" layoutY="61.0" prefHeight="446.0" prefWidth="1089.0" />
+                  <Button layoutX="983.0" layoutY="511.0" mnemonicParsing="false" onAction="#ExcessReportBack" prefHeight="57.0" prefWidth="109.0" styleClass="addButton" text="Back" />
+               </children>
+            </Pane>
+            <Pane fx:id="restockPane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="565.0" prefWidth="1100.0" styleClass="drinkPopUp" visible="false">
+               <children>
+                  <TableView fx:id="restockTable" layoutX="2.0" layoutY="2.0" prefHeight="487.0" prefWidth="1096.0" />
+                  <Button layoutX="983.0" layoutY="494.0" mnemonicParsing="false" onAction="#RestockReportBack" prefHeight="59.0" prefWidth="108.0" styleClass="addButton" text="Back" />
+               </children>
+            </Pane>
+            <Pane fx:id="pairPane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="565.0" prefWidth="1100.0" styleClass="drinkPopUp" visible="false">
+               <children>
+                  <Text layoutX="35.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                  <DatePicker fx:id="pairStartDate" layoutX="165.0" layoutY="9.0" />
+                  <TableView fx:id="pairTable" layoutX="9.0" layoutY="60.0" prefHeight="429.0" prefWidth="1082.0" />
+                  <Button layoutX="983.0" layoutY="494.0" mnemonicParsing="false" onAction="#pairPaneBack" prefHeight="59.0" prefWidth="108.0" styleClass="addButton" text="Back" />
+                  <Text layoutX="550.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                  <DatePicker fx:id="pairEndDate" layoutX="680.0" layoutY="8.0" onAction="#pairEndDateSet" />
                </children>
             </Pane>
          </children>
