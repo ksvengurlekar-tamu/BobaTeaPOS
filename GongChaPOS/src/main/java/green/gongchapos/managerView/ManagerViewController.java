@@ -292,13 +292,23 @@ public class ManagerViewController extends CashierViewController {
             return;
         }
 
-        int itemID = 0;
+        int itemID = 888888; // default unfound id
         try (Connection conn = getSQLConnection()) {
             String query = "SELECT * FROM menuItems WHERE menuItemName = ?";
 
             PreparedStatement findName = conn.prepareStatement(query);
             findName.setString(1, autoCompleteDrinkName.getText());
             ResultSet rs = findName.executeQuery();
+
+            int ingredient1 = helperInventoryQuery(autoCompleteIngredient1, ingredient1Quantity);
+            int ingredient2 = helperInventoryQuery(autoCompleteIngredient2, ingredient2Quantity);
+            int ingredient3 = helperInventoryQuery(autoCompleteIngredient3, ingredient3Quantity);
+            int ingredient4 = helperInventoryQuery(autoCompleteIngredient4, ingredient4Quantity);
+            int ingredient5 = helperInventoryQuery(autoCompleteIngredient5, ingredient5Quantity);
+
+            if (ingredient1 == -1 || ingredient2 == -1 || ingredient3 == -1 || ingredient4 == -1 || ingredient5 == -1) {
+                return;
+            }
 
             // query for item name here
             while (rs.next()) {
@@ -310,21 +320,10 @@ public class ManagerViewController extends CashierViewController {
             }
 
             // query id to add 1 to; incrememnt menuitemID by 1 when adding new item
-            itemID = 88888;
             PreparedStatement findBiggestID = conn.prepareStatement("SELECT MAX(menuitemid) AS maxID FROM menuitems");
             ResultSet resultSet = findBiggestID.executeQuery();
             while (resultSet.next()) {
                 itemID = resultSet.getInt("maxID") + 1;
-            }
-
-            int ingredient1 = helperInventoryQuery(autoCompleteIngredient1, ingredient1Quantity);
-            int ingredient2 = helperInventoryQuery(autoCompleteIngredient2, ingredient2Quantity);
-            int ingredient3 = helperInventoryQuery(autoCompleteIngredient3, ingredient3Quantity);
-            int ingredient4 = helperInventoryQuery(autoCompleteIngredient4, ingredient4Quantity);
-            int ingredient5 = helperInventoryQuery(autoCompleteIngredient5, ingredient5Quantity);
-
-            if (ingredient1 == -1 || ingredient2 == -1 || ingredient3 == -1 || ingredient4 == -1 || ingredient5 == -1) {
-                return;
             }
 
             Random rand = new Random();
@@ -392,10 +391,30 @@ public class ManagerViewController extends CashierViewController {
             insertItem.setString(6, autoCompleteDrinkName.getText());
             insertItem.executeUpdate();
 
+            int menuItemid = 0;
+            String getMenuItemID = "SELECT menuitemID FROM menuitems WHERE menuItemName = ?";
+            PreparedStatement stmt = conn.prepareStatement(getMenuItemID);
+            stmt.setString(1, autoCompleteDrinkName.getText());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                menuItemid = rs.getInt("menuitemID");
+            }
+
+//            here goes the update query for the junction table
+//            delete any previous ingredient associations
+            PreparedStatement deleteJunction = conn.prepareStatement("DELETE FROM menuitems_inventory WHERE menuitemID = ?");
+            deleteJunction.setInt(1, menuItemid);
+
+            // updates the drinks
+            helperAddToJunction(menuItemid, helperInventoryQuery(autoCompleteIngredient1, ingredient1Quantity), ingredient1Quantity);
+            helperAddToJunction(menuItemid, helperInventoryQuery(autoCompleteIngredient2, ingredient2Quantity), ingredient2Quantity);
+            helperAddToJunction(menuItemid, helperInventoryQuery(autoCompleteIngredient3, ingredient3Quantity), ingredient3Quantity);
+            helperAddToJunction(menuItemid, helperInventoryQuery(autoCompleteIngredient4, ingredient4Quantity), ingredient4Quantity);
+            helperAddToJunction(menuItemid, helperInventoryQuery(autoCompleteIngredient5, ingredient5Quantity), ingredient5Quantity);
+
             alert = new Alert(Alert.AlertType.INFORMATION, "Item updated to " + menuItemCategory.getText() + " Menu Items.");
             alert.show();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
 //            System.out.println("Error accessing database.");
             e.printStackTrace();
         }
@@ -460,7 +479,7 @@ public class ManagerViewController extends CashierViewController {
     * @param quantity The quantity of the ingredient associated with the menu item.
     */
     private void helperAddToJunction(int menuItemid, int inventoryID, TextField quantity) {
-        if(inventoryID == -2) {
+        if (inventoryID == -2) {
             return;
         }
         try {
